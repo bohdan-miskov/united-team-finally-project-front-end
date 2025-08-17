@@ -1,0 +1,8 @@
+.loader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 120px;
+  margin: 20px 0;
+  padding: 10px;
+}
