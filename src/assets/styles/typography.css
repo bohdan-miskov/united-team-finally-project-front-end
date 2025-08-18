@@ -1,0 +1,52 @@
+/* #region mobile */
+h1 {
+  font-weight: 600;
+  font-size: 40px;
+  line-height: 1;
+  color: var(--white);
+}
+
+h2 {
+  font-weight: 600;
+  font-size: 32px;
+  line-height: 1;
+  color: var(--black);
+}
+
+h3 {
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 1;
+  color: var(--black);
+}
+
+p {
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.55;
+  color: var(--black);
+}
+
+button {
+  font-weight: 600;
+  font-size: 16px;
+  color: var(--white);
+}
+
+a {
+  font-weight: 600;
+  font-size: 16px;
+  color: var(--black);
+}
+/* #endregion */
+/* #region tablet */
+@media only screen and (min-width: 768px) {
+  h1 {
+    font-size: 48px;
+    line-height: 1.1;
+  }
+  h2 {
+    font-size: 40px;
+  }
+}
+/* #endregion */
