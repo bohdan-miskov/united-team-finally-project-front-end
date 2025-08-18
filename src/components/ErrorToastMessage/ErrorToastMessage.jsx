@@ -17,7 +17,7 @@ const toastIconThemeOptions = {
   secondary: "#fff",
 };
 
-export default function ErrorMessage({ children }) {
+export default function ErrorToastMessage({ children }) {
   useEffect(() => {
     if (!children) return;
 

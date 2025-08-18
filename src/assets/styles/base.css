@@ -1,0 +1,132 @@
+:root {
+  background-color: var(--background-color);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+}
+
+*,
+::before,
+::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scrollbar-gutter: stable;
+}
+
+body {
+  font-family: var(--font-family);
+  font-weight: 400;
+  color: var(--black);
+  background-color: var(--white);
+}
+
+section {
+  padding: 48px 0;
+}
+
+main {
+  flex-grow: 1;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  border: 0;
+  padding: 0;
+  white-space: nowrap;
+  clip-path: inset(100%);
+  clip: rect(0 0 0 0);
+  overflow: hidden;
+}
+
+input,
+textarea {
+  border: 1px solid var(--light-gray);
+  border-radius: 8px;
+  background: var(--white);
+  padding: 8px;
+  transition: 300ms ease-in;
+  transition-property: border, box-shadow;
+}
+
+:is(input, textarea)::placeholder {
+  color: var(--gray-3);
+}
+
+:is(input, textarea):focus {
+  border: 1.5px solid var(--light-brown);
+  box-shadow: 0 0 0 4px rgba(78, 70, 180, 0.2);
+}
+
+button {
+  border-radius: 8px;
+  padding: 4px 8px;
+  transition: 300ms ease-in;
+}
+
+.brown-btn {
+  background-color: var(--light-brown);
+  transition-property: background-color, box-shadow, opacity;
+}
+
+.brown-btn:is(:hover, :focus) {
+  background-color: var(--brown);
+}
+
+.brown-btn:active {
+  box-shadow: 0 0 0 6px rgba(78, 70, 180, 0.12), 0 0 0 2px var(--white);
+}
+
+.brown-btn:disabled {
+  box-shadow: 0 0 0 6px rgba(78, 70, 180, 0.12), 0 0 0 2px var(--white);
+  opacity: 0.3;
+}
+
+.outline-btn {
+  border: 1px solid var(--light-gray);
+  background-color: transparent;
+  transition-property: background-color, box-shadow, opacity, color;
+}
+
+.outline-btn:is(:hover, :focus) {
+  background-color: var(--light-gray);
+  color: var(--black);
+}
+
+.outline-btn:active {
+  box-shadow: 0 0 0 6px rgba(78, 70, 180, 0.12), 0 0 0 2px var(--white);
+  background-color: var(--light-gray);
+}
+
+.outline-btn:disabled {
+  box-shadow: 0 0 0 6px rgba(78, 70, 180, 0.12), 0 0 0 2px var(--white);
+  background-color: var(--light-gray);
+  opacity: 0.3;
+}
+
+.transparent-btn {
+  padding: 0px 0px 4px 0px;
+  background-color: transparent;
+  border-bottom: 1px solid transparent;
+  border-radius: 0;
+  transition-property: border-color, opacity;
+}
+
+.transparent-btn:is(:hover, :focus) {
+  opacity: 0.5;
+}
+
+.transparent-btn:active {
+  border-color: var(--white);
+}
+
+.transparent-btn:disabled {
+  opacity: 0.2;
+}
