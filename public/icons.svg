@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="position:absolute;width:0;height:0;overflow:hidden">
+  <defs>
+    <symbol id="icon-burger" viewBox="0 0 32 32">
+      <path stroke-linecap="round" stroke-width="1.293" d="M7.758 9.536h16.485M7.758 21.172h16.485M7.758 15.354h16.485"/>
+    </symbol>
+    <symbol id="icon-clock" viewBox="0 0 32 32">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width=".64" d="M16 10.388v6.314l4.209 3.508M25.12 16c0 5.037-4.083 9.12-9.12 9.12S6.88 21.037 6.88 16c0-5.037 4.083-9.12 9.12-9.12s9.12 4.083 9.12 9.12z"/>
+    </symbol>
+    <symbol id="icon-close" viewBox="0 0 32 32">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.28" d="M7.36 7.36 16 16m0 0-8.64 8.64M16 16l8.64 8.64M16 16l8.64-8.64"/>
+    </symbol>
+    <symbol id="icon-close-circle" viewBox="0 0 32 32">
+      <path stroke-width="1.333" d="M25.5 16c0 5.247-4.253 9.5-9.5 9.5S6.5 21.247 6.5 16s4.253-9.5 9.5-9.5 9.5 4.253 9.5 9.5z"/>
+      <path stroke-linecap="round" stroke-width="1.333" d="M19.699 12.346 16 16.045m0 .001-3.699 3.699M16 16.046l3.699 3.699M16 16.046l-3.699-3.699"/>
+    </symbol>
+    <symbol id="icon-delete" viewBox="0 0 32 32">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.333" d="M16 21.846v-8.769M6.5 9.423h2.192m16.808 0h-2.192m-3.654 0h-7.308m7.308 0V7.961c0-.807-.654-1.462-1.462-1.462h-4.385c-.807 0-1.462.654-1.462 1.462v1.462m7.309 0h3.654m-10.962 0H8.692m14.616 0v13.154a2.923 2.923 0 0 1-2.923 2.923h-8.769a2.923 2.923 0 0 1-2.923-2.923V9.423"/>
+    </symbol>
+    <symbol id="icon-exit" viewBox="0 0 32 32">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.333" d="M13.077 6.5H9.423A2.923 2.923 0 0 0 6.5 9.423v13.154A2.923 2.923 0 0 0 9.423 25.5h3.654M11.5 16h14.615m0 0-4.385 4.385M26.115 16l-4.385-4.385"/>
+    </symbol>
+    <symbol id="icon-eye-crossed" viewBox="0 0 32 32">
+      <path stroke-linecap="round" stroke-width="1.28" d="M19.086 22.384c-1.042.484-2.2.799-3.418.799-4.588 0-8.308-4.469-8.308-5.604 0-.644 1.195-2.358 3.066-3.723m12.553 5.519c.636-.765.997-1.442.997-1.796 0-1.135-3.719-5.604-8.308-5.604 2.019 0 3.655 1.623 3.655 3.626m-3.655 3.626c-2.019 0-3.655-1.623-3.655-3.626m12.627-3.626C22.11 9.881 19.156 8.679 16 8.679c-1.137 0-2.248.156-3.323.454M7.36 11.975c.235-.194.473-.381.714-.559M7.36 7.36l16.046 16.2"/>
+    </symbol>
+    <symbol id="icon-eye-stroke" viewBox="0 0 32 32">
+      <path stroke-linecap="round" stroke-width="1.333" d="M15.654 11.909C10.875 11.909 7 16.53 7 17.704s3.874 5.795 8.654 5.795c4.779 0 8.654-4.621 8.654-5.795s-3.875-5.795-8.654-5.795zm0 0c-2.103 0-3.808 1.679-3.808 3.75s1.705 3.75 3.808 3.75c2.103 0 3.808-1.679 3.808-3.75s-1.705-3.75-3.808-3.75zm9.346 0C22.364 9.743 19.287 8.5 16 8.5s-6.364 1.243-9 3.409"/>
+    </symbol>
+    <symbol id="icon-filter" viewBox="0 0 32 32">
+      <path stroke-width="1.28" d="M9.192 7.84h13.616a1.832 1.832 0 0 1 1.332 3.09l-6.146 6.511v4.507a1.994 1.994 0 1 1-3.988 0v-4.507L7.86 10.93a1.832 1.832 0 0 1 1.332-3.09z"/>
+    </symbol>
+    <symbol id="icon-left-pagin-arrow" viewBox="0 0 32 32">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.333" d="m25.997 16-19.996.004m0 0 5.384 5.386m-5.384-5.386 5.384-5.386"/>
+    </symbol>
+    <symbol id="icon-left-short-arrow" viewBox="0 0 32 32">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.333" d="M22 16.004H10m0 0 5.384 5.386M10 16.004l5.384-5.386"/>
+    </symbol>
+    <symbol id="icon-right-pagin-arrow" viewBox="0 0 32 32">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.333" d="M6 16.004 25.996 16m0 0-5.384-5.386M25.996 16l-5.384 5.386"/>
+    </symbol>
+    <symbol id="icon-save-to-list" viewBox="0 0 32 32">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.28" d="M15.996 5.12c1.617 0 3.102.155 4.279.334 1.49.227 2.658 1.247 2.99 2.674.401 1.722.795 4.341.727 7.86-.075 3.882-.641 6.684-1.187 8.511-.148.494-.49.748-.876.814-.404.068-.903-.066-1.309-.47-.738-.735-1.584-1.529-2.364-2.142a8.97 8.97 0 0 0-1.136-.779c-.339-.188-.737-.359-1.124-.359-.381 0-.792.168-1.151.352-.383.197-.807.466-1.24.772-.869.613-1.83 1.408-2.678 2.144-.447.388-.974.48-1.389.367-.401-.109-.738-.417-.842-.952C8.339 22.405 8 19.687 8 16c0-3.678.379-6.272.756-7.942.313-1.384 1.442-2.37 2.894-2.594a28.826 28.826 0 0 1 4.346-.344z"/>
+    </symbol>
+  </defs>
+</svg>
