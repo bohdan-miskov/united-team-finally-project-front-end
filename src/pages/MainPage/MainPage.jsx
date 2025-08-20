@@ -1,3 +1,10 @@
+import React from "react";
+import Hero from "./components/Hero";
+
 export default function MainPage() {
-  return <p>MainPage</p>;
+  return (
+    <div>
+      <Hero />
+    </div>
+  );
 }
