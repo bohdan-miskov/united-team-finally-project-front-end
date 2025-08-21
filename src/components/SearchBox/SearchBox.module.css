@@ -16,7 +16,7 @@
 .button {
   width: 190px;
   height: 46px;
-  background-color: var(--light-brown-btn);
+  background-color: var(--light-brown);
   color: var(--white);
   border: none;
   border-radius: 8px;
@@ -26,7 +26,7 @@
 }
 
 .button:hover {
-  background-color: var(--dark-brown);
+  background-color: var(--brown);
 }
 
 .error {

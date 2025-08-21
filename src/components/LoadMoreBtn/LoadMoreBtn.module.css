@@ -1,0 +1,25 @@
+.wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 24px;
+}
+
+.button {
+  padding: 10px 22px;
+  border-radius: 10px;
+  background: var(--brown);
+  color: var(--white);
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.button:hover {
+  background: var(--dark-brown);
+}
+
+.loading {
+  background: var(--light-gray-3);
+  cursor: not-allowed;
+}
