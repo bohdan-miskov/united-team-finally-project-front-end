@@ -26,7 +26,7 @@ export default function SearchBox({ onResults }) {
       <Form className={styles.form}>
         <Field
           name="query"
-          placeholder="Search recipes..."
+          placeholder="Search recipes"
           className={styles.input}
         />
         <button type="submit" className={styles.button}>
