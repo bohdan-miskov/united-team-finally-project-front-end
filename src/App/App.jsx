@@ -1,22 +1,22 @@
-import { lazy, Suspense } from "react";
-import Layout from "../components/Layout/Layout";
-import { Toaster } from "react-hot-toast";
-import { Navigate, Route, Routes } from "react-router-dom";
-import PrivateRoute from "../components/PrivateRoute";
-import RestrictedRoute from "../components/RestrictedRoute";
-import Refreshing from "../components/Refreshing/Refreshing";
-import ProfileOwn from "../components/ProfileOwn/ProfileOwn";
-import ProfileFavorites from "../components/ProfileFavorites/ProfileFavorites";
+import { lazy, Suspense } from 'react';
+import Layout from '../components/Layout/Layout';
+import { Toaster } from 'react-hot-toast';
+import { Navigate, Route, Routes } from 'react-router-dom';
+import PrivateRoute from '../components/PrivateRoute';
+import RestrictedRoute from '../components/RestrictedRoute';
+import Refreshing from '../components/Refreshing/Refreshing';
+import ProfileOwn from '../components/ProfileOwn/ProfileOwn';
+import ProfileFavorites from '../components/ProfileFavorites/ProfileFavorites';
 
-const MainPage = lazy(() => import("../pages/MainPage/MainPage"));
+const MainPage = lazy(() => import('../pages/MainPage/MainPage'));
 const RecipeViewPage = lazy(() =>
-  import("../pages/RecipeViewPage/RecipeViewPage")
+  import('../pages/RecipeViewPage/RecipeViewPage')
 );
 const AddRecipePage = lazy(() =>
-  import("../pages/AddRecipePage/AddRecipePage")
+  import('../pages/AddRecipePage/AddRecipePage')
 );
-const ProfilePage = lazy(() => import("../pages/ProfilePage/ProfilePage"));
-const AuthPage = lazy(() => import("../pages/AuthPage/AuthPage"));
+const ProfilePage = lazy(() => import('../pages/ProfilePage/ProfilePage'));
+const AuthPage = lazy(() => import('../pages/AuthPage/AuthPage'));
 
 function App() {
   //Add selector
@@ -36,11 +36,19 @@ function App() {
             element={<PrivateRoute component={<AddRecipePage />} />}
           />
           <Route
+            path="/profile"
+            element={
+              <PrivateRoute
+                component={<Navigate to="/profile/own" replace />}
+              />
+            }
+          />
+          <Route
             path="/profile/:recipeType"
             element={<PrivateRoute component={<ProfilePage />} />}
           >
-            <Route path="own" element={<ProfileOwn />} />
-            <Route path="favorites" element={<ProfileFavorites />} />
+            {/* <Route path="own" element={<ProfileOwn />} />
+            <Route path="favorites" element={<ProfileFavorites />} /> */}
           </Route>
           <Route
             path="/auth/:authType"
