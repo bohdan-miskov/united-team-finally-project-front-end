@@ -1,16 +1,17 @@
 .loginContainer,
 .registerContainer {
-  max-width: 393px;
+  max-width: 362px;
   padding: 48px 32px;
   margin: 0 auto;
-  background-color: var(--beige-2);
+  background-color: var(--light-beige);
+  border-radius: 32px;
 }
 
 .title {
   font-size: 24px;
   font-weight: 700;
   text-align: center;
-  margin-bottom: 16px;
+  margin-bottom: 20px;
   color: var(--black);
 }
 
@@ -30,20 +31,22 @@
   margin-bottom: 16px;
 }
 
+.fieldGroup:nth-child(2) {
+  margin-bottom: 27px;
+}
+
 .label {
   display: block;
   font-size: 12px;
   color: var(--dark-gray);
-  margin-bottom: 8px;
+  margin-bottom: 4px;
 }
 
 .input {
   width: 100%;
-  padding: 10px;
+  padding: 12px 8px 12px 8px;
   border: 1px solid var(--light-gray);
   border-radius: 8px;
-  font-size: 14px;
-  transition: all 0.2s ease;
 }
 
 .input:focus {
@@ -52,51 +55,54 @@
   box-shadow: 0 0 0 2px rgba(168, 140, 109, 0.2);
 }
 
+.error {
+  color: #c80000;
+  position: absolute;
+  font-size: 12px;
+  transform: translateX(5%) translateY(10%);
+}
+
 .passwordWrapper {
   position: relative;
 }
 
 .eyeButton {
   position: absolute;
-  right: 12px;
+  right: 0px;
   top: 50%;
   transform: translateY(-50%);
   background: none;
   border: none;
   cursor: pointer;
-  padding: 4px;
+
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 4px;
-  transition: all 0.2s ease;
-}
-
-.eyeButton:hover {
-  background-color: var(--light-gray);
 }
 
 .eyeButton svg {
-  width: 20px;
-  height: 20px;
+  width: 24px;
+  height: 24px;
   fill: none;
   stroke: aqua;
   transition: fill 0.2s ease;
 }
 
-.eyeButton:hover svg {
-  fill: var(--dark-gray);
-  stroke: none;
-}
-
 .submitButton {
   width: 100%;
-  padding: 12px;
-  background-color: var(--brown);
+  padding-top: 8px;
+  padding-bottom: 8px;
+  background-color: var(--light-brown);
   color: var(--white);
   border: none;
   border-radius: 8px;
   font-size: 16px;
   font-weight: 600;
   cursor: pointer;
+
+  margin-bottom: 20px;
+}
+
+.redirectText {
+  text-align: center;
 }

@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { useNavigate, Link } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import { useState } from "react";
+import ErrorToastMessage from "../ErrorToastMessage/ErrorToastMessage";
 
 // import { login } from "../../redux/auth/operations";
 import styles from "./loginForm.module.css";
@@ -31,6 +32,7 @@ const LoginSchema = Yup.object().shape({
 export default function LoginForm(data) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [error, setError] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
 
   // const handleSubmit = async (values, { setSubmitting }) => {
@@ -46,13 +48,13 @@ export default function LoginForm(data) {
   // };
 
   const handleSubmit = async (values, { setSubmitting, resetForm }) => {
+    setError(null);
     try {
       await fakeLogin(values);
-
       toast.success("Login successful!");
       resetForm();
-    } catch (error) {
-      toast.error(error.message || "Login failed");
+    } catch (err) {
+      setError(err.message || "Login failed");
     } finally {
       setSubmitting(false);
     }
@@ -95,13 +97,13 @@ export default function LoginForm(data) {
                   id="password"
                   name="password"
                   placeholder="*********"
-                  className={styles.input}
+                  className={`${styles.input} ${styles.passwordInput}`}
                 />
                 <button
                   type="button"
                   className={styles.eyeButton}
                   onClick={() => setShowPassword(!showPassword)}>
-                  <svg width="20" height="20">
+                  <svg>
                     <use
                       href={`/icons.svg#icon-${
                         showPassword ? "eye-crossed" : "eye-stroke"
@@ -116,6 +118,8 @@ export default function LoginForm(data) {
                 className={styles.error}
               />
             </div>
+
+            {error && <ErrorToastMessage>{error}</ErrorToastMessage>}
 
             <button
               type="submit"
