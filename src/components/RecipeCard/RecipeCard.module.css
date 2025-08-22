@@ -31,7 +31,7 @@
   font-weight: 700;
   color: var(--black);
   margin: 0;
-  flex: 1; /* щоб текст займав простір, а бейдж прилип праворуч */
+  flex: 1;
 }
 
 .timeBox {
@@ -55,7 +55,7 @@
 }
 
 .card:hover .timeIcon {
-  stroke: var(--black); /* на hover чорна */
+  stroke: var(--black);
 }
 
 .description {
@@ -117,7 +117,12 @@
   color: var(--black);
 }
 
+.bookmarkBtn.active {
+  background: var(--light-brown);
+  border-color: var(--light-brown);
+}
+
 .bookmarkBtn.active .bookmarkIcon {
-  stroke: var(--green);
-  fill: var(--green);
+  stroke: #fff;
+  fill: var(--light-brown);
 }

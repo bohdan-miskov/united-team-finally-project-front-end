@@ -2,7 +2,7 @@
   font-size: 1.75rem;
   font-weight: 700;
   margin-top: 48px;
-  margin-bottom: 16px; /* Додаємо відступ знизу у 16 пікселів */
+  margin-bottom: 16px;
 }
 
 .filtersSection {
@@ -27,26 +27,27 @@
 }
 
 .reset {
-  font-size: 0.875rem;
-  text-decoration: underline;
-  color: #374151;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 1.4;
+  color: var(--black);
   background: transparent;
   border: none;
   cursor: pointer;
+
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
 }
 
 .reset:hover {
   color: #000;
 }
 
-/* --- react-select кастомізація --- */
-
 .customSelect__control {
   min-height: 36px;
-  border: 1px solid #d1d5db;
+  border: 1px solid var(--white);
   border-radius: 8px;
   box-shadow: none;
   cursor: pointer;
 }
-
-/* інші стилі react-select ... */

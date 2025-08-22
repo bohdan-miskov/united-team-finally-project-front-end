@@ -1,8 +1,7 @@
 import { useState } from "react";
-import recipesData from "../../data/recipes.json";
 import styles from "./SearchBox.module.css";
 
-export default function SearchBox({ onResults }) {
+export default function SearchBox({ recipes, onResults }) {
   const [query, setQuery] = useState("");
   const [error, setError] = useState("");
 
@@ -16,7 +15,7 @@ export default function SearchBox({ onResults }) {
 
     setError("");
 
-    const filtered = recipesData.filter((recipe) =>
+    const filtered = recipes.filter((recipe) =>
       recipe.title.toLowerCase().includes(query.toLowerCase())
     );
 
