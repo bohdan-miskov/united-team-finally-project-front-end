@@ -1,0 +1,64 @@
+.burgerBtn,
+.closeBtn {
+  background: none;
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;           
+  height: 44px;
+  cursor: pointer;
+  color: #fff;         
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.burgerBtn:hover,
+.closeBtn:hover {
+  opacity: 0.9;
+}
+
+.burgerBtn:active,
+.closeBtn:active {
+  transform: scale(0.96);
+}
+
+
+.burgerBtn:focus-visible,
+.closeBtn:focus-visible {
+  outline: 2px solid #ffffffcc;
+  outline-offset: 2px;
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+  .burgerBtn,
+  .closeBtn {
+    transition: none;
+  }
+}
+
+/* === ICONS === */
+.burgerIcon {
+  width: 22px;
+  height: 16px;
+  fill: #fff;
+  stroke: #fff;
+}
+
+.closeIcon {
+  width: 14px;
+  height: 14px;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  fill: none;
+}
+
+
+/* ====   Планшет   ==== */
+@media (min-width: 768px) {
+  .burgerBtn,
+  .closeBtn {
+    display: none; 
+  }
+}
