@@ -19,31 +19,43 @@
   border-radius: 12px;
   margin-bottom: 12px;
 }
+.top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
 
 .title {
   font-size: 18px;
   font-weight: 700;
   color: var(--black);
-  margin: 0 0 8px;
+  margin: 0;
+  flex: 1; /* щоб текст займав простір, а бейдж прилип праворуч */
 }
 
 .timeBox {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 4px;
   background: var(--white);
-  padding: 4px 10px;
-  border-radius: 20px;
-  font-size: 14px;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 12px;
   font-weight: 600;
   color: var(--dark-gray);
-  width: fit-content;
-  margin-bottom: 8px;
+  line-height: 1;
 }
 
 .timeIcon {
-  width: 16px;
-  height: 16px;
+  width: 24px;
+  height: 24px;
+  stroke: currentColor;
+  fill: none;
+}
+
+.card:hover .timeIcon {
+  stroke: var(--black); /* на hover чорна */
 }
 
 .description {
@@ -89,7 +101,7 @@
   background: transparent;
   border: 2px solid var(--black);
   border-radius: 12px;
-  padding: 8px;
+  padding: 6px;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -98,17 +110,11 @@
 }
 
 .bookmarkIcon {
-  width: 20px;
-  height: 20px;
+  width: 24px;
+  height: 24px;
+  stroke: currentColor;
   fill: none;
-  stroke: var(--black);
-  transition: stroke 0.2s ease, fill 0.2s ease;
-}
-
-/* Активний стан (обране) */
-.bookmarkBtn.active {
-  border-color: var(--green);
-  background: var(--light-green);
+  color: var(--black);
 }
 
 .bookmarkBtn.active .bookmarkIcon {
