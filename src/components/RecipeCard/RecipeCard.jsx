@@ -25,25 +25,15 @@ export default function RecipeCard({ recipe, isAuth = false }) {
       {/* Контент */}
       <div className={styles.content}>
         {/* Назва */}
-        <h3 className={styles.title}>{recipe.title}</h3>
+        <div className={styles.top}>
+          <h3 className={styles.title}>{recipe.title}</h3>
 
-        {/* Час */}
-        <div className={styles.timeBox}>
-          <svg
-            className={styles.timeIcon}
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-          >
-            <circle cx="12" cy="12" r="10" />
-            <path
-              d="M12 6v6l4 2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-          <span>{recipe.cookingTime || "N/A"} min</span>
+          <div className={styles.timeBox}>
+            <svg className={styles.timeIcon}>
+              <use href="/icons.svg#icon-clock" />
+            </svg>
+            <span>{recipe.cookingTime || "N/A"}</span>
+          </div>
         </div>
 
         {/* Опис */}
@@ -70,7 +60,7 @@ export default function RecipeCard({ recipe, isAuth = false }) {
             }`}
           >
             <svg className={styles.bookmarkIcon}>
-              <use xlinkHref="#icon-bookmark" />
+              <use href="/icons.svg#icon-bookmark" />
             </svg>
           </button>
         </div>

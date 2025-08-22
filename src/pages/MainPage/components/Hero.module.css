@@ -1,7 +1,7 @@
 .hero {
   position: relative;
   width: 100%;
-  max-width: 1440px;
+  /* max-width: 1440px; - Цей рядок видаляємо */
   min-height: 443px;
   margin: 0 auto;
   background: url("../../../assets/img/hero/main-desk.webp") center/cover
@@ -18,7 +18,7 @@
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  padding-left: 60px;
+  /* padding-left: 60px; - Цей рядок видаляємо */
 }
 
 .content {

@@ -5,11 +5,15 @@
 }
 
 .button {
-  padding: 10px 22px;
+  /* Видаляємо padding і додаємо фіксовані розміри */
+  width: 289px;
+  height: 54px;
   border-radius: 10px;
-  background: var(--brown);
+  background: var(--light-brown);
   color: var(--white);
-  font-weight: 500;
+  /* Оновлюємо стилі тексту */
+  font-weight: 600;
+  font-size: 18px;
   border: none;
   cursor: pointer;
   transition: background 0.2s ease;

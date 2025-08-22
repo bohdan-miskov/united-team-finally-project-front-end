@@ -1,71 +1,58 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+import Select from "react-select";
+import styles from "./Filters.module.css";
 
 const mockCategories = ["Breakfast", "Lunch", "Dinner", "Dessert"];
 const mockIngredients = ["Eggs", "Beef", "Mushrooms", "Cheese", "Vegetables"];
 
-// Костиль: імітуємо запит на бекенд
-const mockFetchRecipes = (filters, searchQuery) => {
-  console.log("Запит на бекенд з параметрами:", { filters, searchQuery });
-  // умовно повертаємо випадкову кількість рецептів
-  return Math.floor(Math.random() * 20);
-};
+export default function Filters({ onChange, recipeCount }) {
+  const [categories, setCategories] = useState([]);
+  const [ingredients, setIngredients] = useState([]);
 
-export default function Filters({ searchQuery }) {
-  const [category, setCategory] = useState("");
-  const [ingredient, setIngredient] = useState("");
-  const [recipesCount, setRecipesCount] = useState(0);
+  const handleCategoriesChange = (selected) => {
+    setCategories(selected || []);
+    onChange({ categories: selected || [], ingredients });
+  };
 
-  // Викликаємо "бекенд" при зміні фільтрів
-  useEffect(() => {
-    const count = mockFetchRecipes({ category, ingredient }, searchQuery);
-    setRecipesCount(count);
-  }, [category, ingredient, searchQuery]);
+  const handleIngredientsChange = (selected) => {
+    setIngredients(selected || []);
+    onChange({ categories, ingredients: selected || [] });
+  };
 
   const handleReset = () => {
-    setCategory("");
-    setIngredient("");
+    setCategories([]);
+    setIngredients([]);
+    onChange({ categories: [], ingredients: [] });
   };
 
   return (
-    <div className="flex items-center justify-between bg-gray-100 p-4 rounded-2xl shadow-md mb-6">
-      <p className="text-lg font-semibold">{recipesCount} recipes found</p>
+    <div>
+      <h2 className={styles.title}>Recipes</h2>
+      <div className={styles.filtersSection}>
+        <p className={styles.count}>{recipeCount} recipes</p>
+        <div className={styles.filters}>
+          <button onClick={handleReset} className={styles.reset}>
+            Reset filters
+          </button>
 
-      <div className="flex items-center gap-4">
-        {/* Category */}
-        <select
-          value={category}
-          onChange={(e) => setCategory(e.target.value)}
-          className="p-2 border rounded-lg"
-        >
-          <option value="">Category</option>
-          {mockCategories.map((cat) => (
-            <option key={cat} value={cat}>
-              {cat}
-            </option>
-          ))}
-        </select>
+          <Select
+            isMulti
+            options={mockCategories.map((c) => ({ value: c, label: c }))}
+            value={categories}
+            onChange={handleCategoriesChange}
+            placeholder="Category"
+            classNamePrefix="customSelect"
+          />
 
-        {/* Ingredient */}
-        <select
-          value={ingredient}
-          onChange={(e) => setIngredient(e.target.value)}
-          className="p-2 border rounded-lg"
-        >
-          <option value="">Ingredient</option>
-          {mockIngredients.map((ing) => (
-            <option key={ing} value={ing}>
-              {ing}
-            </option>
-          ))}
-        </select>
-
-        {/* Reset */}
-        <button
-          onClick={handleReset}
-          className="px-3 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
-        >
-          Reset
-        </button>
+          <Select
+            isMulti
+            options={mockIngredients.map((i) => ({ value: i, label: i }))}
+            value={ingredients}
+            onChange={handleIngredientsChange}
+            placeholder="Ingredient"
+            classNamePrefix="customSelect"
+          />
+        </div>
       </div>
     </div>
   );
