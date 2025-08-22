@@ -5,13 +5,11 @@
 }
 
 .button {
-  /* Видаляємо padding і додаємо фіксовані розміри */
   width: 289px;
   height: 54px;
   border-radius: 10px;
   background: var(--light-brown);
   color: var(--white);
-  /* Оновлюємо стилі тексту */
   font-weight: 600;
   font-size: 18px;
   border: none;

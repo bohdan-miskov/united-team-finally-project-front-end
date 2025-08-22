@@ -14,7 +14,6 @@ const mockRecipes = Array.from({ length: 30 }, (_, i) => ({
 }));
 
 const mockFetchRecipes = (filters) => {
-  console.log("Фільтри для запиту:", filters);
   return new Promise((resolve) => {
     setTimeout(() => {
       let filtered = mockRecipes;
@@ -64,7 +63,6 @@ export default function RecipesList() {
 
   return (
     <div className="container">
-      {/* Передаємо кількість рецептів як властивість */}
       <Filters onChange={setFilters} recipeCount={recipes.length} />
       {recipes.length === 0 && !loading ? (
         <div className={styles.noResults}>No recipes found</div>
@@ -75,7 +73,6 @@ export default function RecipesList() {
               <RecipeCard key={recipe.id} recipe={recipe} isAuth={true} />
             ))}
           </div>
-
           <LoadMoreBtn
             onClick={handleLoadMore}
             isVisible={visibleCount < recipes.length}
