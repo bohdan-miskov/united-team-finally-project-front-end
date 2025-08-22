@@ -1,0 +1,102 @@
+.loginContainer,
+.registerContainer {
+  max-width: 393px;
+  padding: 48px 32px;
+  margin: 0 auto;
+  background-color: var(--beige-2);
+}
+
+.title {
+  font-size: 24px;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 16px;
+  color: var(--black);
+}
+
+.description {
+  font-size: 14px;
+  line-height: 1.5;
+  text-align: center;
+  color: var(--gray);
+  margin-bottom: 24px;
+}
+
+.form {
+  width: 100%;
+}
+
+.fieldGroup {
+  margin-bottom: 16px;
+}
+
+.label {
+  display: block;
+  font-size: 12px;
+  color: var(--dark-gray);
+  margin-bottom: 8px;
+}
+
+.input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid var(--light-gray);
+  border-radius: 8px;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--brown);
+  box-shadow: 0 0 0 2px rgba(168, 140, 109, 0.2);
+}
+
+.passwordWrapper {
+  position: relative;
+}
+
+.eyeButton {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.eyeButton:hover {
+  background-color: var(--light-gray);
+}
+
+.eyeButton svg {
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: aqua;
+  transition: fill 0.2s ease;
+}
+
+.eyeButton:hover svg {
+  fill: var(--dark-gray);
+  stroke: none;
+}
+
+.submitButton {
+  width: 100%;
+  padding: 12px;
+  background-color: var(--brown);
+  color: var(--white);
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+}

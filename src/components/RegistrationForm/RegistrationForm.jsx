@@ -7,6 +7,17 @@ import { useState } from "react";
 // import { register } from "../../redux/auth/operations";
 import styles from "./registrationForm.module.css";
 
+const fakeRegister = async (data) => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      if (data.email === "test@test.com") {
+        reject(new Error("User with this email already exists"));
+      } else {
+        resolve({ success: true });
+      }
+    }, 1200);
+  });
+};
 const RegisterSchema = Yup.object().shape({
   name: Yup.string()
     .min(2, "Name must be at least 2 characters")
@@ -32,18 +43,35 @@ export default function RegistrationForm() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-  const handleSubmit = async (values, { setSubmitting }) => {
+  // const handleSubmit = async (values, { setSubmitting }) => {
+  //   try {
+  //     const { confirmPassword, acceptTerms, ...registerData } = values;
+  //     await dispatch(register(registerData)).unwrap();
+  //     toast.success("Registration successful!");
+  //     navigate("/");
+  //   } catch (error) {
+  //     toast.error(error.message || "Registration failed");
+  //   } finally {
+  //     setSubmitting(false);
+  //   }
+  // };
+
+  const handleSubmit = async (values, { setSubmitting, resetForm }) => {
     try {
       const { confirmPassword, acceptTerms, ...registerData } = values;
-      await dispatch(register(registerData)).unwrap();
+
+      // Виклик тимчасового API (pre-Redux)
+      await fakeRegister(registerData);
+
       toast.success("Registration successful!");
-      navigate("/");
+      resetForm();
     } catch (error) {
       toast.error(error.message || "Registration failed");
     } finally {
       setSubmitting(false);
     }
   };
+
   return (
     <div className={styles.registerContainer}>
       <h2 className={styles.title}>Register</h2>
@@ -65,6 +93,24 @@ export default function RegistrationForm() {
         {({ isSubmitting }) => (
           <Form className={styles.form}>
             <div className={styles.fieldGroup}>
+              <label htmlFor="email" className={styles.label}>
+                Enter your email
+              </label>
+              <Field
+                type="email"
+                name="email"
+                id="email"
+                placeholder="email@gmail.com"
+                className={styles.input}
+              />
+              <ErrorMessage
+                name="email"
+                component="div"
+                className={`${styles.error} ${styles.errorLabel}`}
+              />
+            </div>
+
+            <div className={styles.fieldGroup}>
               <label htmlFor="name" className={styles.label}>
                 Enter your name
               </label>
@@ -83,24 +129,6 @@ export default function RegistrationForm() {
             </div>
 
             <div className={styles.fieldGroup}>
-              <label htmlFor="email" className={styles.label}>
-                Enter your email
-              </label>
-              <Field
-                type="email"
-                name="email"
-                id="email"
-                placeholder="email@gmail.com"
-                className={styles.input}
-              />
-              <ErrorMessage
-                name="email"
-                component="div"
-                className={styles.error}
-              />
-            </div>
-
-            <div className={styles.fieldGroup}>
               <label htmlFor="password" className={styles.label}>
                 Create a strong password
               </label>
@@ -109,7 +137,7 @@ export default function RegistrationForm() {
                   type={showPassword ? "text" : "password"}
                   id="password"
                   name="password"
-                  placeholder="••••••••"
+                  placeholder="*********"
                   className={styles.input}
                 />
                 <button
@@ -117,7 +145,13 @@ export default function RegistrationForm() {
                   className={styles.eyeButton}
                   onClick={() => setShowPassword(!showPassword)}
                   aria-label={showPassword ? "Hide password" : "Show password"}>
-                  {showPassword}
+                  <svg width="20" height="20">
+                    <use
+                      href={`/icons.svg#icon-${
+                        showPassword ? "eye-crossed" : "eye-stroke"
+                      }`}
+                    />
+                  </svg>
                 </button>
               </div>
               <ErrorMessage
@@ -136,14 +170,20 @@ export default function RegistrationForm() {
                   type={showConfirmPassword ? "text" : "password"}
                   id="confirmPassword"
                   name="confirmPassword"
-                  placeholder="••••••••"
+                  placeholder="*********"
                   className={styles.input}
                 />
                 <button
                   type="button"
                   className={styles.eyeButton}
                   onClick={() => setShowConfirmPassword(!showConfirmPassword)}>
-                  {showPassword}
+                  <svg width="24" height="24">
+                    <use
+                      href={`/icons.svg#icon-${
+                        showPassword ? "eye-crossed" : "eye-stroke"
+                      }`}
+                    />
+                  </svg>
                 </button>
               </div>
               <ErrorMessage
@@ -173,7 +213,7 @@ export default function RegistrationForm() {
               type="submit"
               disabled={isSubmitting}
               className={styles.submitButton}>
-              {isSubmitting}
+              {isSubmitting ? "Creating..." : "Create account"}
             </button>
 
             <p className={styles.redirectText}>

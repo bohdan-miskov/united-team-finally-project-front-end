@@ -4,28 +4,53 @@ import { useDispatch } from "react-redux";
 import { useNavigate, Link } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import { useState } from "react";
+
 // import { login } from "../../redux/auth/operations";
 import styles from "./loginForm.module.css";
 
-export default function LoginForm() {
-  const LoginSchema = Yup.object().shape({
-    email: Yup.string()
-      .email("Invalid email address")
-      .required("Email is required"),
-    password: Yup.string()
-      .min(6, "Password must be at least 6 characters")
-      .required("Password is required"),
+const fakeLogin = async (data) => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      if (data.email === "wrong@test.com") {
+        reject(new Error("Invalid email or password"));
+      } else {
+        resolve({ success: true });
+      }
+    }, 1000);
   });
+};
 
+const LoginSchema = Yup.object().shape({
+  email: Yup.string()
+    .email("Invalid email address")
+    .required("Email is required"),
+  password: Yup.string()
+    .min(6, "Password must be at least 6 characters")
+    .required("Password is required"),
+});
+export default function LoginForm(data) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
 
-  const handleSubmit = async (values, { setSubmitting }) => {
+  // const handleSubmit = async (values, { setSubmitting }) => {
+  //   try {
+  //     await dispatch(login(values)).unwrap();
+  //     toast.success("Login successful!");
+  //     navigate("/");
+  //   } catch (error) {
+  //     toast.error(error.message || "Login failed");
+  //   } finally {
+  //     setSubmitting(false);
+  //   }
+  // };
+
+  const handleSubmit = async (values, { setSubmitting, resetForm }) => {
     try {
-      await dispatch(login(values)).unwrap();
+      await fakeLogin(values);
+
       toast.success("Login successful!");
-      navigate("/");
+      resetForm();
     } catch (error) {
       toast.error(error.message || "Login failed");
     } finally {
@@ -35,20 +60,21 @@ export default function LoginForm() {
 
   return (
     <div className={styles.loginContainer}>
-      <h2 className={styles.title}></h2>
+      <h2 className={styles.title}>Login</h2>
       <Formik
         initialValues={{ email: "", password: "" }}
         validationSchema={LoginSchema}
         onSubmit={handleSubmit}>
         {({ isSubmitting }) => (
-          <Form classname={styles.form}>
-            <div classname={styles.fieldGroup}>
+          <Form className={styles.form}>
+            <div className={styles.fieldGroup}>
               <label htmlFor="email" className={styles.label}>
                 Enter your email address
               </label>
               <Field
                 type="email"
                 name="email"
+                id="email"
                 placeholder="email@gmail.com"
                 className={styles.input}
               />
@@ -68,14 +94,20 @@ export default function LoginForm() {
                   type={showPassword ? "text" : "password"}
                   id="password"
                   name="password"
-                  placeholder="••••••••"
+                  placeholder="*********"
                   className={styles.input}
                 />
                 <button
                   type="button"
-                  classname={styles.eyeButton}
+                  className={styles.eyeButton}
                   onClick={() => setShowPassword(!showPassword)}>
-                  {showPassword}
+                  <svg width="20" height="20">
+                    <use
+                      href={`/icons.svg#icon-${
+                        showPassword ? "eye-crossed" : "eye-stroke"
+                      }`}
+                    />
+                  </svg>
                 </button>
               </div>
               <ErrorMessage
@@ -89,7 +121,7 @@ export default function LoginForm() {
               type="submit"
               disabled={isSubmitting}
               className={styles.submitButton}>
-              {isSubmitting}
+              {isSubmitting ? "Logging in..." : "Login"}
             </button>
 
             <p className={styles.redirectText}>
