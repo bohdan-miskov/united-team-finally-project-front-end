@@ -1,12 +1,16 @@
-import { lazy, Suspense } from 'react';
-import Layout from '../components/Layout/Layout';
-import { Toaster } from 'react-hot-toast';
-import { Navigate, Route, Routes } from 'react-router-dom';
-import PrivateRoute from '../components/PrivateRoute';
-import RestrictedRoute from '../components/RestrictedRoute';
-import Refreshing from '../components/Refreshing/Refreshing';
-import ProfileOwn from '../components/ProfileOwn/ProfileOwn';
-import ProfileFavorites from '../components/ProfileFavorites/ProfileFavorites';
+import { lazy, Suspense, useEffect } from "react";
+import Layout from "../components/Layout/Layout";
+import { Toaster } from "react-hot-toast";
+import { Navigate, Route, Routes } from "react-router-dom";
+import PrivateRoute from "../components/PrivateRoute";
+import RestrictedRoute from "../components/RestrictedRoute";
+import Refreshing from "../components/Refreshing/Refreshing";
+import ProfileOwn from "../components/ProfileOwn/ProfileOwn";
+import ProfileFavorites from "../components/ProfileFavorites/ProfileFavorites";
+import { useDispatch, useSelector } from "react-redux";
+import { selectIsRefreshing } from "../redux/auth/selectors";
+import { refreshUser } from "../redux/auth/operations";
+import Loader from "../components/Loader/Loader";
 
 const MainPage = lazy(() => import('../pages/MainPage/MainPage'));
 const RecipeViewPage = lazy(() =>
@@ -19,11 +23,16 @@ const ProfilePage = lazy(() => import('../pages/ProfilePage/ProfilePage'));
 const AuthPage = lazy(() => import('../pages/AuthPage/AuthPage'));
 
 function App() {
-  //Add selector
-  const isRefreshing = false;
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(refreshUser());
+  }, [dispatch]);
+  const isRefreshing = useSelector(selectIsRefreshing);
   return isRefreshing ? (
     <>
       <Refreshing />
+      <Loader />
     </>
   ) : (
     <Layout>
