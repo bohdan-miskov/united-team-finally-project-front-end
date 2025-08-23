@@ -1,5 +1,8 @@
 import { useMediaQuery } from "react-responsive";
 import css from "./RecipeDetails.module.css";
+import Image from "./img/Image.jpg";
+import ImageTablet from "./img/ImageTablet.jpg";
+import ImageDesktop from "./img/ImageDesktop.jpg";
 
 export default function RecipeDetails() {
   const isMobile = useMediaQuery({ maxWidth: 767 });
@@ -14,21 +17,21 @@ export default function RecipeDetails() {
         {isMobile && (
           <img
             className={css.img}
-            src="/src/components/RecipeDetails/img/Image.jpg"
+            src={Image}
             alt="omelette"
           />
         )}
         {isTablet && (
           <img
             className={css.img}
-            src="/src/components/RecipeDetails/img/ImageTablet.jpg"
+            src={ImageTablet}
             alt="omelette"
           />
         )}
         {isDesktop && (
           <img
             className={css.img}
-            src="/src/components/RecipeDetails/img/ImageDesktop.jpg"
+            src={ImageDesktop}
             alt="omelette"
           />
         )}
