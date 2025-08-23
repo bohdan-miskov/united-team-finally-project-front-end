@@ -1,0 +1,34 @@
+export const allRecipes = [
+  { id: 1,  title: "Classic French Omelette", description: "A soft, creamy classic with butter and eggs.", time: 10, calories: "~150 cals", image: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600&auto=format&fit=crop&q=60", isFavorite: false },
+  { id: 2,  title: "Pasta Carbonara",        description: "Classic Italian dish with bacon, cheese, and eggs.",   time: 20, calories: "~350 cals", image: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600&auto=format&fit=crop&q=60", isFavorite: true  },
+  { id: 3,  title: "Greek Salad",            description: "Fresh and healthy salad with feta and olives.",        time: 15, calories: "~180 cals", image: "https://images.unsplash.com/photo-1521389508051-d7ffb5dc8bbf?w=600&auto=format&fit=crop&q=60", isFavorite: false },
+  { id: 4,  title: "Chicken Curry",          description: "Spicy Indian-style curry with tender chicken pieces.", time: 40, calories: "~450 cals", image: "https://images.unsplash.com/photo-1521389508051-d7ffb5dc8bbf?w=600&auto=format&fit=crop&q=60", isFavorite: true  },
+  { id: 5,  title: "Beef Stroganoff",        description: "Creamy Russian dish with beef and mushrooms.",         time: 35, calories: "~500 cals", image: "https://images.unsplash.com/photo-1521389508051-d7ffb5dc8bbf?w=600&auto=format&fit=crop&q=60", isFavorite: false },
+  { id: 6,  title: "Caesar Salad",           description: "Romaine, croutons, parmesan, Caesar dressing.",        time: 12, calories: "~220 cals", image: "https://images.unsplash.com/photo-1521389508051-d7ffb5dc8bbf?w=600&auto=format&fit=crop&q=60", isFavorite: false },
+  { id: 7,  title: "Margherita Pizza",       description: "Classic pizza with mozzarella and basil.",             time: 25, calories: "~600 cals", image: "https://images.unsplash.com/photo-1521389508051-d7ffb5dc8bbf?w=600&auto=format&fit=crop&q=60", isFavorite: true  },
+  { id: 8,  title: "Tomato Soup",            description: "Smooth and creamy soup from fresh tomatoes.",          time: 30, calories: "~150 cals", image: "https://images.unsplash.com/photo-1521389508051-d7ffb5dc8bbf?w=600&auto=format&fit=crop&q=60", isFavorite: false },
+  { id: 9,  title: "Grilled Salmon",         description: "Salmon fillet with lemon and herbs.",                  time: 20, calories: "~320 cals", image: "https://images.unsplash.com/photo-1521389508051-d7ffb5dc8bbf?w=600&auto=format&fit=crop&q=60", isFavorite: true  },
+  { id: 10, title: "Vegetable Stir Fry",     description: "Quick stir fry with fresh vegetables.",                time: 15, calories: "~200 cals", image: "https://images.unsplash.com/photo-1521389508051-d7ffb5dc8bbf?w=600&auto=format&fit=crop&q=60", isFavorite: false },
+  { id: 11, title: "Pancakes",               description: "Fluffy pancakes with maple syrup.",                    time: 20, calories: "~400 cals", image: "https://images.unsplash.com/photo-1521389508051-d7ffb5dc8bbf?w=600&auto=format&fit=crop&q=60", isFavorite: false },
+  { id: 12, title: "Tacos",                  description: "Mexican tacos with beef, cheese, and salsa.",          time: 18, calories: "~350 cals", image: "https://images.unsplash.com/photo-1521389508051-d7ffb5dc8bbf?w=600&auto=format&fit=crop&q=60", isFavorite: true  },
+  { id: 13, title: "Avocado Toast",          description: "Sourdough with smashed avocado and chili flakes.",     time: 8,  calories: "~250 cals", image: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&auto=format&fit=crop&q=60", isFavorite: false },
+  { id: 14, title: "Buddha Bowl",            description: "Grains, veggies, greens and tahini dressing.",         time: 22, calories: "~380 cals", image: "https://images.unsplash.com/photo-1521389508051-d7ffb5dc8bbf?w=800&auto=format&fit=crop&q=60", isFavorite: false },
+  { id: 15, title: "Shakshuka",              description: "Eggs poached in spicy tomato sauce.",                  time: 25, calories: "~300 cals", image: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&auto=format&fit=crop&q=60", isFavorite: true  },
+  { id: 16, title: "Miso Soup",              description: "Light Japanese soup with tofu and wakame.",            time: 10, calories: "~90 cals",  image: "https://images.unsplash.com/photo-1521389508051-d7ffb5dc8bbf?w=800&auto=format&fit=crop&q=60", isFavorite: false },
+  { id: 17, title: "Bolognese",              description: "Slow-cooked meat sauce with pasta.",                   time: 45, calories: "~520 cals", image: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&auto=format&fit=crop&q=60", isFavorite: true  },
+  { id: 18, title: "Quinoa Salad",           description: "Quinoa with veggies, herbs and lemon.",                time: 18, calories: "~230 cals", image: "https://images.unsplash.com/photo-1521389508051-d7ffb5dc8bbf?w=800&auto=format&fit=crop&q=60", isFavorite: false },
+  { id: 19, title: "Ramen",                  description: "Noodles in rich broth with toppings.",                 time: 35, calories: "~580 cals", image: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&auto=format&fit=crop&q=60", isFavorite: true  },
+  { id: 20, title: "Falafel Wrap",           description: "Falafel, hummus, veggies in pita.",                    time: 20, calories: "~420 cals", image: "https://images.unsplash.com/photo-1521389508051-d7ffb5dc8bbf?w=800&auto=format&fit=crop&q=60", isFavorite: false },
+  { id: 21, title: "Sushi Platter",          description: "Assorted maki and nigiri.",                            time: 30, calories: "~450 cals", image: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&auto=format&fit=crop&q=60", isFavorite: true  },
+  { id: 22, title: "Lentil Dahl",            description: "Indian spiced lentils with herbs.",                    time: 28, calories: "~310 cals", image: "https://images.unsplash.com/photo-1521389508051-d7ffb5dc8bbf?w=800&auto=format&fit=crop&q=60", isFavorite: false },
+  { id: 23, title: "Pad Thai",               description: "Rice noodles with tamarind, tofu, peanuts.",           time: 22, calories: "~520 cals", image: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&auto=format&fit=crop&q=60", isFavorite: true  },
+  { id: 24, title: "Berry Parfait",          description: "Yogurt with berries and granola.",                     time: 7,  calories: "~180 cals", image: "https://images.unsplash.com/photo-1521389508051-d7ffb5dc8bbf?w=800&auto=format&fit=crop&q=60", isFavorite: true  },
+]
+
+const ownIds = [1, 5, 6, 10, 11, 13, 14, 16, 18, 20, 22, 24];
+export const ownRecipes = allRecipes.filter(r => ownIds.includes(r.id));
+
+const savedIds = [2, 4, 7, 9, 12, 15, 17, 19, 21, 23, 24, 3]; // 12 шт
+export const savedRecipes = allRecipes
+  .filter(r => savedIds.includes(r.id))
+  .map(r => ({ ...r, isFavorite: true }));

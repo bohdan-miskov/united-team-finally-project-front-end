@@ -1,0 +1,29 @@
+.list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  align-items: stretch;
+  box-sizing: border-box;
+  max-width: 100%;
+  margin: 24px 0;
+}
+
+
+
+@media (min-width: 768px) {
+  .card {
+    flex: calc((100% - 24) / 2);
+  }
+  .list {
+    max-width: 768px;
+  }
+  
+}
+@media (min-width: 1440px) {
+  .card {
+    flex: calc((100% - 3 * 24) / 4);
+  }
+  .list {
+    max-width: 1440px;
+  }
+}

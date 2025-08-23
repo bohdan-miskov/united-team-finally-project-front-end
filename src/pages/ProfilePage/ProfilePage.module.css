@@ -1,7 +1,8 @@
+.page {
+  margin: 0 auto;
+}
+
 .title {
-  font-family: Montserrat;
-  font-style: SemiBold;
-  line-height: 100%;
-  letter-spacing: 0%;
   color: var(--black);
+  margin-bottom: 16px;
 }

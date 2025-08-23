@@ -1,0 +1,16 @@
+.profileNav{
+  display: flex;
+  gap: 38px;
+  margin-bottom: 20px;
+}
+
+.link {
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 12px;
+  color: var(--black);
+}
+
+.active { 
+  border-bottom: 2px solid var(--black);
+}
