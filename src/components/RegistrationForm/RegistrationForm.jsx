@@ -4,20 +4,8 @@ import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import { useState } from "react";
-// import { register } from "../../redux/auth/operations";
+import { registerAndLoginUser } from "../../redux/auth/operations";
 import styles from "./registrationForm.module.css";
-
-const fakeRegister = async (data) => {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      if (data.email === "test@test.com") {
-        reject(new Error("User with this email already exists"));
-      } else {
-        resolve({ success: true });
-      }
-    }, 1200);
-  });
-};
 
 const RegisterSchema = Yup.object().shape({
   name: Yup.string()
@@ -45,29 +33,18 @@ export default function RegistrationForm() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [error, setError] = useState(null);
 
-  // TODO: dispatch register/login
-  // const handleSubmit = async (values, { setSubmitting }) => {
-  //   try {
-  //     const { confirmPassword, acceptTerms, ...registerData } = values;
-  //     await dispatch(register(registerData)).unwrap();
-  //     toast.success("Registration successful!");
-  //     navigate("/");
-  //   } catch (error) {
-  //     toast.error(error.message || "Registration failed");
-  //   } finally {
-  //     setSubmitting(false);
-  //   }
-  // };
-
   const handleSubmit = async (values, { setSubmitting, resetForm }) => {
     try {
       const { confirmPassword, acceptTerms, ...registerData } = values;
-      await fakeRegister(registerData);
-      toast.success("Registration successful!");
+
+      // Використовуємо Redux thunk
+      await dispatch(registerAndLoginUser(registerData)).unwrap();
+
+      toast.success("Registration and login successful!");
       resetForm();
       navigate("/", { replace: true });
-    } catch (err) {
-      toast.error(err.message || "Registration failed"); // Використовуйте toast безпосередньо
+    } catch (error) {
+      toast.error(error.message || "Registration failed");
     } finally {
       setSubmitting(false);
     }

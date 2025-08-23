@@ -6,20 +6,8 @@ import { toast } from "react-hot-toast";
 import { useState } from "react";
 // import ErrorToastMessage from "../ErrorToastMessage/ErrorToastMessage";
 
-// import { login } from "../../redux/auth/operations";
+import { logInUser } from "../../redux/auth/operations";
 import styles from "./loginForm.module.css";
-
-const fakeLogin = async (data) => {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      if (data.email === "wrong@test.com") {
-        reject(new Error("Invalid email or password"));
-      } else {
-        resolve({ success: true });
-      }
-    }, 1000);
-  });
-};
 
 const LoginSchema = Yup.object().shape({
   email: Yup.string()
@@ -35,26 +23,16 @@ export default function LoginForm() {
   const [error, setError] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
 
-  // const handleSubmit = async (values, { setSubmitting }) => {
-  //   try {
-  //     await dispatch(login(values)).unwrap();
-  //     toast.success("Login successful!");
-  //     navigate("/");
-  //   } catch (error) {
-  //     toast.error(error.message || "Login failed");
-  //   } finally {
-  //     setSubmitting(false);
-  //   }
-  // };
-
   const handleSubmit = async (values, { setSubmitting, resetForm }) => {
     try {
-      await fakeLogin(values);
+      // Використовуємо Redux thunk для логіну
+      await dispatch(logInUser(values)).unwrap();
+
       toast.success("Login successful!");
       resetForm();
       navigate("/", { replace: true });
-    } catch (err) {
-      toast.error(err.message || "Login failed");
+    } catch (error) {
+      toast.error(error.message || "Login failed");
     } finally {
       setSubmitting(false);
     }
