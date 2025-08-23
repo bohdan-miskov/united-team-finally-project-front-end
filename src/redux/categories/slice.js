@@ -5,7 +5,7 @@ import { setPending, setRejected } from "../helpers/statusHandlers";
 const initialState = {
   items: [],
   isLoading: false,
-  error: false,
+  error: null,
 };
 
 const categoriesSlice = createSlice({
@@ -22,6 +22,7 @@ const categoriesSlice = createSlice({
         state.isLoading = false;
       })
       .addCase(getCategories.rejected, (state, action) => {
+        console.log("🚀 ~ action:", action);
         setRejected(state, action);
       });
   },

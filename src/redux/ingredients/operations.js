@@ -5,6 +5,6 @@ export const getIngredients = createAsyncThunk(
   "ingredients/getAll",
   async () => {
     const response = await api.get("/ingredients");
-    return response.data;
+    return response.data.data;
   }
 );
