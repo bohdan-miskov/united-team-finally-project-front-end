@@ -143,13 +143,13 @@
   text-decoration: underline;
 }
 
-@media screen and (width >= 394px) and (width <= 768px) {
+@media only screen and (min-width: 768px) {
   .loginContainer {
     max-width: 522px;
   }
 }
 
-@media screen and (width >= 769px) and (width <= 1440px) {
+@media only screen and (min-width: 1440px) {
   .loginContainer {
     max-width: 420px;
   }
