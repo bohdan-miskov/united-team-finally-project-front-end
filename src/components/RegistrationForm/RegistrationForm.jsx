@@ -93,7 +93,7 @@ export default function RegistrationForm() {
         }}
         validationSchema={RegisterSchema}
         onSubmit={handleSubmit}>
-        {({ isSubmitting }) => (
+        {({ values, touched, errors, isSubmitting }) => (
           <Form className={styles.form}>
             <div className={styles.fieldGroup}>
               <label htmlFor="email" className={styles.label}>
@@ -104,7 +104,17 @@ export default function RegistrationForm() {
                 name="email"
                 id="email"
                 placeholder="email@gmail.com"
-                className={styles.input}
+                className={[
+                  styles.input,
+                  values.email ? styles.filled : "",
+                  touched.email && errors.email ? styles.errorInput : "",
+                ]
+                  .filter(Boolean)
+                  .join(" ")}
+                aria-invalid={touched.email && errors.email ? "true" : "false"}
+                aria-describedby={
+                  touched.email && errors.email ? "email-error" : undefined
+                }
                 autoComplete="email"
               />
               <ErrorMessage
@@ -123,7 +133,17 @@ export default function RegistrationForm() {
                 id="name"
                 name="name"
                 placeholder="Max"
-                className={styles.input}
+                className={[
+                  styles.input,
+                  values.name ? styles.filled : "",
+                  touched.name && errors.name ? styles.errorInput : "",
+                ]
+                  .filter(Boolean)
+                  .join(" ")}
+                aria-invalid={touched.name && errors.name ? "true" : "false"}
+                aria-describedby={
+                  touched.name && errors.name ? "name-error" : undefined
+                }
                 autoComplete="name"
               />
               <ErrorMessage
@@ -143,7 +163,23 @@ export default function RegistrationForm() {
                   id="password"
                   name="password"
                   placeholder="*********"
-                  className={styles.input}
+                  className={[
+                    styles.input,
+                    values.password ? styles.filled : "",
+                    touched.password && errors.password
+                      ? styles.errorInput
+                      : "",
+                  ]
+                    .filter(Boolean)
+                    .join(" ")}
+                  aria-invalid={
+                    touched.password && errors.password ? "true" : "false"
+                  }
+                  aria-describedby={
+                    touched.password && errors.password
+                      ? "password-error"
+                      : undefined
+                  }
                   autoComplete="new-password"
                 />
 
@@ -178,7 +214,25 @@ export default function RegistrationForm() {
                   id="confirmPassword"
                   name="confirmPassword"
                   placeholder="*********"
-                  className={styles.input}
+                  className={[
+                    styles.input,
+                    values.confirmPassword ? styles.filled : "",
+                    touched.confirmPassword && errors.confirmPassword
+                      ? styles.errorInput
+                      : "",
+                  ]
+                    .filter(Boolean)
+                    .join(" ")}
+                  aria-invalid={
+                    touched.confirmPassword && errors.confirmPassword
+                      ? "true"
+                      : "false"
+                  }
+                  aria-describedby={
+                    touched.confirmPassword && errors.confirmPassword
+                      ? "confirmPassword-error"
+                      : undefined
+                  }
                   autoComplete="new-password"
                 />
 

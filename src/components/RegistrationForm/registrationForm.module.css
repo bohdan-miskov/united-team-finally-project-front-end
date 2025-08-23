@@ -46,19 +46,15 @@
 } */
 .registerContainer {
   max-width: 362px;
-  background-color: var(--light-beige); /* #f9f4e7 */
-  border-radius: 16px;
+  background-color: var(--light-beige);
+  border-radius: 32px;
   padding: 48px 32px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-  margin: 40px auto;
+  margin: 0 auto;
 }
 
 .title {
-  font-size: 24px;
-  font-weight: 700;
   text-align: center;
   margin-bottom: 16px;
-  color: var(--black);
 }
 
 .description {
@@ -74,64 +70,73 @@
 .label {
   display: block;
   font-size: 12px;
-  color: var(--dark-gray);
-  margin-bottom: 8px;
+  color: var(--black);
+  margin-bottom: 4px;
 }
 
 .input {
-  width: 100%; /* Важливо! */
-  padding: 10px;
+  width: 100%;
+  padding: 12px 8px 12px 8px;
   border: 1px solid var(--light-gray);
   border-radius: 8px;
-  font-size: 14px;
-  transition: all 0.2s ease;
   background-color: var(--white);
-  color: var(--black);
 }
 
-.input .error {
+.error {
+  color: #c80000;
+  position: absolute;
+  font-size: 12px;
+  transform: translateX(5%) translateY(10%);
+}
+
+.filled {
+  background: var(--white);
+  border: 1px solid var(--light-gray);
+}
+
+.errorInput {
+  border: 2px solid var(--red);
+  background: var(--white);
   color: var(--red);
+  box-shadow: none;
 }
 
-.input:focus {
+.input:focus,
+.input:focus-visible {
   outline: none;
   border-color: var(--brown);
-  box-shadow: 0 0 0 2px rgba(168, 140, 109, 0.2);
+  box-shadow: 0 0 0 4px rgba(78, 70, 180, 0.2);
+  border: 1.5px solid var(--light-brown);
 }
 
-.input .passwordWrapper {
+.passwordWrapper {
   position: relative;
 }
 
 .eyeButton {
   position: absolute;
-  right: 8px;
+  right: 0px;
   top: 50%;
   transform: translateY(-50%);
   background: none;
   border: none;
   cursor: pointer;
-  padding: 4px;
+
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 4px;
-  transition: all 0.2s ease;
-}
-
-.eyeButton:hover {
-  background-color: var(--light-gray);
 }
 
 .eyeButton svg {
-  width: 16px;
-  height: 16px;
-  fill: var(--gray);
+  width: 24px;
+  height: 24px;
+  fill: none;
+  stroke: var(--black);
   transition: fill 0.2s ease;
 }
 
-.eyeButton:hover svg {
-  fill: var(--dark-gray);
+.checkBoxGroup {
+  margin-bottom: 27px;
 }
 
 .checkBoxLabel {
@@ -160,19 +165,20 @@
 
 .submitButton {
   width: 100%;
-  padding: 12px;
-  background-color: #9b6c43;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  background-color: var(--light-brown);
   color: var(--white);
   border: none;
   border-radius: 8px;
   font-size: 16px;
   font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.2s ease;
-  margin-top: 8px;
+
+  margin-bottom: 20px;
 }
 
-.submitButton:hover,
+/* .submitButton:hover,
 .submitButton:focus {
   background-color: #6d554b;
 }
@@ -190,12 +196,11 @@
   opacity: 0.3;
   box-shadow: 0 0 0 6px rgba(78, 70, 180, 0.12), 0 0 0 2px #fff;
   background: #9b6c43;
-}
+} */
 
 .redirectText {
   text-align: center;
   font-size: 14px;
-  margin-top: 16px;
   color: var(--gray);
 }
 
@@ -205,8 +210,27 @@
   text-decoration: underline;
 }
 
-.error {
+.filled {
+  background: var(--white);
+  border: 1px solid var(--light-gray);
+}
+
+.errorInput {
+  border: 2px solid var(--red);
+  background: var(--white);
   color: var(--red);
-  font-size: 12px;
-  margin-top: 4px;
+  box-shadow: none;
+}
+
+.input:focus,
+.input:focus-visible {
+  outline: none;
+  border-color: var(--brown);
+  box-shadow: 0 0 0 4px rgba(78, 70, 180, 0.2);
+  border: 1.5px solid var(--light-brown);
+}
+
+.input::placeholder {
+  color: var(--light-gray);
+  opacity: 1;
 }

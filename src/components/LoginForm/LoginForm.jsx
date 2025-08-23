@@ -70,7 +70,7 @@ export default function LoginForm() {
         initialValues={{ email: "", password: "" }}
         validationSchema={LoginSchema}
         onSubmit={handleSubmit}>
-        {({ isSubmitting }) => (
+        {({ values, touched, errors, isSubmitting }) => (
           <Form className={styles.form} noValidate>
             <div className={styles.fieldGroup}>
               <label htmlFor="email" className={styles.label}>
@@ -81,7 +81,17 @@ export default function LoginForm() {
                 name="email"
                 id="email"
                 placeholder="email@gmail.com"
-                className={styles.input}
+                className={[
+                  styles.input,
+                  values.email ? styles.filled : "",
+                  touched.email && errors.email ? styles.errorInput : "",
+                ]
+                  .filter(Boolean)
+                  .join(" ")}
+                aria-invalid={touched.email && errors.email ? "true" : "false"}
+                aria-describedby={
+                  touched.email && errors.email ? "email-error" : undefined
+                }
                 autoComplete="email"
               />
               <ErrorMessage
@@ -101,7 +111,24 @@ export default function LoginForm() {
                   id="password"
                   name="password"
                   placeholder="*********"
-                  className={`${styles.input} ${styles.passwordInput}`}
+                  className={[
+                    styles.input,
+                    styles.passwordInput,
+                    values.password ? styles.filled : "",
+                    touched.password && errors.password
+                      ? styles.errorInput
+                      : "",
+                  ]
+                    .filter(Boolean)
+                    .join(" ")}
+                  aria-invalid={
+                    touched.password && errors.password ? "true" : "false"
+                  }
+                  aria-describedby={
+                    touched.password && errors.password
+                      ? "password-error"
+                      : undefined
+                  }
                 />
                 <button
                   type="button"
