@@ -41,12 +41,11 @@ export default function RegistrationForm() {
 
   const handleSubmit = async (values, { setSubmitting, resetForm }) => {
     try {
-      await dispatch(logInUser(values)).unwrap();
-      toast.success("Login successful!");
+      await dispatch(registerAndLoginUser(values)).unwrap();
       resetForm();
       navigate("/", { replace: true });
     } catch (error) {
-      toast.error(error.message || "Registration failed");
+      // Тимчасово без тостів, обробимо пізніше
     } finally {
       setSubmitting(false);
     }
