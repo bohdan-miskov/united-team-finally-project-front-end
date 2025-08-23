@@ -9,9 +9,9 @@ import { useNavigate, Link } from "react-router-dom";
 // import { toast } from "react-hot-toast";
 import { useState } from "react";
 import ErrorToastMessage from "../ErrorToastMessage/ErrorToastMessage";
-
 import { logInUser } from "../../redux/auth/operations";
 import styles from "./loginForm.module.css";
+import SuccessToastMessage from "../ErrorToastMessage/SuccessToastMessage";
 
 const LoginSchema = Yup.object().shape({
   email: Yup.string()
@@ -26,6 +26,7 @@ export default function LoginForm() {
   const navigate = useNavigate();
   const isLoading = useSelector(selectAuthIsLoading);
   const [showPassword, setShowPassword] = useState(false);
+  const [successMessage, setSuccessMessage] = useState(null);
   // const [error, setError] = useState(null);
 
   const error = useSelector(selectAuthError);
@@ -34,9 +35,12 @@ export default function LoginForm() {
     try {
       await dispatch(logInUser(values)).unwrap();
       resetForm();
+
+      // 🟢 Додаємо повідомлення про успіх
+      setSuccessMessage("Login successful!");
       navigate("/", { replace: true });
     } catch (error) {
-      //  Обробка помилок буде додана пізніше, коли зробимо тости
+      // Помилки зараз не обробляємо
     } finally {
       setSubmitting(false);
     }
@@ -45,6 +49,9 @@ export default function LoginForm() {
   return (
     <div className={styles.loginContainer}>
       <h2 className={styles.title}>Login</h2>
+      {successMessage && (
+        <SuccessToastMessage>{successMessage}</SuccessToastMessage>
+      )}
       <ErrorToastMessage>{error}</ErrorToastMessage>
       <Formik
         initialValues={{ email: "", password: "" }}
