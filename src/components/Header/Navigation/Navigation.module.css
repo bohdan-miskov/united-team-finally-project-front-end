@@ -1,4 +1,3 @@
-/* Контейнер для навігації + UserInfo */
 .navGroup {
   display: flex;
   flex-direction: column;
@@ -17,10 +16,15 @@
 }
 
 .link:hover {
-  color: #f5e4d0; /* легке світлішання */
+  color: #f5e4d0; 
 }
 
-/* Псевдоелемент для анімованого підкреслення */
+.link:focus-visible {
+  outline: 2px solid #ffffffcc;
+  outline-offset: 3px;
+}
+
+
 .link::after {
   content: "";
   position: absolute;
@@ -32,7 +36,12 @@
   transition: width 0.3s ease;
 }
 
-.link.active::after {
+.link.active::after,
+.link[aria-current="page"]::after {
+  width: 100%;
+}
+
+.link:hover::after {
   width: 100%;
 }
 
@@ -49,7 +58,8 @@
   text-align: center;
   transition:
     background 0.3s ease,
-    box-shadow 0.3s ease;
+    box-shadow 0.3s ease,
+    transform 0.1s ease;
   cursor: pointer;
 }
 
@@ -62,10 +72,8 @@
   outline-offset: 2px;
 }
 
-/* Порядок лінків + UserInfo на мобілці */
-.userInfo {
-  order: 2;
-  align-self: center;
+.linkBtn:active {
+  transform: translateY(1px);
 }
 
 .navGroup > .recipes { order: 0; }
@@ -108,4 +116,14 @@
     font-size: 16px;
   }
 }
+
+/* ==== Reduced motion ==== */
+@media (prefers-reduced-motion: reduce) {
+  .link,
+  .link::after,
+  .linkBtn {
+    transition: none !important;
+  }
+}
+
 

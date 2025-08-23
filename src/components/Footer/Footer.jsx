@@ -3,8 +3,7 @@ import { useSelector } from "react-redux";
 import { useState } from "react";
 import { selectUser } from "../../redux/auth/selectors";
 import css from "./Footer.module.css";
-import Logo from "../Logo/Logo.jsx";
-import Modal from "../Modal/Modal"; // твій універсальний Modal
+import Modal from "../Modal/Modal";
 
 const Footer = () => {
   const user = useSelector(selectUser);
@@ -17,7 +16,14 @@ const Footer = () => {
   return (
     <footer className={css.footer}>
       <div className={css.container}>
-        <Logo />
+        {}
+        <img
+          src="/assets/img/logo.svg"
+          alt="Logo"
+          className={css.logo}
+          onClick={() => navigate("/")}
+          style={{ cursor: "pointer" }}
+        />
 
         <p className={css.copyright}>
           © {new Date().getFullYear()} CookingCompanion. All rights reserved.
@@ -74,4 +80,5 @@ const Footer = () => {
 };
 
 export default Footer;
+
 

@@ -1,6 +1,5 @@
 import { useState } from "react";
 import css from "./UserInfo.module.css";
-import Icon from "../../shared/Icon/Icon";
 import ConfirmLogoutModal from "../ConfirmLogoutModal/ConfirmLogoutModal";
 
 export default function UserInfo({ userName = "User", onLogout, className }) {
@@ -11,7 +10,7 @@ export default function UserInfo({ userName = "User", onLogout, className }) {
     <div className={`${css.wrapper} ${className || ""}`}>
       <div className={css.avatar}>{initial}</div>
       <span className={css.name}>{userName || "Guest"}</span>
-      <div className={css.divider}></div>
+      <div className={css.divider} />
 
       <button
         type="button"
@@ -20,14 +19,16 @@ export default function UserInfo({ userName = "User", onLogout, className }) {
         aria-label="Logout"
         title="Logout"
       >
-        <Icon name="logout" className={css.logoutIcon} />
+        <svg className={css.logoutIcon} width="17" height="17" aria-hidden="true" focusable="false">
+          <use href="/icons.svg#icon-exit"></use>
+        </svg>
       </button>
 
       {showModal && (
         <ConfirmLogoutModal
           onClose={() => setShowModal(false)}
           onConfirm={() => {
-            onLogout();
+            onLogout?.();
             setShowModal(false);
           }}
         />

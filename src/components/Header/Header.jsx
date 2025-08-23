@@ -4,7 +4,6 @@ import { useSelector, useDispatch } from "react-redux";
 import { selectUser } from "../../redux/auth/selectors";
 import { fetchLogoutUser } from "../../redux/auth/operations";
 
-import Logo from "../Logo/Logo";
 import BurgerMenu from "./BurgerMenu/BurgerMenu";
 import Navigation from "./Navigation/Navigation";
 
@@ -25,14 +24,14 @@ export default function Header() {
   );
 
   useEffect(() => {
-    setMenuOpen(false); // закриваємо меню при зміні роуту
+    setMenuOpen(false); 
   }, [location.pathname]);
 
   const handleLogout = useCallback(async () => {
     try {
       await dispatch(fetchLogoutUser());
     } catch (_) {
-      // ignore error
+      // ignore
     } finally {
       localStorage.removeItem("token");
       localStorage.removeItem("user");
@@ -44,7 +43,14 @@ export default function Header() {
   return (
     <header className={css.header}>
       <div className={css.container}>
-        <Logo />
+        {}
+        <img
+          src="/assets/img/logo.svg"
+          alt="Logo"
+          className={css.logo}
+          onClick={() => navigate("/")}
+          style={{ cursor: "pointer" }}
+        />
 
         <BurgerMenu isOpen={menuOpen} onToggle={() => setMenuOpen(!menuOpen)} />
 
@@ -61,7 +67,7 @@ export default function Header() {
       </div>
 
       {menuOpen && (
-        <div className={`${css.mobileMenu} ${css.open}`}>
+        <div id="mobile-nav" className={`${css.mobileMenu} ${css.open}`}>
           <Navigation
             isLoggedIn={isLoggedIn}
             closeMenu={() => setMenuOpen(false)}
@@ -75,5 +81,6 @@ export default function Header() {
     </header>
   );
 }
+
 
 

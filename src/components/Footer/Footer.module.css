@@ -14,6 +14,15 @@
   text-align: center;
 }
 
+.logo {
+  height: 24px;
+  cursor: pointer;
+}
+
+@media (min-width: 768px) {
+  .logo { height: 28px; }
+}
+
 .copyright {
   font-size: 12px;
   font-weight: 400;
@@ -39,7 +48,12 @@
 
 .link:hover,
 .link:focus-visible {
-  color: #f5e4d0; /* легке підсвічування */
+  color: #f5e4d0; 
+}
+
+.link:focus-visible {
+  outline: 2px solid #ffffffcc;
+  outline-offset: 3px;
 }
 
 /* ==== Tablet ==== */
@@ -110,4 +124,12 @@
 
 .modalActions button:last-child:hover {
   background-color: #a10f0f;
+}
+
+/* ==== Reduced motion ==== */
+@media (prefers-reduced-motion: reduce) {
+  .link,
+  .modalActions button {
+    transition: none !important;
+  }
 }
