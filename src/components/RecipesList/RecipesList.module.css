@@ -8,21 +8,20 @@
   margin: 24px 0;
 }
 
+.recipeCounter {
+  color: var(--black);
+  font-size: 18px;
+  font-weight: 600;
+}
 
 
 @media (min-width: 768px) {
-  .card {
-    flex: calc((100% - 24) / 2);
-  }
   .list {
     max-width: 768px;
   }
   
 }
 @media (min-width: 1440px) {
-  .card {
-    flex: calc((100% - 3 * 24) / 4);
-  }
   .list {
     max-width: 1440px;
   }

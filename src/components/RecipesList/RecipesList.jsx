@@ -1,74 +1,69 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import RecipeCard from '../RecipeCard/RecipeCard.jsx';
-import LoadMoreBtn from '../LoadMoreBtn/LoadMoreBtn.jsx';
 import styles from './RecipesList.module.css';
-import { allRecipes, ownRecipes, savedRecipes } from '../../mock/recipes.js';
 
+import {
+  getAllRecipes,
+  getOwnRecipes,
+  getFavoriteRecipes,
+} from '../../redux/recipes/operations';
 
-export default function RecipesList({
-  recipeType = 'all',
-  isAuthorized = true,
-}) {
-  const source = useMemo(() => {
-    switch (recipeType) {
-      case 'own':
-        return ownRecipes;
-      case 'favorites':
-        return savedRecipes;
-      case 'all':
-      default:
-        return allRecipes;
-    }
-  }, [recipeType]);
+import {
+  selectAllRecipesItems,
+  selectOwnRecipesItems,
+  selectFavoriteRecipesItems,
+  selectAllRecipesIsLoading,
+  selectOwnRecipesIsLoading,
+  selectFavoriteRecipesIsLoading,
+} from '../../redux/recipes/selectors';
 
-  const [list, setList] = useState(source);
+export default function RecipesList({ recipeType }) {
+  const dispatch = useDispatch();
+  const type = recipeType || 'all';
+
+  const allItems = useSelector(selectAllRecipesItems);
+  const ownItems = useSelector(selectOwnRecipesItems);
+  const favItems = useSelector(selectFavoriteRecipesItems);
+
+  const isLoadingAll = useSelector(selectAllRecipesIsLoading);
+  const isLoadingOwn = useSelector(selectOwnRecipesIsLoading);
+  const isLoadingFav = useSelector(selectFavoriteRecipesIsLoading);
+
+  const items =
+    type === 'own' ? ownItems : type === 'favorites' ? favItems : allItems;
+
+  const isLoading =
+    type === 'own' ? isLoadingOwn : type === 'favorites' ? isLoadingFav : isLoadingAll;
+
   useEffect(() => {
-    setList(source);
-  }, [source]);
-
-  const handleBookmark = (id, isFavoriteNow) => {
-    if (recipeType === 'all' && !isAuthorized) {
-      alert('Error while saving. Please log in.');
-      return;
+    if (!items || items.length === 0) {
+      if (type === 'all') dispatch(getAllRecipes(1));
+      if (type === 'own') dispatch(getOwnRecipes(1));
+      if (type === 'favorites') dispatch(getFavoriteRecipes(1));
     }
-    setList((prev) =>
-      recipeType === 'favorites'
-        ? prev.filter((r) => r.id !== id)
-        : prev.map((r) =>
-            r.id === id ? { ...r, isFavorite: !isFavoriteNow } : r
-          )
-    );
-  };
-
-  const handleDelete = (id) => {
-    setList((prev) => prev.filter((r) => r.id !== id));
-  };
-
-  const RecipeCounter = ({ total }) => (
-    <p className={styles.recipeCounter}>{total} recipes</p>
-  );
+  }, [dispatch, type, items]);
 
   return (
     <>
-      <RecipeCounter total={list.length} />
+      <p className={styles.recipeCounter}>{items?.length || 0} recipes</p>
+
       <div className={styles.list}>
-        {list.map((recipe) => (
+        {items?.map((recipe, idx) => (
           <RecipeCard
-            key={recipe.id}
+            key={`${recipe._id}-${idx}`}          
             recipe={recipe}
-            recipeType={recipeType}
-            onBookmark={handleBookmark}
-            onDelete={handleDelete}
+            recipeType={type}
           />
         ))}
 
-        <LoadMoreBtn />
+        {isLoading && <p>Loading...</p>}
 
-        {!list.length && recipeType === 'favorites' && (
+        {!isLoading && (!items || items.length === 0) && type === 'favorites' && (
           <p>You haven't saved any recipes yet</p>
         )}
-        {!list.length && recipeType === 'own' && (
-          <p>You don't have any of yor own recipes yet</p>
+        {!isLoading && (!items || items.length === 0) && type === 'own' && (
+          <p>You don't have any of your own recipes yet</p>
         )}
       </div>
     </>

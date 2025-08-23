@@ -1,33 +1,53 @@
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import styles from './RecipeCard.module.css';
 import sprite from '../../../public/icons.svg';
+import {
+  addRecipeToFavorite,
+  deleteRecipeFromFavorite,
+} from '../../redux/recipes/operations';
+import { selectFavoriteRecipesItems } from '../../redux/recipes/selectors';
 
-const fallbackImg =
-  'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600&auto=format&fit=crop&q=60';
-
-export default function RecipeCard({
-  recipe,
-  recipeType, 
-  onBookmark,
-  onDelete,
-}) {
+export default function RecipeCard({ recipe, recipeType }) {
   const navigate = useNavigate();
-  const { id, title, description, time, calories, image, isFavorite } = recipe;
+  const dispatch = useDispatch();
 
-  const isAll = recipeType === 'all';
-  const isOwn = recipeType === 'own';
-  const isFavorites = recipeType === 'favorites';
+  const favItems = useSelector(selectFavoriteRecipesItems);
+
+  const {
+    _id,
+    title,
+    description,
+    time,
+    calories = '~ N/A',
+    thumb,
+  } = recipe || {};
+
+  const imgSrc = thumb;
+
+  const type = (recipeType || '').trim().toLowerCase();
+  const isAll = type === 'all';
+  const isOwn = type === 'own';
+  const isFavorites = type === 'favorites';
+
+  const isSaved =
+    isFavorites ||
+    (Array.isArray(favItems) &&
+      favItems.some((r) => (r?._id ?? r?.id) === _id));
+
+  const handleBookmark = () => {
+    if (!_id) return;
+
+    if (isSaved) {
+      dispatch(deleteRecipeFromFavorite(_id));
+    } else {
+      dispatch(addRecipeToFavorite(_id));
+    }
+  };
 
   return (
     <div className={styles.card}>
-      <img
-        src={image}
-        alt={title}
-        className={styles.image}
-        onError={(e) => {
-          e.currentTarget.src = fallbackImg;
-        }}
-      />
+      <img src={imgSrc} alt={title} className={styles.image} />
 
       <div className={styles.header}>
         <h3 className={styles.title}>{title}</h3>
@@ -40,14 +60,14 @@ export default function RecipeCard({
       </div>
 
       <div className={styles.descriptionContainer}>
-        <p className={styles.description}>{description}</p>
+        <p>{description}</p>
         <p>{calories}</p>
       </div>
 
       <div className={styles.btnContainer}>
         <button
           className={styles.learnMoreBtn}
-          onClick={() => navigate(`/recipes/${id}`)}
+          onClick={() => navigate(`/recipes/${_id}`)}
         >
           Learn more
         </button>
@@ -55,27 +75,14 @@ export default function RecipeCard({
         {(isAll || isFavorites) && (
           <button
             type="button"
-            onClick={() => onBookmark?.(id, isFavorite)}
-            aria-label={isFavorite ? 'Unsave recipe' : 'Save recipe'}
+            onClick={handleBookmark}
+            aria-label={isSaved ? 'Remove from saved' : 'Save recipe'}
             className={`${styles.bookmarkBtn} ${
-              isFavorite ? styles.bookmarkActive : ''
+              isSaved ? styles.bookmarkActive : ''
             }`}
           >
             <svg className={styles.iconSave}>
               <use href={`${sprite}#icon-save-to-list`} />
-            </svg>
-          </button>
-        )}
-
-        {isOwn && (
-          <button
-            type="button"
-            onClick={() => onDelete?.(id)}
-            aria-label="Delete my recipe"
-            className={styles.deleteBtn}
-          >
-            <svg className={styles.iconDelete}>
-              <use href={`${sprite}#icon-delete`} />
             </svg>
           </button>
         )}
