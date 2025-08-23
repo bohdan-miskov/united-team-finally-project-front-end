@@ -236,3 +236,15 @@
   color: var(--light-gray);
   opacity: 1;
 }
+
+@media only screen and (min-width: 768px) {
+  .registerContainer {
+    max-width: 522px;
+  }
+}
+
+@media only screen and (min-width: 1440px) {
+  .registerContainer {
+    max-width: 420px;
+  }
+}
