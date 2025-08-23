@@ -25,7 +25,6 @@ export default function LoginForm() {
 
   const handleSubmit = async (values, { setSubmitting, resetForm }) => {
     try {
-      // Використовуємо Redux thunk для логіну
       await dispatch(logInUser(values)).unwrap();
 
       toast.success("Login successful!");
@@ -144,6 +143,6 @@ export default function LoginForm() {
           </Form>
         )}
       </Formik>
-    </div> // НАПИСАТИ handleSubmit до onSubmit
+    </div>
   );
 }
