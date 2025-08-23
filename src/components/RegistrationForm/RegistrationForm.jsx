@@ -1,11 +1,16 @@
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import { useState } from "react";
 import { registerAndLoginUser } from "../../redux/auth/operations";
+import {
+  selectAuthError,
+  selectAuthIsLoading,
+} from "../../redux/auth/selectors";
 import styles from "./registrationForm.module.css";
+import ErrorToastMessage from "../ErrorToastMessage/ErrorToastMessage";
 
 const RegisterSchema = Yup.object().shape({
   name: Yup.string()
@@ -29,17 +34,15 @@ const RegisterSchema = Yup.object().shape({
 export default function RegistrationForm() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const isLoading = useSelector(selectAuthIsLoading);
+  const error = useSelector(selectAuthError);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [error, setError] = useState(null);
 
   const handleSubmit = async (values, { setSubmitting, resetForm }) => {
     try {
-      const { confirmPassword, acceptTerms, ...registerData } = values;
-
-      await dispatch(registerAndLoginUser(registerData)).unwrap();
-
-      toast.success("Registration and login successful!");
+      await dispatch(logInUser(values)).unwrap();
+      toast.success("Login successful!");
       resetForm();
       navigate("/", { replace: true });
     } catch (error) {
@@ -57,7 +60,7 @@ export default function RegistrationForm() {
         and share your cooking creations
       </p>
 
-      {/* {error && <ErrorToastMessage>{error}</ErrorToastMessage>} */}
+      {error && <ErrorToastMessage>{error}</ErrorToastMessage>}
 
       <Formik
         initialValues={{
@@ -68,9 +71,11 @@ export default function RegistrationForm() {
           acceptTerms: false,
         }}
         validationSchema={RegisterSchema}
-        onSubmit={handleSubmit}>
+        onSubmit={handleSubmit}
+        validateOnChange={false}
+        validateOnBlur={true}>
         {({ values, touched, errors, isSubmitting }) => (
-          <Form className={styles.form}>
+          <Form className={styles.form} noValidate>
             <div className={styles.fieldGroup}>
               <label htmlFor="email" className={styles.label}>
                 Enter your email
@@ -216,8 +221,6 @@ export default function RegistrationForm() {
                   type="button"
                   className={styles.eyeButton}
                   onClick={() => setShowConfirmPassword(!showConfirmPassword)}>
-                  aria-label=
-                  {showConfirmPassword ? "Hide password" : "Show password"}
                   <svg width="24" height="24">
                     <use
                       href={`/icons.svg#icon-${
@@ -255,7 +258,7 @@ export default function RegistrationForm() {
               type="submit"
               disabled={isSubmitting}
               className={styles.submitButton}>
-              {isSubmitting ? "Creating..." : "Create account"}
+              {isLoading || isSubmitting ? "Creating..." : "Create account"}
             </button>
 
             <p className={styles.redirectText}>
