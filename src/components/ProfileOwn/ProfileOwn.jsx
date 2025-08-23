@@ -1,5 +1,5 @@
-import RecipesList from "../RecipesList/RecipesList";
-import LoadMoreBtn from "../LoadMoreBtn/LoadMoreBtn";
+import RecipesList from '../RecipesList/RecipesList';
+import LoadMoreBtn from '../LoadMoreBtn/LoadMoreBtn';
 
 export default function ProfileOwn() {
   <div className="profile-own">

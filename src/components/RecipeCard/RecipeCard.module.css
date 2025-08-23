@@ -1,0 +1,123 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  gap: 17.33px;
+  width: 288px;
+  height: 431px;
+  background-color: var(--light-beige);
+  border-radius: 16px;
+  padding: 12px;
+}
+
+.image {
+  width: 264px;
+  height: 178px;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.header {
+  display: flex;
+  gap: 12px;
+  justify-content: space-between;
+}
+
+.timeBadge {
+  font-size: 12px;
+  box-sizing: border-box;
+  display: flex;
+  flex: 0 0 auto;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  background-color: var(--white);
+  width: 53px;
+  height: 28px;
+  border-radius: 10px;
+  padding: 5px;
+  font-variant-numeric: tabular-nums;
+}
+
+.descriptionContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.btnContainer {
+  display: flex;
+  gap: 8px;
+  margin-top: auto;
+}
+
+.learnMoreBtn {
+  width: 100%;
+  border: 1px solid var(--black);
+  border-radius: 8px;
+  background-color: var(--light-beige);
+  font-size: 16px;
+  color: var(--black);
+  padding: 8px;
+}
+
+.bookmarkBtn {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 8px;
+  padding: 0;
+  cursor: pointer;
+  background: transparent;
+  border: 1px solid var(--brown);
+}
+
+.bookmarkActive {
+  background: var(--light-brown);
+}
+
+.bookmarkActive .iconSave {
+  fill: var(--light-brown);
+  stroke: var(--white);
+}
+
+.deleteBtn {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 8px;
+  padding: 0;
+  cursor: pointer;
+  background-color: var(--red);
+}
+
+.iconDelete {
+  width: 24px;
+  height: 24px;
+  fill: none;
+  stroke: currentColor;
+}
+
+.iconClock {
+  fill: none;
+  stroke: currentColor;
+}
+
+.iconSave {
+  fill: currentColor;
+  width: 24px;
+  height: 24px;
+  fill: none;
+  stroke: var(--black);
+}
+
+@media (max-width: 393px) {
+  .card {
+    width: 100%;
+    height: 100%;
+  }
+}

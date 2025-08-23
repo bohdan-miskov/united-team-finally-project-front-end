@@ -5,17 +5,13 @@ import LoadMoreBtn from '../../components/LoadMoreBtn/LoadMoreBtn.jsx';
 import styles from "./ProfilePage.module.css";
 
 export default function ProfilePage() {
+  const fakeCount = 96;
   const { recipeType } = useParams();
   const type = recipeType?.toLowerCase();
 
-  const allowed = new Set(['own', 'favorites']);
-  if (!type || !allowed.has(type)) {
-    return <Navigate to="/profile/own" replace />;
-  }
-
   return (
     <section className={styles.page}>
-      <h1 className={styles.title}>My profile</h1>
+      <h2 className={styles.title}>My profile</h2>
       <ProfileNavigation />
       <RecipesList recipeType={type} />
       <LoadMoreBtn />
