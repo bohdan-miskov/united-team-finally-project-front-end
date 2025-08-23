@@ -43,6 +43,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  color: #fff; 
 }
 
 .logoutBtn:focus-visible {
@@ -51,14 +52,15 @@
   border-radius: 4px;
 }
 
+.logoutBtn:hover {
+  color: #ff4d4d; 
+}
+
 .logoutIcon {
   width: 17px;
   height: 17px;
-  stroke: #fff;
+  stroke: currentColor; 
   transition: stroke 0.3s;
-}
-
-.logoutBtn:hover .logoutIcon {
-  stroke: #ff4d4d; 
+  fill: none;
 }
 

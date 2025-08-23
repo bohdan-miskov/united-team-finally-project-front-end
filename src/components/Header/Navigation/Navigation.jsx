@@ -19,7 +19,7 @@ export default function Navigation({
         }
         onClick={closeMenu}
       >
-        Рецепти
+        Recipes
       </NavLink>
 
       {!isLoggedIn ? (
@@ -31,7 +31,7 @@ export default function Navigation({
             }
             onClick={closeMenu}
           >
-            Увійти
+            Log in
           </NavLink>
 
           <NavLink
@@ -41,7 +41,7 @@ export default function Navigation({
             }
             onClick={closeMenu}
           >
-            Зареєструватися
+            Register
           </NavLink>
         </>
       ) : (
@@ -53,7 +53,7 @@ export default function Navigation({
             }
             onClick={closeMenu}
           >
-            Мій профіль
+            My Profile
           </NavLink>
 
           <NavLink
@@ -63,7 +63,7 @@ export default function Navigation({
             }
             onClick={closeMenu}
           >
-            Додати рецепт
+            Add Recipe
           </NavLink>
 
           <div className={css.userInfo}>
@@ -79,3 +79,4 @@ export default function Navigation({
     </nav>
   );
 }
+

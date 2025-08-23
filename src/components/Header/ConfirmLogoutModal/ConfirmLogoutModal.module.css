@@ -28,12 +28,19 @@
   background: none;
   border: none;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;       
+  color: #000;        
 }
+
+.closeBtn:hover { color: #c80000; }
 
 .closeIcon {
   width: 16px;
   height: 16px;
-  stroke: #000;
+  stroke: currentColor;
   stroke-width: 2;
   fill: none;
 }
@@ -80,6 +87,11 @@
   background-color: rgba(0, 0, 0, 0.05);
 }
 
+.cancelBtn:focus-visible {
+  outline: 2px solid #000;
+  outline-offset: 2px;
+}
+
 .logoutBtn {
   border: none;
   border-radius: 8px;
@@ -103,15 +115,8 @@
 }
 
 @media screen and (min-width: 768px) {
-  .modal {
-    padding: 56px 32px 32px;
-  }
-
-  .actions {
-    flex-direction: row;
-    justify-content: center;
-  }
-
+  .modal { padding: 56px 32px 32px; }
+  .actions { flex-direction: row; justify-content: center; }
   .cancelBtn,
   .logoutBtn {
     width: 164px;

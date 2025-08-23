@@ -1,8 +1,10 @@
 .header {
+  width: 100%;
   padding: 14px 0;
   background-color: #3d2218;
   position: relative;
-  color: white;
+  color: #fff;
+  z-index: 1000;
 }
 
 .container {
@@ -25,15 +27,26 @@
 }
 
 .mobileMenu.open {
+  position: absolute;
+  top: 100%; 
+  left: 0;
   width: 100%;
   padding: 32px 16px 26px;
-  margin: 0 auto;
   display: flex;
   flex-direction: column;
   text-align: center;
   background-color: #3d2218;
   z-index: 999;
-  transition: all 0.3s ease-in-out;
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+
+.mobileMenu:not(.open) {
+  opacity: 0;
+  transform: translateY(-10px);
+  pointer-events: none;
 }
 
 @media (min-width: 768px) {
@@ -44,11 +57,14 @@
   }
 
   .desktopNav {
-    display: block;
+    display: flex;
+    align-items: center;
+    gap: 32px;
   }
 
+  .mobileMenu,
   .mobileMenu.open {
-    display: none;
+    display: none !important;
   }
 }
 

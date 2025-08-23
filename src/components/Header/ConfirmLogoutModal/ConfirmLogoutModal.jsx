@@ -1,6 +1,5 @@
 import { createPortal } from "react-dom";
 import { useEffect } from "react";
-import Icon from "../../shared/Icon/Icon";
 import css from "./ConfirmLogoutModal.module.css";
 
 export default function ConfirmLogoutModal({ onClose, onConfirm }) {
@@ -29,7 +28,15 @@ export default function ConfirmLogoutModal({ onClose, onConfirm }) {
           onClick={onClose}
           aria-label="Close"
         >
-          <Icon name="close" className={css.closeIcon} />
+          <svg
+            className={css.closeIcon}
+            width="16"
+            height="16"
+            aria-hidden="true"
+            focusable="false"
+          >
+            <use href="/icons.svg#icon-close"></use>
+          </svg>
         </button>
 
         <div className={css.content}>
@@ -49,4 +56,6 @@ export default function ConfirmLogoutModal({ onClose, onConfirm }) {
     document.body
   );
 }
+
+
 
