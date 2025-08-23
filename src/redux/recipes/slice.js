@@ -57,7 +57,7 @@ const recipesSlice = createSlice({
       })
       .addCase(getAllRecipes.fulfilled, (state, action) => {
         state.all.isLoading = false;
-        state.all.items = [...state.all.items, ...action.payload.data];
+        state.all.items = [...state.all.items, ...action.payload.items];
         state.all.hasPreviousPage = action.payload.hasPreviousPage;
         state.all.hasNextPage = action.payload.hasNextPage;
         state.all.page = action.payload.page;
@@ -72,11 +72,11 @@ const recipesSlice = createSlice({
       })
       .addCase(createRecipe.fulfilled, (state, action) => {
         state.all.isLoading = false;
-        state.all.items.unshift(action.payload.data);
-        // state.all.items.pop();
+        state.all.items.pop();
+        state.all.items.unshift(action.payload);
         state.all.totalItems += 1;
-        state.own.items.unshift(action.payload.data);
-        // state.own.items.pop();
+        state.own.items.pop();
+        state.own.items.unshift(action.payload);
         state.own.totalItems += 1;
       })
       .addCase(createRecipe.rejected, (state, action) => {
@@ -89,7 +89,7 @@ const recipesSlice = createSlice({
         state.favorite.isLoading = false;
         state.favorite.items = [
           ...state.favorite.items,
-          ...action.payload.data,
+          ...action.payload.items,
         ];
         state.favorite.hasPreviousPage = action.payload.hasPreviousPage;
         state.favorite.hasNextPage = action.payload.hasNextPage;
@@ -105,7 +105,8 @@ const recipesSlice = createSlice({
       })
       .addCase(addRecipeToFavorite.fulfilled, (state, action) => {
         state.favorite.isLoading = false;
-        state.favorite.items.unshift(action.payload.data);
+        state.favorite.items.pop();
+        state.favorite.items.unshift(action.payload);
         // state.favorite.items.pop();
         state.favorite.totalItems += 1;
       })
@@ -118,7 +119,7 @@ const recipesSlice = createSlice({
       .addCase(deleteRecipeFromFavorite.fulfilled, (state, action) => {
         state.favorite.isLoading = false;
         state.favorite.items = state.favorite.items.filter(
-          ({ _id }) => _id != action.payload
+          ({ _id }) => _id !== action.payload
         );
         state.favorite.totalItems -= 1;
       })
@@ -130,7 +131,7 @@ const recipesSlice = createSlice({
       })
       .addCase(getOwnRecipes.fulfilled, (state, action) => {
         state.own.isLoading = false;
-        state.own.items = [...state.own.items, ...action.payload.data];
+        state.own.items = [...state.own.items, ...action.payload.items];
         state.own.hasPreviousPage = action.payload.hasPreviousPage;
         state.own.hasNextPage = action.payload.hasNextPage;
         state.own.page = action.payload.page;

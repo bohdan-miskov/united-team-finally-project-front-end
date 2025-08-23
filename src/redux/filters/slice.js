@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   searchQuery: "",
-  category: "",
+  category: [],
   ingredients: [],
 };
 
@@ -14,13 +14,13 @@ const filtersSlice = createSlice({
       state.searchQuery = action.payload?.trim().toLowerCase();
     },
     changeSearchCategory(state, action) {
-      state.category = action.payload?.trim().toLowerCase();
+      state.category = action.payload;
     },
     changeSearchIngredients(state, action) {
       state.ingredients = action.payload;
     },
     clearFilters(state) {
-      state.category = "";
+      state.category = [];
       state.ingredients = [];
     },
   },
