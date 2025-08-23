@@ -2,7 +2,7 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-// import { toast } from "react-hot-toast";
+import { toast } from "react-hot-toast";
 import { useState } from "react";
 // import { register } from "../../redux/auth/operations";
 import styles from "./registrationForm.module.css";
@@ -18,6 +18,7 @@ const fakeRegister = async (data) => {
     }, 1200);
   });
 };
+
 const RegisterSchema = Yup.object().shape({
   name: Yup.string()
     .min(2, "Name must be at least 2 characters")
@@ -42,7 +43,9 @@ export default function RegistrationForm() {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [error, setError] = useState(null);
 
+  // TODO: dispatch register/login
   // const handleSubmit = async (values, { setSubmitting }) => {
   //   try {
   //     const { confirmPassword, acceptTerms, ...registerData } = values;
@@ -59,14 +62,12 @@ export default function RegistrationForm() {
   const handleSubmit = async (values, { setSubmitting, resetForm }) => {
     try {
       const { confirmPassword, acceptTerms, ...registerData } = values;
-
-      // Виклик тимчасового API (pre-Redux)
       await fakeRegister(registerData);
-
       toast.success("Registration successful!");
       resetForm();
-    } catch (error) {
-      toast.error(error.message || "Registration failed");
+      navigate("/", { replace: true });
+    } catch (err) {
+      toast.error(err.message || "Registration failed"); // Використовуйте toast безпосередньо
     } finally {
       setSubmitting(false);
     }
@@ -79,6 +80,8 @@ export default function RegistrationForm() {
         Join our community of culinary enthusiasts, save your favorite recipes,
         and share your cooking creations
       </p>
+
+      {/* {error && <ErrorToastMessage>{error}</ErrorToastMessage>} */}
 
       <Formik
         initialValues={{
@@ -102,6 +105,7 @@ export default function RegistrationForm() {
                 id="email"
                 placeholder="email@gmail.com"
                 className={styles.input}
+                autoComplete="email"
               />
               <ErrorMessage
                 name="email"
@@ -120,6 +124,7 @@ export default function RegistrationForm() {
                 name="name"
                 placeholder="Max"
                 className={styles.input}
+                autoComplete="name"
               />
               <ErrorMessage
                 name="name"
@@ -139,13 +144,15 @@ export default function RegistrationForm() {
                   name="password"
                   placeholder="*********"
                   className={styles.input}
+                  autoComplete="new-password"
                 />
+
                 <button
                   type="button"
                   className={styles.eyeButton}
                   onClick={() => setShowPassword(!showPassword)}
                   aria-label={showPassword ? "Hide password" : "Show password"}>
-                  <svg width="20" height="20">
+                  <svg width="24" height="24">
                     <use
                       href={`/icons.svg#icon-${
                         showPassword ? "eye-crossed" : "eye-stroke"
@@ -162,7 +169,7 @@ export default function RegistrationForm() {
             </div>
 
             <div className={styles.fieldGroup}>
-              <label htmlFor="password" className={styles.label}>
+              <label htmlFor="confirmPassword" className={styles.label}>
                 Repeat your password
               </label>
               <div className={styles.passwordWrapper}>
@@ -172,15 +179,19 @@ export default function RegistrationForm() {
                   name="confirmPassword"
                   placeholder="*********"
                   className={styles.input}
+                  autoComplete="new-password"
                 />
+
                 <button
                   type="button"
                   className={styles.eyeButton}
                   onClick={() => setShowConfirmPassword(!showConfirmPassword)}>
+                  aria-label=
+                  {showConfirmPassword ? "Hide password" : "Show password"}
                   <svg width="24" height="24">
                     <use
                       href={`/icons.svg#icon-${
-                        showPassword ? "eye-crossed" : "eye-stroke"
+                        showConfirmPassword ? "eye-crossed" : "eye-stroke"
                       }`}
                     />
                   </svg>
@@ -202,6 +213,7 @@ export default function RegistrationForm() {
                 />
                 I agree to the Terms of Service and Privacy Policy
               </label>
+
               <ErrorMessage
                 name="acceptTerms"
                 component="div"

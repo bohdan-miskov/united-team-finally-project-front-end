@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { useNavigate, Link } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import { useState } from "react";
-import ErrorToastMessage from "../ErrorToastMessage/ErrorToastMessage";
+// import ErrorToastMessage from "../ErrorToastMessage/ErrorToastMessage";
 
 // import { login } from "../../redux/auth/operations";
 import styles from "./loginForm.module.css";
@@ -29,7 +29,7 @@ const LoginSchema = Yup.object().shape({
     .min(6, "Password must be at least 6 characters")
     .required("Password is required"),
 });
-export default function LoginForm(data) {
+export default function LoginForm() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [error, setError] = useState(null);
@@ -48,13 +48,13 @@ export default function LoginForm(data) {
   // };
 
   const handleSubmit = async (values, { setSubmitting, resetForm }) => {
-    setError(null);
     try {
       await fakeLogin(values);
       toast.success("Login successful!");
       resetForm();
+      navigate("/", { replace: true });
     } catch (err) {
-      setError(err.message || "Login failed");
+      toast.error(err.message || "Login failed");
     } finally {
       setSubmitting(false);
     }
@@ -63,12 +63,15 @@ export default function LoginForm(data) {
   return (
     <div className={styles.loginContainer}>
       <h2 className={styles.title}>Login</h2>
+
+      {/* {error && <ErrorToastMessage>{error}</ErrorToastMessage>} */}
+
       <Formik
         initialValues={{ email: "", password: "" }}
         validationSchema={LoginSchema}
         onSubmit={handleSubmit}>
         {({ isSubmitting }) => (
-          <Form className={styles.form}>
+          <Form className={styles.form} noValidate>
             <div className={styles.fieldGroup}>
               <label htmlFor="email" className={styles.label}>
                 Enter your email address
@@ -79,6 +82,7 @@ export default function LoginForm(data) {
                 id="email"
                 placeholder="email@gmail.com"
                 className={styles.input}
+                autoComplete="email"
               />
               <ErrorMessage
                 name="email"
@@ -89,7 +93,7 @@ export default function LoginForm(data) {
 
             <div className={styles.fieldGroup}>
               <label htmlFor="password" className={styles.label}>
-                Create a strong password
+                Enter your password
               </label>
               <div className={styles.passwordWrapper}>
                 <Field
@@ -118,8 +122,6 @@ export default function LoginForm(data) {
                 className={styles.error}
               />
             </div>
-
-            {error && <ErrorToastMessage>{error}</ErrorToastMessage>}
 
             <button
               type="submit"

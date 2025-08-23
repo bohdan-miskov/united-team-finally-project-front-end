@@ -1,5 +1,4 @@
-.loginContainer,
-.registerContainer {
+.loginContainer {
   max-width: 362px;
   padding: 48px 32px;
   margin: 0 auto;
@@ -8,19 +7,9 @@
 }
 
 .title {
-  font-size: 24px;
-  font-weight: 700;
   text-align: center;
   margin-bottom: 20px;
   color: var(--black);
-}
-
-.description {
-  font-size: 14px;
-  line-height: 1.5;
-  text-align: center;
-  color: var(--gray);
-  margin-bottom: 24px;
 }
 
 .form {
