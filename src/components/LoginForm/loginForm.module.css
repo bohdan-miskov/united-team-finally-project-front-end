@@ -39,6 +39,11 @@
   background-color: var(--white);
 }
 
+.input::placeholder {
+  color: var(--light-gray);
+  opacity: 1;
+}
+
 .error {
   color: #c80000;
   position: absolute;
@@ -52,7 +57,7 @@
 }
 
 .errorInput {
-  border: 2px solid var(--red);
+  border: 1.5px solid var(--red);
   background: var(--white);
   color: var(--red);
   box-shadow: none;
@@ -94,8 +99,8 @@
 
 .submitButton {
   width: 100%;
-  padding-top: 8px;
-  padding-bottom: 8px;
+  padding-top: 9px;
+  padding-bottom: 9px;
   background-color: var(--light-brown);
   color: var(--white);
   border: none;
@@ -107,13 +112,35 @@
   margin-bottom: 20px;
 }
 
+.submitButton:hover,
+.submitButton:focus,
+.submitButton:focus-visible {
+  background: var(--brown);
+}
+
+.submitButton:active {
+  background: var(--light-brown);
+  box-shadow: 0 0 0 6px rgba(78, 70, 180, 0.12), 0 0 0 2px #fff;
+}
+
+.submitButton:focus-visible {
+  box-shadow: 0 0 0 6px rgba(78, 70, 180, 0.12);
+}
+
+.submitButton:disabled,
+.submitButton[aria-disabled="true"] {
+  box-shadow: 0 0 0 6px rgba(78, 70, 180, 0.12), 0 0 0 2px #fff;
+  cursor: not-allowed;
+  opacity: 0.3;
+}
+
 .redirectText {
   text-align: center;
 }
-
-.input::placeholder {
-  color: var(--light-gray);
-  opacity: 1;
+.link {
+  color: var(--black);
+  font-weight: 600;
+  text-decoration: underline;
 }
 
 @media screen and (width >= 394px) and (width <= 768px) {
