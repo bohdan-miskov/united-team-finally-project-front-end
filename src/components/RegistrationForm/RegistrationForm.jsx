@@ -37,7 +37,6 @@ export default function RegistrationForm() {
     try {
       const { confirmPassword, acceptTerms, ...registerData } = values;
 
-      // Використовуємо Redux thunk
       await dispatch(registerAndLoginUser(registerData)).unwrap();
 
       toast.success("Registration and login successful!");
