@@ -163,23 +163,12 @@
   margin-bottom: 20px;
 }
 
-.submitButton:hover,
-.submitButton:focus,
-.submitButton:focus-visible {
-  background: var(--brown);
-}
-
-.submitButton:active {
-  background: var(--light-brown);
-  box-shadow: 0 0 0 6px rgba(78, 70, 180, 0.12), 0 0 0 2px #fff;
-}
-
 .submitButton:focus-visible {
   box-shadow: 0 0 0 6px rgba(78, 70, 180, 0.12);
 }
 
 .submitButton:disabled,
-.submitButton[aria-disabled="true"] {
+.submitButton[aria-disabled='true'] {
   box-shadow: 0 0 0 6px rgba(78, 70, 180, 0.12), 0 0 0 2px #fff;
   cursor: not-allowed;
   opacity: 0.3;
