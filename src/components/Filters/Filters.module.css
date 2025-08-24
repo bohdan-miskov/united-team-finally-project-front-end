@@ -1,53 +1,158 @@
 .title {
-  font-size: 1.75rem;
+  font-size: 1.5rem;
   font-weight: 700;
-  margin-top: 48px;
-  margin-bottom: 16px;
+  margin-top: 24px;
+  margin-bottom: 12px;
 }
 
 .filtersSection {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-bottom: 1rem;
   margin-bottom: 1.5rem;
+  width: 100%;
 }
 
 .count {
   font-weight: 600;
-  font-size: 18px;
-  color: #000000;
-  margin: 0;
+  font-size: 14px;
+  display: inline-flex;
+  gap: 4px;
 }
 
-.filters {
+.filtersToggle {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-}
-
-.reset {
+  gap: 6px;
   font-weight: 600;
-  font-size: 12px;
-  line-height: 1.4;
-  color: var(--black);
+  font-size: 14px;
   background: transparent;
   border: none;
   cursor: pointer;
-
-  text-decoration: underline;
-  text-decoration-thickness: 1px;
-  text-underline-offset: 4px;
+  color: var(--black);
 }
 
-.reset:hover {
-  color: #000;
+.icon {
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: var(--black);
+  stroke-width: 1.5;
 }
 
-.customSelect__control {
-  min-height: 36px;
-  border: 1px solid var(--white);
-  border-radius: 8px;
-  box-shadow: none;
+.dropdownWrapper {
+  position: relative;
+}
+
+/* MODAL WINDOW */
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 100;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modalContent {
+  background: var(--white);
+  border-radius: 16px;
+  padding: 16px;
+  width: 90%;
+  max-width: 420px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.modalHeader {
+  display: flex;
+  justify-content: right;
+  align-items: center;
+}
+
+.modalTitle {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.closeBtn {
+  background: none;
+  border: none;
   cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+}
+
+.closeBtn svg {
+  width: 24px;
+  height: 24px;
+  stroke: var(--black);
+  fill: none;
+}
+
+.modalBody {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Desktop filters */
+.desktopFilters {
+  display: none;
+  align-items: center;
+  gap: 24px;
+}
+
+/* Reset filters button */
+.reset {
+  font-size: 13px;
+  font-weight: 600;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--black);
+  position: relative;
+  display: block;
+  text-align: left;
+  padding: 0;
+  padding-bottom: 4px;
+  width: fit-content;
+}
+
+.reset::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background-color: var(--black);
+}
+
+/* Tablet */
+@media (min-width: 768px) {
+  .title {
+    font-size: 1.75rem;
+    margin-top: 32px;
+    margin-bottom: 16px;
+  }
+
+  .count {
+    font-size: 15px;
+  }
+}
+
+/* Desktop */
+@media (min-width: 1440px) {
+  .filtersToggle {
+    display: none;
+  }
+
+  .desktopFilters {
+    display: flex;
+  }
 }

@@ -65,7 +65,7 @@ const recipe2 = {
   ],
 };
 
-const recipesArray = [recipe1, recipe2, recipe1, recipe2, recipe1, recipe2];
+const recipesArray = [recipe1, recipe2, recipe1, recipe2, recipe1, recipe2, recipe1, recipe2, recipe1, recipe2, recipe1, recipe2];
 
 export const recipesExample = {
   items: recipesArray,

@@ -1,93 +1,90 @@
-import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import styles from './RecipeCard.module.css';
 import {
   addRecipeToFavorite,
   deleteRecipeFromFavorite,
 } from '../../redux/recipes/operations';
-import styles from './RecipeCard.module.css';
+import { selectFavoriteRecipesItems } from '../../redux/recipes/selectors';
 
-export default function RecipeCard({ recipe }) {
-  const dispatch = useDispatch();
+export default function RecipeCard({ recipe, recipeType }) {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  const isAuth = useSelector(state => state.auth.isLoggedIn);
-  const [showAuthModal, setShowAuthModal] = useState(false);
+  const favItems = useSelector(selectFavoriteRecipesItems);
 
-  const handleFavoriteClick = () => {
-    if (!isAuth) {
-      setShowAuthModal(true);
-      return;
-    }
+  const {
+    _id,
+    title,
+    description,
+    time,
+    calories = '~ N/A',
+    thumb,
+  } = recipe || {};
 
-    if (recipe.isFavorite) {
-      dispatch(deleteRecipeFromFavorite(recipe.id));
+  const imgSrc = thumb;
+
+  const type = (recipeType || '').trim().toLowerCase();
+  const isAll = type === 'all';
+  const isOwn = type === 'own';
+  const isFavorites = type === 'favorites';
+
+  const isSaved =
+    isFavorites ||
+    (Array.isArray(favItems) && favItems.some(r => (r?._id ?? r?.id) === _id));
+
+  const handleBookmark = () => {
+    if (!_id) return;
+
+    if (isSaved) {
+      dispatch(deleteRecipeFromFavorite(_id));
     } else {
-      dispatch(addRecipeToFavorite(recipe.id));
+      dispatch(addRecipeToFavorite(_id));
     }
   };
 
   return (
     <div className={styles.card}>
-      {/* Фото */}
-      <div className={styles.imageWrapper}>
-        <img src={recipe.image} alt={recipe.title} className={styles.image} />
+      <img src={imgSrc} alt={title} className={styles.image} />
+
+      <div className={styles.header}>
+        <h3 className={styles.title}>{title}</h3>
+        <div className={styles.timeBadge} title="Cooking time">
+          <svg className={styles.iconClock}>
+            <use href={'/icons.svg#icon-clock'} />
+          </svg>
+          <span>{time}</span>
+        </div>
       </div>
 
-      {/* Контент */}
-      <div className={styles.content}>
-        <div className={styles.top}>
-          <h3 className={styles.title}>{recipe.title}</h3>
+      <div className={styles.descriptionContainer}>
+        <p>{description}</p>
+        <p>{calories}</p>
+      </div>
 
-          <div className={styles.timeBox}>
-            <svg className={styles.timeIcon}>
-              <use href="/icons.svg#icon-clock" />
-            </svg>
-            <span>{recipe.cookingTime || 'N/A'}</span>
-          </div>
-        </div>
+      <div className={styles.btnContainer}>
+        <button
+          className={`${styles.learnMoreBtn} outline-btn`}
+          onClick={() => navigate(`/recipes/${_id}`)}
+        >
+          Learn more
+        </button>
 
-        <p className={styles.description}>{recipe.description}</p>
-
-        <p className={styles.calories}>
-          {recipe.calories ? `~${recipe.calories} cals` : '—'}
-        </p>
-
-        <div className={styles.actions}>
+        {(isAll || isFavorites) && (
           <button
-            onClick={() => navigate(`/recipes/${recipe.id}`)}
-            className={styles.learnMoreBtn}
-          >
-            Learn more
-          </button>
-
-          <button
-            onClick={handleFavoriteClick}
+            type="button"
+            onClick={handleBookmark}
+            aria-label={isSaved ? 'Remove from saved' : 'Save recipe'}
             className={`${styles.bookmarkBtn} ${
-              recipe.isFavorite ? styles.active : ''
-            }`}
+              isSaved ? styles.bookmarkActive : ''
+            } brown-btn`}
           >
-            <svg className={styles.bookmarkIcon}>
-              <use href="/icons.svg#icon-bookmark" />
+            <svg className={styles.iconSave}>
+              <use href={'/icons.svg#icon-save-to-list'} />
             </svg>
           </button>
-        </div>
+        )}
       </div>
-
-      {/* Модалка */}
-      {showAuthModal && (
-        <div className={styles.modalOverlay}>
-          <div className={styles.modal}>
-            <h2>You need to log in</h2>
-            <p>To add recipes to favorites, please log in or register.</p>
-            <div className={styles.modalActions}>
-              <button onClick={() => navigate('/login')}>Login</button>
-              <button onClick={() => navigate('/register')}>Register</button>
-              <button onClick={() => setShowAuthModal(false)}>Close</button>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 }

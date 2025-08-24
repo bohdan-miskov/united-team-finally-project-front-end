@@ -1,50 +1,93 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getAllRecipes } from '../../redux/recipes/operations';
-import RecipeCard from '../../components/RecipeCard/RecipeCard';
-import LoadMoreBtn from '../../components/LoadMoreBtn/LoadMoreBtn';
+import RecipeCard from '../RecipeCard/RecipeCard.jsx';
+import LoadMoreBtn from '../LoadMoreBtn/LoadMoreBtn.jsx';
 import styles from './RecipesList.module.css';
 
-export default function RecipesList() {
+import {
+  getAllRecipes,
+  getOwnRecipes,
+  getFavoriteRecipes,
+} from '../../redux/recipes/operations';
+
+import {
+  selectAllRecipesItems,
+  selectOwnRecipesItems,
+  selectFavoriteRecipesItems,
+  selectAllRecipesIsLoading,
+  selectOwnRecipesIsLoading,
+  selectFavoriteRecipesIsLoading,
+} from '../../redux/recipes/selectors';
+
+export default function RecipesList({ recipeType }) {
   const dispatch = useDispatch();
+  const type = recipeType || 'all';
 
-  const recipes = useSelector(state => state.recipes.all.items);
-  const totalItems = useSelector(state => state.recipes.all.totalItems);
-  const loading = useSelector(state => state.recipes.all.loading);
-  const page = useSelector(state => state.recipes.all.page);
-  const filters = useSelector(state => state.filters);
+  const allItems = useSelector(selectAllRecipesItems);
+  const ownItems = useSelector(selectOwnRecipesItems);
+  const favItems = useSelector(selectFavoriteRecipesItems);
 
-  const [visibleCount, setVisibleCount] = useState(12);
+  const isLoadingAll = useSelector(selectAllRecipesIsLoading);
+  const isLoadingOwn = useSelector(selectOwnRecipesIsLoading);
+  const isLoadingFav = useSelector(selectFavoriteRecipesIsLoading);
+
+  const searchQuery = useSelector(state => state.filters.searchQuery);
+
+  const items =
+    type === 'own' ? ownItems : type === 'favorites' ? favItems : allItems;
+
+  const isLoading =
+    type === 'own'
+      ? isLoadingOwn
+      : type === 'favorites'
+      ? isLoadingFav
+      : isLoadingAll;
 
   useEffect(() => {
-    dispatch(getAllRecipes({ page: 1, limit: 12, ...filters }));
-    setVisibleCount(12);
-  }, [dispatch, filters]);
+    if (!items || items.length === 0) {
+      if (type === 'all') dispatch(getAllRecipes(1));
+      if (type === 'own') dispatch(getOwnRecipes(1));
+      if (type === 'favorites') dispatch(getFavoriteRecipes(1));
+    }
+  }, [dispatch, type, items]);
+
+  const filteredItems = items?.filter(r =>
+    r.title.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  const [visibleCount, setVisibleCount] = useState(12);
+  const visibleItems = filteredItems?.slice(0, visibleCount);
+
+  const hasMore = filteredItems && visibleCount < filteredItems.length;
 
   const handleLoadMore = () => {
-    dispatch(getAllRecipes({ page: page + 1, limit: 12, ...filters }));
     setVisibleCount(prev => prev + 12);
   };
 
   return (
-    <div className="container">
-      {recipes.length === 0 && !loading ? (
-        <div className={styles.noResults}>No recipes found</div>
-      ) : (
-        <div className={styles.wrapper}>
-          <div className={styles.grid}>
-            {recipes.slice(0, visibleCount).map(recipe => (
-              <RecipeCard key={recipe.id} recipe={recipe} isAuth={true} />
-            ))}
-          </div>
+    <>
+      <div className="container">
+        <ul className={styles.list}>
+          {visibleItems?.map((recipe, idx) => (
+            <li className={styles.item} key={`${recipe._id}-${idx}`}>
+              <RecipeCard recipe={recipe} recipeType={type} />
+            </li>
+          ))}
+        </ul>
+      </div>
 
-          <LoadMoreBtn
-            onClick={handleLoadMore}
-            isVisible={visibleCount < totalItems}
-            loading={loading}
-          />
-        </div>
+      {isLoading && <p>Loading...</p>}
+
+      {!isLoading && (!visibleItems || visibleItems.length === 0) && (
+        <p>No recipes found</p>
       )}
-    </div>
+
+      {/* 🔹 додаю кнопку */}
+      <LoadMoreBtn
+        onLoadMore={handleLoadMore}
+        hasMore={hasMore}
+        loading={isLoading}
+      />
+    </>
   );
 }
