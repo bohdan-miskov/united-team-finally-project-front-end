@@ -1,18 +1,30 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import styles from "./RecipeCard.module.css";
+import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import {
+  addRecipeToFavorite,
+  deleteRecipeFromFavorite,
+} from '../../redux/recipes/operations';
+import styles from './RecipeCard.module.css';
 
-export default function RecipeCard({ recipe, isAuth = false }) {
-  const [isFavorite, setIsFavorite] = useState(recipe.isFavorite || false);
-  const [showAuthModal, setShowAuthModal] = useState(false);
+export default function RecipeCard({ recipe }) {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const isAuth = useSelector(state => state.auth.isLoggedIn);
+  const [showAuthModal, setShowAuthModal] = useState(false);
 
   const handleFavoriteClick = () => {
     if (!isAuth) {
       setShowAuthModal(true);
       return;
     }
-    setIsFavorite(!isFavorite);
+
+    if (recipe.isFavorite) {
+      dispatch(deleteRecipeFromFavorite(recipe.id));
+    } else {
+      dispatch(addRecipeToFavorite(recipe.id));
+    }
   };
 
   return (
@@ -24,7 +36,6 @@ export default function RecipeCard({ recipe, isAuth = false }) {
 
       {/* Контент */}
       <div className={styles.content}>
-        {/* Назва */}
         <div className={styles.top}>
           <h3 className={styles.title}>{recipe.title}</h3>
 
@@ -32,19 +43,16 @@ export default function RecipeCard({ recipe, isAuth = false }) {
             <svg className={styles.timeIcon}>
               <use href="/icons.svg#icon-clock" />
             </svg>
-            <span>{recipe.cookingTime || "N/A"}</span>
+            <span>{recipe.cookingTime || 'N/A'}</span>
           </div>
         </div>
 
-        {/* Опис */}
         <p className={styles.description}>{recipe.description}</p>
 
-        {/* Калорії */}
         <p className={styles.calories}>
-          {recipe.calories ? `~${recipe.calories} cals` : "—"}
+          {recipe.calories ? `~${recipe.calories} cals` : '—'}
         </p>
 
-        {/* Learn More + Bookmark */}
         <div className={styles.actions}>
           <button
             onClick={() => navigate(`/recipes/${recipe.id}`)}
@@ -56,7 +64,7 @@ export default function RecipeCard({ recipe, isAuth = false }) {
           <button
             onClick={handleFavoriteClick}
             className={`${styles.bookmarkBtn} ${
-              isFavorite ? styles.active : ""
+              recipe.isFavorite ? styles.active : ''
             }`}
           >
             <svg className={styles.bookmarkIcon}>
@@ -73,8 +81,8 @@ export default function RecipeCard({ recipe, isAuth = false }) {
             <h2>You need to log in</h2>
             <p>To add recipes to favorites, please log in or register.</p>
             <div className={styles.modalActions}>
-              <button onClick={() => navigate("/login")}>Login</button>
-              <button onClick={() => navigate("/register")}>Register</button>
+              <button onClick={() => navigate('/login')}>Login</button>
+              <button onClick={() => navigate('/register')}>Register</button>
               <button onClick={() => setShowAuthModal(false)}>Close</button>
             </div>
           </div>
