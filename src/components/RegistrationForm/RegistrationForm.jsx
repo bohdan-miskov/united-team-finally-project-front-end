@@ -15,13 +15,15 @@ import SuccessToastMessage from "../SuccessToastMessage/SuccessToastMessage";
 
 const RegisterSchema = Yup.object().shape({
   name: Yup.string()
-    .min(2, "Name must be at least 2 characters")
+    .max(16, "Name must be at most 16 characters")
     .required("Name is required"),
   email: Yup.string()
     .email("Invalid email address")
+    .max(128, "Email must be at most 128 characters")
     .required("Email is required"),
   password: Yup.string()
-    .min(6, "Password must be at least 6 characters")
+    .min(8, "Password must be at least 8 characters")
+    .max(128, "Password must be at most 128 characters")
     .required("Password is required"),
   confirmPassword: Yup.string()
     .oneOf([Yup.ref("password"), null], "Passwords must match")
