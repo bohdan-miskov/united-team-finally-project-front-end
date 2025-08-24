@@ -76,7 +76,7 @@ button {
   transition-property: background-color, box-shadow, opacity;
 }
 
-.brown-btn:is(:hover, :focus) {
+.brown-btn:is(:hover, :focus, :focus-visible) {
   background-color: var(--brown);
 }
 
@@ -95,7 +95,7 @@ button {
   transition-property: background-color, box-shadow, opacity, color;
 }
 
-.outline-btn:is(:hover, :focus) {
+.outline-btn:is(:hover, :focus, :focus-visible) {
   background-color: var(--light-gray);
   color: var(--black);
 }
@@ -119,7 +119,7 @@ button {
   transition-property: border-color, opacity;
 }
 
-.transparent-btn:is(:hover, :focus) {
+.transparent-btn:is(:hover, :focus, :focus-visible) {
   opacity: 0.5;
 }
 
