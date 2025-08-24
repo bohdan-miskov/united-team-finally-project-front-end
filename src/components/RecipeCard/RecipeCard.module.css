@@ -107,7 +107,6 @@
 }
 
 .bookmarkActive .iconSave {
-  fill: var(--light-brown);
   stroke: var(--white);
 }
 
