@@ -126,7 +126,7 @@ export default function LoginForm() {
                   <svg>
                     <use
                       href={`/icons.svg#icon-${
-                        showPassword ? "eye-crossed" : "eye-stroke"
+                        showPassword ? "eye-stroke" : "eye-crossed"
                       }`}
                     />
                   </svg>
