@@ -1,3 +1,6 @@
+import RecipesList from '../../components/RecipesList/RecipesList';
+
 export default function MainPage() {
-  return <p>MainPage</p>;
+  return <RecipesList recipeType="all" />;
 }
+

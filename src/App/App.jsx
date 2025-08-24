@@ -12,15 +12,15 @@ import { selectIsRefreshing } from "../redux/auth/selectors";
 import { refreshUser } from "../redux/auth/operations";
 import Loader from "../components/Loader/Loader";
 
-const MainPage = lazy(() => import("../pages/MainPage/MainPage"));
+const MainPage = lazy(() => import('../pages/MainPage/MainPage'));
 const RecipeViewPage = lazy(() =>
-  import("../pages/RecipeViewPage/RecipeViewPage")
+  import('../pages/RecipeViewPage/RecipeViewPage')
 );
 const AddRecipePage = lazy(() =>
-  import("../pages/AddRecipePage/AddRecipePage")
+  import('../pages/AddRecipePage/AddRecipePage')
 );
-const ProfilePage = lazy(() => import("../pages/ProfilePage/ProfilePage"));
-const AuthPage = lazy(() => import("../pages/AuthPage/AuthPage"));
+const ProfilePage = lazy(() => import('../pages/ProfilePage/ProfilePage'));
+const AuthPage = lazy(() => import('../pages/AuthPage/AuthPage'));
 
 function App() {
   const dispatch = useDispatch();
@@ -45,11 +45,19 @@ function App() {
             element={<PrivateRoute component={<AddRecipePage />} />}
           />
           <Route
+            path="/profile"
+            element={
+              <PrivateRoute
+                component={<Navigate to="/profile/own" replace />}
+              />
+            }
+          />
+          <Route
             path="/profile/:recipeType"
             element={<PrivateRoute component={<ProfilePage />} />}
           >
-            <Route path="own" element={<ProfileOwn />} />
-            <Route path="favorites" element={<ProfileFavorites />} />
+            {/* <Route path="own" element={<ProfileOwn />} />
+            <Route path="favorites" element={<ProfileFavorites />} /> */}
           </Route>
           <Route
             path="/auth/:authType"
