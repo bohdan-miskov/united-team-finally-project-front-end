@@ -28,19 +28,12 @@
   background: none;
   border: none;
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 4px;       
-  color: #000;        
 }
-
-.closeBtn:hover { color: #c80000; }
 
 .closeIcon {
   width: 16px;
   height: 16px;
-  stroke: currentColor;
+  stroke: #000;
   stroke-width: 2;
   fill: none;
 }
@@ -81,15 +74,11 @@
   font-weight: 600;
   font-size: 18px;
   cursor: pointer;
+  color: #000; /* ВАЖЛИВО: чорний текст */
 }
 
 .cancelBtn:hover {
   background-color: rgba(0, 0, 0, 0.05);
-}
-
-.cancelBtn:focus-visible {
-  outline: 2px solid #000;
-  outline-offset: 2px;
 }
 
 .logoutBtn {
@@ -109,14 +98,19 @@
 
 .logoutBtn:focus-visible {
   background-color: #c80000;
-  box-shadow:
-    0 0 0 6px rgba(200, 0, 0, 0.2),
-    0 0 0 2px #fff;
+  box-shadow: 0 0 0 6px rgba(200, 0, 0, 0.2), 0 0 0 2px #fff;
 }
 
 @media screen and (min-width: 768px) {
-  .modal { padding: 56px 32px 32px; }
-  .actions { flex-direction: row; justify-content: center; }
+  .modal {
+    padding: 56px 32px 32px;
+  }
+
+  .actions {
+    flex-direction: row;
+    justify-content: center;
+  }
+
   .cancelBtn,
   .logoutBtn {
     width: 164px;

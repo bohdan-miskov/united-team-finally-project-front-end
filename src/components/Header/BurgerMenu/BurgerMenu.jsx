@@ -12,12 +12,14 @@ export default function BurgerMenu({ isOpen, onToggle }) {
     >
       <svg
         className={isOpen ? css.closeIcon : css.burgerIcon}
-        width="24"
-        height="24"
+        width={isOpen ? 22 : 20}
+        height={isOpen ? 22 : 14}
         aria-hidden="true"
         focusable="false"
       >
-        <use href={isOpen ? "/icons.svg#icon-close" : "/icons.svg#icon-burger"}></use>
+        <use
+          href={isOpen ? "/icons.svg#icon-close-circle" : "/icons.svg#icon-burger"}
+        ></use>
       </svg>
     </button>
   );

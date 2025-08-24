@@ -12,29 +12,39 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
+  gap: 24px;
+}
+
+.logoBlock {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
 }
 
 .logo {
   height: 24px;
-  cursor: pointer;
 }
 
-@media (min-width: 768px) {
-  .logo { height: 28px; }
+.logoText {
+  font-size: 14px;
+  font-weight: 600;
+  font-family: inherit;
+  color: #fff;
 }
 
 .copyright {
   font-size: 12px;
   font-weight: 400;
-  margin-top: 32px;
-  margin-bottom: 32px;
+  margin: 0;
+  color: rgba(255, 255, 255, 0.7); /* 👈 як у макеті, не чисто білий */
 }
 
 .nav {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 40px;
+  gap: 44px; /* 👈 по макету */
   font-size: 16px;
   font-weight: 600;
 }
@@ -48,7 +58,7 @@
 
 .link:hover,
 .link:focus-visible {
-  color: #f5e4d0; 
+  color: #f5e4d0;
 }
 
 .link:focus-visible {
@@ -61,11 +71,20 @@
   .container {
     max-width: 768px;
     padding: 0 32px;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    text-align: left;
+  }
+
+  .logo {
+    height: 28px;
   }
 
   .nav {
     flex-direction: row;
     gap: 32px;
+    font-size: 12px; /* 👈 по макету */
   }
 }
 
@@ -74,18 +93,6 @@
   .container {
     max-width: 1440px;
     padding: 0 108px;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  .copyright {
-    margin: 0;
-  }
-
-  .nav {
-    flex-direction: row;
-    gap: 32px;
   }
 }
 
@@ -98,7 +105,6 @@
 }
 
 .modalActions button {
-  border: 1px solid #000;
   border-radius: 8px;
   padding: 12px 20px;
   font-size: 16px;
@@ -109,7 +115,8 @@
 
 .modalActions button:first-child {
   background: none;
-  color: #000;
+  border: 1px solid #000;
+  color: #000; /* 👈 чорний текст для Cancel */
 }
 
 .modalActions button:first-child:hover {

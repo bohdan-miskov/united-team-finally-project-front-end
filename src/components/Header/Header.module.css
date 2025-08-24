@@ -5,6 +5,11 @@
   position: relative;
   color: #fff;
   z-index: 1000;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+
+.menuOpen {
+  box-shadow: none;
 }
 
 .container {
@@ -15,7 +20,24 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  text-align: left;
+}
+
+.logoBlock {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.logo {
+  height: 24px;
+}
+
+.logoText {
+  font-size: 14px;
+  font-weight: 600;
+  font-family: inherit;
+  color: #fff;
 }
 
 .desktopNav {
@@ -28,13 +50,9 @@
 
 .mobileMenu.open {
   position: absolute;
-  top: 100%; 
+  top: 100%;
   left: 0;
   width: 100%;
-  padding: 32px 16px 26px;
-  display: flex;
-  flex-direction: column;
-  text-align: center;
   background-color: #3d2218;
   z-index: 999;
   opacity: 1;
@@ -42,24 +60,24 @@
   transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
-
-.mobileMenu:not(.open) {
-  opacity: 0;
-  transform: translateY(-10px);
-  pointer-events: none;
+.mobileMenu.open .container {
+  padding: 32px 16px 40px;
+  flex-direction: column;
+  text-align: center;
 }
 
 @media (min-width: 768px) {
   .container {
     max-width: 768px;
     padding: 0 32px;
-    text-align: center;
+  }
+
+  .logo {
+    height: 28px;
   }
 
   .desktopNav {
-    display: flex;
-    align-items: center;
-    gap: 32px;
+    display: block;
   }
 
   .mobileMenu,
@@ -74,3 +92,4 @@
     padding: 0 108px;
   }
 }
+
