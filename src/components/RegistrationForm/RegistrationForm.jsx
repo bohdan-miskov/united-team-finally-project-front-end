@@ -179,7 +179,7 @@ export default function RegistrationForm() {
                   <svg width="24" height="24">
                     <use
                       href={`/icons.svg#icon-${
-                        showPassword ? "eye-crossed" : "eye-stroke"
+                        showPassword ? "eye-stroke" : "eye-crossed"
                       }`}
                     />
                   </svg>
@@ -231,7 +231,7 @@ export default function RegistrationForm() {
                   <svg width="24" height="24">
                     <use
                       href={`/icons.svg#icon-${
-                        showConfirmPassword ? "eye-crossed" : "eye-stroke"
+                        showConfirmPassword ? "eye-stroke" : "eye-crossed"
                       }`}
                     />
                   </svg>
