@@ -1,36 +1,36 @@
-import { Formik, Form, Field, ErrorMessage } from "formik";
-import * as Yup from "yup";
-import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
-import { toast } from "react-hot-toast";
-import { useState } from "react";
-import { registerAndLoginUser } from "../../redux/auth/operations";
+import { Formik, Form, Field, ErrorMessage } from 'formik';
+import * as Yup from 'yup';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
+import { toast } from 'react-hot-toast';
+import { useState } from 'react';
+import { registerAndLoginUser } from '../../redux/auth/operations';
 import {
   selectAuthError,
   selectAuthIsLoading,
-} from "../../redux/auth/selectors";
-import styles from "./registrationForm.module.css";
-import ErrorToastMessage from "../ErrorToastMessage/ErrorToastMessage";
-import SuccessToastMessage from "../SuccessToastMessage/SuccessToastMessage";
+} from '../../redux/auth/selectors';
+import styles from './registrationForm.module.css';
+import ErrorToastMessage from '../ErrorToastMessage/ErrorToastMessage';
+import SuccessToastMessage from '../SuccessToastMessage/SuccessToastMessage';
 
 const RegisterSchema = Yup.object().shape({
   name: Yup.string()
-    .max(16, "Name must be at most 16 characters")
-    .required("Name is required"),
+    .max(16, 'Name must be at most 16 characters')
+    .required('Name is required'),
   email: Yup.string()
-    .email("Invalid email address")
-    .max(128, "Email must be at most 128 characters")
-    .required("Email is required"),
+    .email('Invalid email address')
+    .max(128, 'Email must be at most 128 characters')
+    .required('Email is required'),
   password: Yup.string()
-    .min(8, "Password must be at least 8 characters")
-    .max(128, "Password must be at most 128 characters")
-    .required("Password is required"),
+    .min(8, 'Password must be at least 8 characters')
+    .max(128, 'Password must be at most 128 characters')
+    .required('Password is required'),
   confirmPassword: Yup.string()
-    .oneOf([Yup.ref("password"), null], "Passwords must match")
-    .required("Please confirm your password"),
+    .oneOf([Yup.ref('password'), null], 'Passwords must match')
+    .required('Please confirm your password'),
   acceptTerms: Yup.boolean().oneOf(
     [true],
-    "You must accept the terms and conditions"
+    'You must accept the terms and conditions'
   ),
 });
 
@@ -47,8 +47,8 @@ export default function RegistrationForm() {
     try {
       await dispatch(registerAndLoginUser(values)).unwrap();
       resetForm();
-      setSuccessMessage("Register successful!");
-      navigate("/", { replace: true });
+      setSuccessMessage('Register successful!');
+      navigate('/', { replace: true });
     } catch (error) {
       // Тимчасово без тостів, обробимо пізніше
     } finally {
@@ -57,7 +57,7 @@ export default function RegistrationForm() {
   };
 
   return (
-    <div className={styles.registerContainer}>
+    <div className={styles.registerContainer} data-register>
       <h2 className={styles.title}>Register</h2>
       <p className={styles.description}>
         Join our community of culinary enthusiasts, save your favorite recipes,
@@ -71,16 +71,17 @@ export default function RegistrationForm() {
 
       <Formik
         initialValues={{
-          name: "",
-          email: "",
-          password: "",
-          confirmPassword: "",
+          name: '',
+          email: '',
+          password: '',
+          confirmPassword: '',
           acceptTerms: false,
         }}
         validationSchema={RegisterSchema}
         onSubmit={handleSubmit}
         validateOnChange={false}
-        validateOnBlur={true}>
+        validateOnBlur={true}
+      >
         {({ values, touched, errors, isSubmitting }) => (
           <Form className={styles.form} noValidate>
             <div className={styles.fieldGroup}>
@@ -94,14 +95,14 @@ export default function RegistrationForm() {
                 placeholder="email@gmail.com"
                 className={[
                   styles.input,
-                  values.email ? styles.filled : "",
-                  touched.email && errors.email ? styles.errorInput : "",
+                  values.email ? styles.filled : '',
+                  touched.email && errors.email ? styles.errorInput : '',
                 ]
                   .filter(Boolean)
-                  .join(" ")}
-                aria-invalid={touched.email && errors.email ? "true" : "false"}
+                  .join(' ')}
+                aria-invalid={touched.email && errors.email ? 'true' : 'false'}
                 aria-describedby={
-                  touched.email && errors.email ? "email-error" : undefined
+                  touched.email && errors.email ? 'email-error' : undefined
                 }
                 autoComplete="email"
               />
@@ -123,14 +124,14 @@ export default function RegistrationForm() {
                 placeholder="Max"
                 className={[
                   styles.input,
-                  values.name ? styles.filled : "",
-                  touched.name && errors.name ? styles.errorInput : "",
+                  values.name ? styles.filled : '',
+                  touched.name && errors.name ? styles.errorInput : '',
                 ]
                   .filter(Boolean)
-                  .join(" ")}
-                aria-invalid={touched.name && errors.name ? "true" : "false"}
+                  .join(' ')}
+                aria-invalid={touched.name && errors.name ? 'true' : 'false'}
                 aria-describedby={
-                  touched.name && errors.name ? "name-error" : undefined
+                  touched.name && errors.name ? 'name-error' : undefined
                 }
                 autoComplete="name"
               />
@@ -147,25 +148,25 @@ export default function RegistrationForm() {
               </label>
               <div className={styles.passwordWrapper}>
                 <Field
-                  type={showPassword ? "text" : "password"}
+                  type={showPassword ? 'text' : 'password'}
                   id="password"
                   name="password"
                   placeholder="*********"
                   className={[
                     styles.input,
-                    values.password ? styles.filled : "",
+                    values.password ? styles.filled : '',
                     touched.password && errors.password
                       ? styles.errorInput
-                      : "",
+                      : '',
                   ]
                     .filter(Boolean)
-                    .join(" ")}
+                    .join(' ')}
                   aria-invalid={
-                    touched.password && errors.password ? "true" : "false"
+                    touched.password && errors.password ? 'true' : 'false'
                   }
                   aria-describedby={
                     touched.password && errors.password
-                      ? "password-error"
+                      ? 'password-error'
                       : undefined
                   }
                   autoComplete="new-password"
@@ -175,11 +176,12 @@ export default function RegistrationForm() {
                   type="button"
                   className={styles.eyeButton}
                   onClick={() => setShowPassword(!showPassword)}
-                  aria-label={showPassword ? "Hide password" : "Show password"}>
+                  aria-label={showPassword ? 'Hide password' : 'Show password'}
+                >
                   <svg width="24" height="24">
                     <use
                       href={`/icons.svg#icon-${
-                        showPassword ? "eye-stroke" : "eye-crossed"
+                        showPassword ? 'eye-stroke' : 'eye-crossed'
                       }`}
                     />
                   </svg>
@@ -198,27 +200,27 @@ export default function RegistrationForm() {
               </label>
               <div className={styles.passwordWrapper}>
                 <Field
-                  type={showConfirmPassword ? "text" : "password"}
+                  type={showConfirmPassword ? 'text' : 'password'}
                   id="confirmPassword"
                   name="confirmPassword"
                   placeholder="*********"
                   className={[
                     styles.input,
-                    values.confirmPassword ? styles.filled : "",
+                    values.confirmPassword ? styles.filled : '',
                     touched.confirmPassword && errors.confirmPassword
                       ? styles.errorInput
-                      : "",
+                      : '',
                   ]
                     .filter(Boolean)
-                    .join(" ")}
+                    .join(' ')}
                   aria-invalid={
                     touched.confirmPassword && errors.confirmPassword
-                      ? "true"
-                      : "false"
+                      ? 'true'
+                      : 'false'
                   }
                   aria-describedby={
                     touched.confirmPassword && errors.confirmPassword
-                      ? "confirmPassword-error"
+                      ? 'confirmPassword-error'
                       : undefined
                   }
                   autoComplete="new-password"
@@ -227,11 +229,12 @@ export default function RegistrationForm() {
                 <button
                   type="button"
                   className={styles.eyeButton}
-                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}>
+                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                >
                   <svg width="24" height="24">
                     <use
                       href={`/icons.svg#icon-${
-                        showConfirmPassword ? "eye-stroke" : "eye-crossed"
+                        showConfirmPassword ? 'eye-stroke' : 'eye-crossed'
                       }`}
                     />
                   </svg>
@@ -268,12 +271,13 @@ export default function RegistrationForm() {
             <button
               type="submit"
               disabled={isSubmitting}
-              className={styles.submitButton}>
-              {isLoading || isSubmitting ? "Creating..." : "Create account"}
+              className={styles.submitButton}
+            >
+              {isLoading || isSubmitting ? 'Creating...' : 'Create account'}
             </button>
 
             <p className={styles.redirectText}>
-              Already have an account?{" "}
+              Already have an account?{' '}
               <Link to="/auth/login" className={styles.link}>
                 Log in
               </Link>
