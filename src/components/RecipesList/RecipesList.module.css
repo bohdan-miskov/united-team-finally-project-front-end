@@ -1,3 +1,8 @@
+.item {
+  width: 100%;
+  max-width: 361px;
+}
+
 .list {
   display: flex;
   flex-wrap: wrap;
@@ -14,15 +19,22 @@
   font-weight: 600;
 }
 
-
 @media (min-width: 768px) {
   .list {
     max-width: 768px;
   }
-  
+
+  .item {
+    max-width: 339px;
+  }
 }
+
 @media (min-width: 1440px) {
   .list {
     max-width: 1440px;
+  }
+
+  .item {
+    max-width: 288px;
   }
 }

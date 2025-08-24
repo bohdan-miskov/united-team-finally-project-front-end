@@ -1,7 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import styles from './RecipeCard.module.css';
-import sprite from '../../../public/icons.svg';
 import {
   addRecipeToFavorite,
   deleteRecipeFromFavorite,
@@ -53,7 +52,7 @@ export default function RecipeCard({ recipe, recipeType }) {
         <h3 className={styles.title}>{title}</h3>
         <div className={styles.timeBadge} title="Cooking time">
           <svg className={styles.iconClock}>
-            <use href={`${sprite}#icon-clock`} />
+            <use href={'/icons.svg#icon-clock'} />
           </svg>
           <span>{time}</span>
         </div>
@@ -66,7 +65,7 @@ export default function RecipeCard({ recipe, recipeType }) {
 
       <div className={styles.btnContainer}>
         <button
-          className={styles.learnMoreBtn}
+          className={`${styles.learnMoreBtn} outline-btn`}
           onClick={() => navigate(`/recipes/${_id}`)}
         >
           Learn more
@@ -79,10 +78,10 @@ export default function RecipeCard({ recipe, recipeType }) {
             aria-label={isSaved ? 'Remove from saved' : 'Save recipe'}
             className={`${styles.bookmarkBtn} ${
               isSaved ? styles.bookmarkActive : ''
-            }`}
+            } brown-btn`}
           >
             <svg className={styles.iconSave}>
-              <use href={`${sprite}#icon-save-to-list`} />
+              <use href={'/icons.svg#icon-save-to-list'} />
             </svg>
           </button>
         )}

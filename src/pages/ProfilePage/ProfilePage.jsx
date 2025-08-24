@@ -10,10 +10,12 @@ export default function ProfilePage() {
 
   return (
     <section className={styles.page}>
-      <h2 className={styles.title}>My profile</h2>
-      <ProfileNavigation />
-      <RecipesList recipeType={type} />
-      <LoadMoreBtn />
+      <div className="container">
+        <h2 className={styles.title}>My profile</h2>
+        <ProfileNavigation />
+        <RecipesList recipeType={type} />
+        <LoadMoreBtn />
+      </div>
     </section>
   );
 }

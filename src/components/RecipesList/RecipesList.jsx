@@ -48,14 +48,22 @@ export default function RecipesList({ recipeType }) {
     <>
       <p className={styles.recipeCounter}>{items?.length || 0} recipes</p>
 
-      <div className={styles.list}>
+      <ul className={styles.list}>
         {items?.map((recipe, idx) => (
-          <RecipeCard
-            key={`${recipe._id}-${idx}`}          
-            recipe={recipe}
-            recipeType={type}
-          />
+          <li className={styles.item}>
+            <RecipeCard
+              key={`${recipe._id}-${idx}`}
+              recipe={recipe}
+              recipeType={type}
+            />
+          </li>
+          // <li className={styles.item} key={${recipe._id}-${idx}}>
+          // <RecipeCard recipe={recipe} recipeType={type} />
+          // </li>
         ))}
+
+
+
 
         {isLoading && <p>Loading...</p>}
 
@@ -65,7 +73,7 @@ export default function RecipesList({ recipeType }) {
         {!isLoading && (!items || items.length === 0) && type === 'own' && (
           <p>You don't have any of your own recipes yet</p>
         )}
-      </div>
+      </ul>
     </>
   );
 }
