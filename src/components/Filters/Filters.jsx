@@ -1,35 +1,35 @@
-import React, { useState } from "react";
-import Select from "react-select";
-import styles from "./Filters.module.css";
+import Select from 'react-select';
+import styles from './Filters.module.css';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  changeSearchCategory,
+  changeSearchIngredients,
+  clearFilters,
+} from '../../redux/filters/slice';
 
-const mockCategories = ["Breakfast", "Lunch", "Dinner", "Dessert"];
-const mockIngredients = ["Eggs", "Beef", "Mushrooms", "Cheese", "Vegetables"];
+export default function Filters() {
+  const dispatch = useDispatch();
+  const totalItems = useSelector(state => state.recipes.all.totalItems);
+  const categories = useSelector(state => state.filters.category);
+  const ingredients = useSelector(state => state.filters.ingredients);
 
-export default function Filters({ onChange, recipeCount }) {
-  const [categories, setCategories] = useState([]);
-  const [ingredients, setIngredients] = useState([]);
-
-  const handleCategoriesChange = (selected) => {
-    setCategories(selected || []);
-    onChange({ categories: selected || [], ingredients });
+  const handleCategoriesChange = selected => {
+    dispatch(changeSearchCategory(selected?.map(c => c.value) || []));
   };
 
-  const handleIngredientsChange = (selected) => {
-    setIngredients(selected || []);
-    onChange({ categories, ingredients: selected || [] });
+  const handleIngredientsChange = selected => {
+    dispatch(changeSearchIngredients(selected?.map(i => i.value) || []));
   };
 
   const handleReset = () => {
-    setCategories([]);
-    setIngredients([]);
-    onChange({ categories: [], ingredients: [] });
+    dispatch(clearFilters());
   };
 
   return (
     <div>
       <h2 className={styles.title}>Recipes</h2>
       <div className={styles.filtersSection}>
-        <p className={styles.count}>{recipeCount} recipes</p>
+        <p className={styles.count}>{totalItems} recipes</p>
         <div className={styles.filters}>
           <button onClick={handleReset} className={styles.reset}>
             Reset filters
@@ -37,8 +37,11 @@ export default function Filters({ onChange, recipeCount }) {
 
           <Select
             isMulti
-            options={mockCategories.map((c) => ({ value: c, label: c }))}
-            value={categories}
+            options={['Breakfast', 'Lunch', 'Dinner', 'Dessert'].map(c => ({
+              value: c,
+              label: c,
+            }))}
+            value={categories.map(c => ({ value: c, label: c }))}
             onChange={handleCategoriesChange}
             placeholder="Category"
             classNamePrefix="customSelect"
@@ -46,8 +49,10 @@ export default function Filters({ onChange, recipeCount }) {
 
           <Select
             isMulti
-            options={mockIngredients.map((i) => ({ value: i, label: i }))}
-            value={ingredients}
+            options={['Eggs', 'Beef', 'Mushrooms', 'Cheese', 'Vegetables'].map(
+              i => ({ value: i, label: i })
+            )}
+            value={ingredients.map(i => ({ value: i, label: i }))}
             onChange={handleIngredientsChange}
             placeholder="Ingredient"
             classNamePrefix="customSelect"

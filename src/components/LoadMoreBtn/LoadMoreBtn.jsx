@@ -1,17 +1,17 @@
-import React from "react";
-import styles from "./LoadMoreBtn.module.css";
+import styles from './LoadMoreBtn.module.css';
 
-export default function LoadMoreBtn({ onClick, isVisible, loading = false }) {
+export default function LoadMoreBtn({ onClick, isVisible, loading }) {
   if (!isVisible) return null;
 
   return (
     <div className={styles.wrapper}>
       <button
+        type="button"
         onClick={onClick}
         disabled={loading}
-        className={`${styles.button} ${loading ? styles.loading : ""}`}
+        className={`${styles.button} ${loading ? styles.loading : ''}`}
       >
-        {loading ? "Loading..." : "Load More"}
+        {loading ? 'Loading...' : 'Load More'}
       </button>
     </div>
   );

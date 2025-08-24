@@ -1,0 +1,156 @@
+.loginContainer {
+  max-width: 362px;
+  padding: 48px 32px;
+  margin: 0 auto;
+  background-color: var(--light-beige);
+  border-radius: 32px;
+}
+
+.title {
+  text-align: center;
+  margin-bottom: 20px;
+  color: var(--black);
+}
+
+.form {
+  width: 100%;
+}
+
+.fieldGroup {
+  margin-bottom: 16px;
+}
+
+.fieldGroup:nth-child(2) {
+  margin-bottom: 27px;
+}
+
+.label {
+  display: block;
+  font-size: 12px;
+  color: var(--dark-gray);
+  margin-bottom: 4px;
+}
+
+.input {
+  width: 100%;
+  padding: 12px 8px 12px 8px;
+  border: 1px solid var(--light-gray);
+  border-radius: 8px;
+  background-color: var(--white);
+}
+
+.input::placeholder {
+  color: var(--light-gray);
+  opacity: 1;
+}
+
+.error {
+  color: #c80000;
+  position: absolute;
+  font-size: 12px;
+  transform: translateX(5%) translateY(10%);
+}
+
+.filled {
+  background: var(--white);
+  border: 1px solid var(--light-gray);
+}
+
+.errorInput {
+  border: 1.5px solid var(--red);
+  background: var(--white);
+  color: var(--red);
+  box-shadow: none;
+}
+
+.input:focus,
+.input:focus-visible {
+  outline: none;
+  border-color: var(--brown);
+  box-shadow: 0 0 0 4px rgba(78, 70, 180, 0.2);
+  border: 1.5px solid var(--light-brown);
+}
+
+.passwordWrapper {
+  position: relative;
+}
+
+.eyeButton {
+  position: absolute;
+  right: 0px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.eyeButton svg {
+  width: 24px;
+  height: 24px;
+  fill: none;
+  stroke: var(--black);
+  transition: fill 0.2s ease;
+}
+
+.submitButton {
+  width: 100%;
+  padding-top: 9px;
+  padding-bottom: 9px;
+  background-color: var(--light-brown);
+  color: var(--white);
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+
+  margin-bottom: 20px;
+}
+
+.submitButton:hover,
+.submitButton:focus,
+.submitButton:focus-visible {
+  background: var(--brown);
+}
+
+.submitButton:active {
+  background: var(--light-brown);
+  box-shadow: 0 0 0 6px rgba(78, 70, 180, 0.12), 0 0 0 2px #fff;
+}
+
+.submitButton:focus-visible {
+  box-shadow: 0 0 0 6px rgba(78, 70, 180, 0.12);
+}
+
+.submitButton:disabled,
+.submitButton[aria-disabled="true"] {
+  box-shadow: 0 0 0 6px rgba(78, 70, 180, 0.12), 0 0 0 2px #fff;
+  cursor: not-allowed;
+  opacity: 0.3;
+}
+
+.redirectText {
+  text-align: center;
+}
+.link {
+  color: var(--black);
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+@media only screen and (min-width: 768px) {
+  .loginContainer {
+    max-width: 522px;
+  }
+}
+
+@media only screen and (min-width: 1440px) {
+  .loginContainer {
+    max-width: 420px;
+  }
+}
