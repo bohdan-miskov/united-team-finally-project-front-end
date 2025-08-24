@@ -4,6 +4,7 @@
   padding: 24px 0;
 }
 
+
 .container {
   max-width: 393px;
   margin: 0 auto;
@@ -15,128 +16,101 @@
   gap: 24px;
 }
 
+
 .logoBlock {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   gap: 8px;
   cursor: pointer;
 }
-
-.logo {
-  height: 24px;
-}
-
+.logo { width: 24px; height: 24px; }
 .logoText {
-  font-size: 14px;
+  font-family: "Montserrat", sans-serif;
   font-weight: 600;
-  font-family: inherit;
+  font-size: 18px;
+  line-height: 100%;
+  letter-spacing: -0.03em;
   color: #fff;
 }
 
-.copyright {
-  font-size: 12px;
-  font-weight: 400;
-  margin: 0;
-  color: rgba(255, 255, 255, 0.7); /* 👈 як у макеті, не чисто білий */
-}
 
 .nav {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 44px; /* 👈 по макету */
+  gap: 40px;
   font-size: 16px;
   font-weight: 600;
 }
+
 
 .link {
   color: #fff;
   text-decoration: none;
   cursor: pointer;
-  transition: color 0.3s ease;
+  font-size: 14px;
+  line-height: 20px;
+  transition: color .2s ease, opacity .2s ease;
 }
-
 .link:hover,
-.link:focus-visible {
-  color: #f5e4d0;
-}
-
+.link:focus-visible { color: #f5e4d0; }
 .link:focus-visible {
   outline: 2px solid #ffffffcc;
   outline-offset: 3px;
+  border-radius: 6px;
 }
 
-/* ==== Tablet ==== */
+
+button.link {
+  background: transparent;
+  border: none;
+  padding: 0;
+  font: inherit;
+  color: inherit;
+}
+
+
+.copyright {
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 400;
+  margin: 0;
+  color: rgba(255,255,255,0.7);
+}
+
+
 @media (min-width: 768px) {
   .container {
     max-width: 768px;
     padding: 0 32px;
-    flex-direction: row;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: 1fr auto; 
     align-items: center;
     text-align: left;
+    gap: 24px;
   }
 
-  .logo {
-    height: 28px;
-  }
+  .logo { width: 28px; height: 28px; }
 
   .nav {
     flex-direction: row;
     gap: 32px;
-    font-size: 12px; /* 👈 по макету */
+    justify-self: end; 
+  }
+
+
+  .link {
+    font-size: 12px;
+    line-height: 16px;
+    letter-spacing: -0.01em; 
   }
 }
 
-/* ==== Desktop ==== */
 @media (min-width: 1440px) {
   .container {
     max-width: 1440px;
     padding: 0 108px;
+    grid-template-columns: 1fr auto; 
   }
 }
 
-/* ==== Modal Actions ==== */
-.modalActions {
-  display: flex;
-  justify-content: center;
-  gap: 16px;
-  margin-top: 24px;
-}
-
-.modalActions button {
-  border-radius: 8px;
-  padding: 12px 20px;
-  font-size: 16px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background 0.3s ease;
-}
-
-.modalActions button:first-child {
-  background: none;
-  border: 1px solid #000;
-  color: #000; /* 👈 чорний текст для Cancel */
-}
-
-.modalActions button:first-child:hover {
-  background-color: rgba(0, 0, 0, 0.05);
-}
-
-.modalActions button:last-child {
-  background-color: #c80000;
-  color: #fff;
-  border: none;
-}
-
-.modalActions button:last-child:hover {
-  background-color: #a10f0f;
-}
-
-/* ==== Reduced motion ==== */
-@media (prefers-reduced-motion: reduce) {
-  .link,
-  .modalActions button {
-    transition: none !important;
-  }
-}
