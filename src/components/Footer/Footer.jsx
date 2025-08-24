@@ -1,6 +1,6 @@
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { selectUser } from "../../redux/auth/selectors";
 import css from "./Footer.module.css";
 import Logo from "../../assets/img/logo.svg";
@@ -14,19 +14,29 @@ const Footer = () => {
 
   const [authModalOpen, setAuthModalOpen] = useState(false);
 
+  const openAuthModal = useCallback(() => setAuthModalOpen(true), []);
+  const closeAuthModal = useCallback(() => setAuthModalOpen(false), []);
+
+  const year = new Date().getFullYear();
+
   return (
     <footer className={css.footer}>
       <div className={css.container}>
-        <div className={css.logoBlock} onClick={() => navigate("/")}>
-          <img src={Logo} alt="Logo" className={css.logo} />
-          <span className={css.logoText}>CookingCompanion</span>
-        </div>
+        <button
+          type="button"
+          className={css.logoBlock}
+          onClick={() => navigate("/")}
+          aria-label="Go to home"
+        >
+          <img src={Logo} alt="" className={css.logo} width={24} height={24} />
+          <span className={css.logoText}>Tasteorama</span>
+        </button>
 
         <p className={css.copyright}>
-          © {new Date().getFullYear()} CookingCompanion. All rights reserved.
+          © {year} Tasteorama. All rights reserved.
         </p>
 
-        <div className={css.nav}>
+        <nav className={css.nav} aria-label="Footer navigation">
           <NavLink to="/" className={css.link}>
             Recipes
           </NavLink>
@@ -40,30 +50,32 @@ const Footer = () => {
               <button
                 type="button"
                 className={css.link}
-                onClick={() => setAuthModalOpen(true)}
+                onClick={openAuthModal}
               >
                 Account
               </button>
             )
           )}
-        </div>
+        </nav>
       </div>
 
       {authModalOpen && (
-        <Modal title="Authorization required" onClose={() => setAuthModalOpen(false)}>
+        <Modal title="Authorization required" onClose={closeAuthModal}>
           <p>You need to log in or register to view your account.</p>
           <div className={css.modalActions}>
             <button
+              type="button"
               onClick={() => {
-                setAuthModalOpen(false);
+                closeAuthModal();
                 navigate("/auth/login");
               }}
             >
               Log in
             </button>
             <button
+              type="button"
               onClick={() => {
-                setAuthModalOpen(false);
+                closeAuthModal();
                 navigate("/auth/register");
               }}
             >
@@ -77,6 +89,7 @@ const Footer = () => {
 };
 
 export default Footer;
+
 
 
 

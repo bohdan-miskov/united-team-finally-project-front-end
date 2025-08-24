@@ -1,7 +1,8 @@
 import { useState, useEffect, useCallback } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { selectUser } from "../../redux/auth/selectors";
+
+import { selectIsAuthenticated, selectUser } from "../../redux/auth/selectors";
 import { fetchLogoutUser } from "../../redux/auth/operations";
 
 import Logo from "../../assets/img/logo.svg";
@@ -12,26 +13,33 @@ import css from "./Header.module.css";
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const user = useSelector(selectUser);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
 
-  const isLoggedIn = Boolean(user);
+  const isAuth = useSelector(selectIsAuthenticated);
+  const user = useSelector(selectUser);
   const userName = user?.name || "Guest";
 
   useEffect(() => {
     setMenuOpen(false);
   }, [location.pathname]);
 
+  
+  useEffect(() => {
+    const prev = document.body.style.overflow;
+    if (menuOpen) document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = prev;
+    };
+  }, [menuOpen]);
+
   const handleLogout = useCallback(async () => {
     try {
       await dispatch(fetchLogoutUser());
-    } catch (_) {
-      // ignore
     } finally {
-      localStorage.removeItem("token");
-      localStorage.removeItem("user");
+      
       navigate("/");
       setMenuOpen(false);
     }
@@ -40,37 +48,57 @@ export default function Header() {
   return (
     <header className={`${css.header} ${menuOpen ? css.menuOpen : ""}`}>
       <div className={css.container}>
-        <div className={css.logoBlock} onClick={() => navigate("/")}>
-          <img src={Logo} alt="Logo" className={css.logo} />
-          <span className={css.logoText}>CookingCompanion</span>
-        </div>
+        
+        <button
+          type="button"
+          className={css.logoBlock}
+          onClick={() => navigate("/")}
+          aria-label="Go to home"
+        >
+          <img src={Logo} alt="" className={css.logo} width={24} height={24} />
+          <span className={css.logoText}>Tasteorama</span>
+        </button>
 
-        <BurgerMenu isOpen={menuOpen} onToggle={() => setMenuOpen(!menuOpen)} />
+        
+        <button
+          type="button"
+          className={css.burgerBtn}
+          onClick={() => setMenuOpen((v) => !v)}
+          aria-label="Toggle menu"
+          aria-expanded={menuOpen}
+          aria-controls="mobile-nav"
+        >
+          <BurgerMenu isOpen={menuOpen} />
+        </button>
 
-        <div className={css.desktopNav}>
+        
+        <nav className={css.desktopNav} aria-label="Primary">
           <Navigation
-            isLoggedIn={isLoggedIn}
+            isLoggedIn={isAuth}
             closeMenu={() => {}}
             userName={userName}
             onLogout={handleLogout}
             isMobile={false}
           />
-        </div>
+        </nav>
       </div>
 
-      {menuOpen && (
-        <div className={`${css.mobileMenu} ${css.open}`} id="mobile-nav">
-          <div className={css.container}>
-            <Navigation
-              isLoggedIn={isLoggedIn}
-              closeMenu={() => setMenuOpen(false)}
-              userName={userName}
-              onLogout={handleLogout}
-              isMobile={true}
-            />
-          </div>
+     
+      <nav
+        id="mobile-nav"
+        className={`${css.mobileMenu} ${menuOpen ? css.open : ""}`}
+        aria-label="Mobile"
+      >
+        <div className={css.container}>
+          <Navigation
+            isLoggedIn={isAuth}
+            closeMenu={() => setMenuOpen(false)}
+            userName={userName}
+            onLogout={handleLogout}
+            isMobile={true}
+          />
         </div>
-      )}
+      </nav>
     </header>
   );
 }

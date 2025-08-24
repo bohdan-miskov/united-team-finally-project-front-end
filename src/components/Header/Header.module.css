@@ -13,7 +13,7 @@
 }
 
 .container {
-  max-width: 393px;
+  max-width: 393px; 
   width: 100%;
   padding: 0 16px;
   margin: 0 auto;
@@ -30,13 +30,16 @@
 }
 
 .logo {
+  width: 24px; 
   height: 24px;
 }
 
 .logoText {
-  font-size: 14px;
-  font-weight: 600;
-  font-family: inherit;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;          
+  font-size: 18px;           
+  line-height: 100%;        
+  letter-spacing: -0.03em;   
   color: #fff;
 }
 
@@ -44,7 +47,11 @@
   display: none;
 }
 
+/* ==== Mobile menu ==== */
 .mobileMenu {
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
   display: none;
 }
 
@@ -57,7 +64,7 @@
   z-index: 999;
   opacity: 1;
   transform: translateY(0);
-  transition: opacity 0.3s ease, transform 0.3s ease;
+  display: block;
 }
 
 .mobileMenu.open .container {
@@ -66,6 +73,18 @@
   text-align: center;
 }
 
+/* ==== Burger button ==== */
+.burgerBtn {
+  background: none;
+  border: none;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  color: inherit;
+}
+
+/* Tablet */
 @media (min-width: 768px) {
   .container {
     max-width: 768px;
@@ -73,7 +92,13 @@
   }
 
   .logo {
+    width: 28px;
     height: 28px;
+  }
+
+  .logoText {
+    font-size: 18px; 
+    line-height: 100%;
   }
 
   .desktopNav {
@@ -86,10 +111,14 @@
   }
 }
 
+/* Desktop */
 @media (min-width: 1440px) {
   .container {
     max-width: 1440px;
     padding: 0 108px;
   }
 }
+
+
+
 

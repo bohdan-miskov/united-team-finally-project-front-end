@@ -1,4 +1,5 @@
-/* Контейнер для навігації + UserInfo */
+
+/* БАЗА: мобільний */
 .navGroup {
   display: flex;
   flex-direction: column;
@@ -8,25 +9,28 @@
   font-weight: 600;
 }
 
+/* Лінки */
 .link {
   position: relative;
   padding-bottom: 4px;
   text-decoration: none;
   color: #fff;
   transition: color 0.2s ease;
+  white-space: nowrap;
 }
 
 .link:hover,
 .link:focus-visible {
-  color: #f5e4d0; 
+  color: #f5e4d0;
 }
 
 .link:focus-visible {
   outline: 2px solid #ffffffcc;
   outline-offset: 3px;
+  border-radius: 8px;
 }
 
-/* Псевдоелемент для анімованого підкреслення */
+/* underline-ефект */
 .link::after {
   content: "";
   position: absolute;
@@ -37,94 +41,102 @@
   background-color: currentColor;
   transition: width 0.3s ease;
 }
-
 .link.active::after,
-.link[aria-current="page"]::after {
-  width: 100%;
-}
-
+.link[aria-current="page"]::after,
 .link:hover::after {
   width: 100%;
 }
 
-/* Кнопки (Register / Add Recipe) */
+/* Кнопки (Register, Add Recipe) */
 .linkBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%; 
+  min-height: 40px;
+  padding: 12px 16px;
   background-color: #9b6c43;
   color: #fff;
+  border: 1px solid transparent;
   border-radius: 8px;
-  border: none;
   font-size: 16px;
   font-weight: 600;
-  padding: 12px 16px;
-  width: 100%;
-  text-align: center;
-  transition: background 0.3s ease, box-shadow 0.3s ease, transform 0.1s ease;
+  text-decoration: none;
   cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.1s ease;
 }
-
 .linkBtn:hover {
   background-color: #6d554b;
 }
-
 .linkBtn:focus-visible {
   outline: 2px solid #fff;
   outline-offset: 2px;
 }
-
 .linkBtn:active {
   transform: translateY(1px);
 }
 
-/* Порядок елементів на мобілці */
-.navGroup > .recipes { order: 0; }
-.navGroup > .profile { order: 1; }
-.navGroup > .userInfo { order: 2; margin-bottom: 12px; } 
-.navGroup > .addRecipe { order: 3; }
+/* Порядок елементів (мобілка) */
+.navGroup > .recipes  { order: 0; }
+.navGroup > .profile  { order: 1; }
+.navGroup > .userInfo { order: 2; margin-bottom: 12px; }
+.navGroup > .addRecipe{ order: 3; }
 
-/* ==== Планшет ==== */
+
 @media (min-width: 768px) {
   .navGroup {
     flex-direction: row;
     align-items: center;
-    justify-content: space-between;
-    gap: 32px;
+    justify-content: flex-start;
+    gap: 32px; 
     flex-wrap: nowrap;
-    font-size: 12px; 
+  }
+
+  .link {
+    font-size: 12px;         
+    line-height: 16px;
+    letter-spacing: -0.03em; 
+    font-weight: 500;        
+    padding: 8px 10px;
+    border-radius: 8px;
+  }
+  .link:hover {
+    background: rgba(255, 255, 255, 0.08);
   }
 
   .linkBtn {
     width: auto;
+    min-height: 36px;
+    padding: 10px 14px;
+    font-size: 12px;
+    line-height: 16px;
+    border-radius: 8px;
     white-space: nowrap;
+    background-color: #ffffff;
+    color: #3d2218;
+    border-color: #ffffff;
+  }
+  .linkBtn:hover {
+    background-color: #f4e9e4;
+    border-color: #f4e9e4;
   }
 
-  .link {
-    white-space: nowrap;
-  }
-
-  .navGroup > .recipes { order: 0; }
-  .navGroup > .profile { order: 1; }
-  .navGroup > .addRecipe { order: 2; }
-  .navGroup > .userInfo {
-    order: 3;
-    margin-left: auto;
-    margin-bottom: 0;
-  }
+  /* порядок елементів у рядку */
+  .navGroup > .recipes  { order: 0; }
+  .navGroup > .profile  { order: 1; }
+  .navGroup > .addRecipe{ order: 2; }
+  .navGroup > .userInfo { order: 3; margin-left: auto; margin-bottom: 0; }
 }
 
-/* ==== Десктоп ==== */
-@media (min-width: 1024px) {
-  .navGroup {
-    font-size: 12px; 
-  }
+/* === DESKTOP (>=1440px) === */
+@media (min-width: 1440px) {
+  .navGroup { gap: 20px; }
 }
 
-/* ==== Reduced motion ==== */
+/* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
-  .link,
-  .link::after,
-  .linkBtn {
+  .link, .link::after, .linkBtn {
     transition: none !important;
   }
 }
 
-  
