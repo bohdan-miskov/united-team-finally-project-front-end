@@ -1,8 +1,8 @@
-import { useMediaQuery } from "react-responsive";
-import css from "./RecipeDetails.module.css";
-import Image from "./img/Image.jpg";
-import ImageTablet from "./img/ImageTablet.jpg";
-import ImageDesktop from "./img/ImageDesktop.jpg";
+import { useMediaQuery } from 'react-responsive';
+import css from './RecipeDetails.module.css';
+import Image from './img/Image.jpg';
+import ImageTablet from './img/ImageTablet.jpg';
+import ImageDesktop from './img/ImageDesktop.jpg';
 
 export default function RecipeDetails() {
   const isMobile = useMediaQuery({ maxWidth: 767 });
@@ -14,26 +14,12 @@ export default function RecipeDetails() {
     <section>
       <div className="container">
         {isTabletOrDesktop && <h1 className={css.header}>French Omelette</h1>}
-        {isMobile && (
-          <img
-            className={css.img}
-            src={Image}
-            alt="omelette"
-          />
-        )}
+        {isMobile && <img className={css.img} src={Image} alt="omelette" />}
         {isTablet && (
-          <img
-            className={css.img}
-            src={ImageTablet}
-            alt="omelette"
-          />
+          <img className={css.img} src={ImageTablet} alt="omelette" />
         )}
         {isDesktop && (
-          <img
-            className={css.img}
-            src={ImageDesktop}
-            alt="omelette"
-          />
+          <img className={css.img} src={ImageDesktop} alt="omelette" />
         )}
         {isMobile && <h1 className={css.header}>French Omelette</h1>}
         <div className={css.desktopWrapper}>
@@ -61,6 +47,12 @@ export default function RecipeDetails() {
             </div>
             <button type="button" className={`brown-btn ${css.button}`}>
               Save
+              <svg className={css.icon} width={24} height={24}>
+                <use href="/icons.svg#icon-save-to-list"></use>
+              </svg>
+            </button>
+            <button type="button" className={`brown-btn ${css.button}`}>
+              Unsave
               <svg className={css.icon} width={24} height={24}>
                 <use href="/icons.svg#icon-save-to-list"></use>
               </svg>
