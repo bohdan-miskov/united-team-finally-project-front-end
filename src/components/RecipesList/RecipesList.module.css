@@ -1,26 +1,40 @@
-.wrapper {
+.item {
   width: 100%;
-  margin-bottom: 48px;
-  font-family: var(--font-family);
-  background: var(--background);
+  max-width: 361px;
 }
 
-.grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 20px;
+.list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  align-items: stretch;
+  box-sizing: border-box;
+  max-width: 100%;
+  margin: 24px 0;
 }
 
-/* планшет */
+.recipeCounter {
+  color: var(--black);
+  font-size: 18px;
+  font-weight: 600;
+}
+
 @media (min-width: 768px) {
-  .grid {
-    grid-template-columns: repeat(2, 1fr);
+  .list {
+    max-width: 768px;
+  }
+
+  .item {
+    max-width: 339px;
   }
 }
 
-/* десктоп */
 @media (min-width: 1440px) {
-  .grid {
-    grid-template-columns: repeat(4, 1fr);
+  .list {
+    max-width: 1440px;
+  }
+
+  .item {
+    max-width: 288px;
   }
 }

@@ -1,0 +1,38 @@
+.profileNav{
+  display: flex;
+  gap: 38px;
+  margin-bottom: 16px;
+}
+
+
+@media (min-width: 768px) {
+  .profileNav {
+    gap: 48px;
+  }
+}
+@media (min-width: 1440px) {
+  .card {
+    flex: calc((100% - 3 * 24) / 4);
+  }
+}
+
+.link {
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 18px;
+  color: var(--black);
+}
+
+.active { 
+  border-bottom: 2px solid var(--black);
+}
+
+@media (min-width: 768px) {
+  .link {
+    font-size: 12px;
+  }
+}
+@media (min-width: 1440px) {
+  
+}
+

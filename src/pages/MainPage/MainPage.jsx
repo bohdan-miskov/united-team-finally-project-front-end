@@ -1,16 +1,14 @@
 import Hero from './components/Hero';
 import Filters from '../../components/Filters/Filters';
 import RecipesList from '../../components/RecipesList/RecipesList';
-import { useSelector } from 'react-redux';
+import LoadMoreBtn from '../../components/LoadMoreBtn/LoadMoreBtn.jsx';
 
 export default function MainPage() {
-  const recipes = useSelector(state => state.recipes.all.items);
-
   return (
     <div>
       <Hero />
       <Filters />
-      <RecipesList recipes={recipes} />
+      <RecipesList recipeType="all" />
     </div>
   );
 }
