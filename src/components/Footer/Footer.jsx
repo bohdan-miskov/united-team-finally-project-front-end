@@ -3,7 +3,8 @@ import { useSelector } from "react-redux";
 import { useState } from "react";
 import { selectUser } from "../../redux/auth/selectors";
 import css from "./Footer.module.css";
-import Modal from "../Modal/Modal";
+import Logo from "../../assets/img/logo.svg";
+import Modal from "../../shared/Modal/Modal";
 
 const Footer = () => {
   const user = useSelector(selectUser);
@@ -16,14 +17,10 @@ const Footer = () => {
   return (
     <footer className={css.footer}>
       <div className={css.container}>
-        {}
-        <img
-          src="/assets/img/logo.svg"
-          alt="Logo"
-          className={css.logo}
-          onClick={() => navigate("/")}
-          style={{ cursor: "pointer" }}
-        />
+        <div className={css.logoBlock} onClick={() => navigate("/")}>
+          <img src={Logo} alt="Logo" className={css.logo} />
+          <span className={css.logoText}>CookingCompanion</span>
+        </div>
 
         <p className={css.copyright}>
           © {new Date().getFullYear()} CookingCompanion. All rights reserved.
@@ -36,7 +33,7 @@ const Footer = () => {
 
           {isLoggedIn ? (
             <NavLink to="/profile" className={css.link}>
-              Profile
+              Account
             </NavLink>
           ) : (
             !location.pathname.includes("/auth") && (
@@ -45,7 +42,7 @@ const Footer = () => {
                 className={css.link}
                 onClick={() => setAuthModalOpen(true)}
               >
-                Profile
+                Account
               </button>
             )
           )}
@@ -54,7 +51,7 @@ const Footer = () => {
 
       {authModalOpen && (
         <Modal title="Authorization required" onClose={() => setAuthModalOpen(false)}>
-          <p>You need to log in or register to view your profile.</p>
+          <p>You need to log in or register to view your account.</p>
           <div className={css.modalActions}>
             <button
               onClick={() => {
@@ -80,5 +77,6 @@ const Footer = () => {
 };
 
 export default Footer;
+
 
 

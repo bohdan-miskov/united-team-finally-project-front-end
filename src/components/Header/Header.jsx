@@ -1,9 +1,10 @@
-import { useState, useMemo, useCallback, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { selectUser } from "../../redux/auth/selectors";
 import { fetchLogoutUser } from "../../redux/auth/operations";
 
+import Logo from "../../assets/img/logo.svg";
 import BurgerMenu from "./BurgerMenu/BurgerMenu";
 import Navigation from "./Navigation/Navigation";
 
@@ -18,13 +19,9 @@ export default function Header() {
 
   const isLoggedIn = Boolean(user);
   const userName = user?.name || "Guest";
-  const userInitial = useMemo(
-    () => (userName?.trim()?.[0]?.toUpperCase() || "U"),
-    [userName]
-  );
 
   useEffect(() => {
-    setMenuOpen(false); 
+    setMenuOpen(false);
   }, [location.pathname]);
 
   const handleLogout = useCallback(async () => {
@@ -41,16 +38,12 @@ export default function Header() {
   }, [dispatch, navigate]);
 
   return (
-    <header className={css.header}>
+    <header className={`${css.header} ${menuOpen ? css.menuOpen : ""}`}>
       <div className={css.container}>
-        {}
-        <img
-          src="/assets/img/logo.svg"
-          alt="Logo"
-          className={css.logo}
-          onClick={() => navigate("/")}
-          style={{ cursor: "pointer" }}
-        />
+        <div className={css.logoBlock} onClick={() => navigate("/")}>
+          <img src={Logo} alt="Logo" className={css.logo} />
+          <span className={css.logoText}>CookingCompanion</span>
+        </div>
 
         <BurgerMenu isOpen={menuOpen} onToggle={() => setMenuOpen(!menuOpen)} />
 
@@ -59,7 +52,6 @@ export default function Header() {
             isLoggedIn={isLoggedIn}
             closeMenu={() => {}}
             userName={userName}
-            userInitial={userInitial}
             onLogout={handleLogout}
             isMobile={false}
           />
@@ -67,20 +59,18 @@ export default function Header() {
       </div>
 
       {menuOpen && (
-        <div id="mobile-nav" className={`${css.mobileMenu} ${css.open}`}>
-          <Navigation
-            isLoggedIn={isLoggedIn}
-            closeMenu={() => setMenuOpen(false)}
-            userName={userName}
-            userInitial={userInitial}
-            onLogout={handleLogout}
-            isMobile={true}
-          />
+        <div className={`${css.mobileMenu} ${css.open}`} id="mobile-nav">
+          <div className={css.container}>
+            <Navigation
+              isLoggedIn={isLoggedIn}
+              closeMenu={() => setMenuOpen(false)}
+              userName={userName}
+              onLogout={handleLogout}
+              isMobile={true}
+            />
+          </div>
         </div>
       )}
     </header>
   );
 }
-
-
-
