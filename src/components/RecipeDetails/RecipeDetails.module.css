@@ -1,0 +1,94 @@
+.img {
+  margin-bottom: 32px;
+}
+
+.header {
+  color: var(--black);
+  margin-bottom: 32px;
+}
+
+.wrapper {
+  background-color: var(--light-beige);
+  margin-bottom: 24px;
+  padding: 16px;
+  border-radius: 16px;
+}
+
+.infoHeader {
+  margin-bottom: 15px;
+}
+
+.generalList {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.contentList {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.ingredientsList {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.h2 {
+  margin-bottom: 8px;
+}
+
+.prepText {
+  margin-bottom: 15px;
+}
+
+.prepHeader {
+  margin-bottom: 24px;
+}
+
+.button {
+  display: flex;
+  gap: 16px;
+  width: 100%;
+  padding: 16px 0;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.icon {
+  stroke-width: 1;
+  stroke: var(--white);
+  fill: transparent;
+}
+
+@media only screen and (min-width: 768px) {
+  .tabletWrapper {
+    display: flex;
+    gap: 24px;
+  }
+
+  .button {
+    width: 249px;
+    height: 56px;
+    padding: 17px 0;
+  }
+}
+
+@media only screen and (min-width: 1440px) {
+  .desktopWrapper {
+    display: flex;
+    flex-direction: row-reverse;
+    gap: 24px;
+  }
+
+  .tabletWrapper {
+    flex-direction: column;
+  }
+
+  .button {
+    width: 393px;
+  }
+}
