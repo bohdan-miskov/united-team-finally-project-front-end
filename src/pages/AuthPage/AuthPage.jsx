@@ -7,7 +7,7 @@ const AuthPage = () => {
   const { authType } = useParams();
 
   return (
-    <section>
+    <section className={styles.authPageSection}>
       <div className={styles.container}>
         <div className={styles.wrapper}>
           {authType === "login" ? <LoginForm /> : <RegistrationForm />}
