@@ -144,7 +144,7 @@ export default function LoginForm() {
             <button
               type="submit"
               disabled={isSubmitting || isLoading}
-              className={styles.submitButton}
+              className={`${styles.submitButton} brown-btn`}
             >
               {isLoading || isSubmitting ? 'Logging in...' : 'Login'}
             </button>

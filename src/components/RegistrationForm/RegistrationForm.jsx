@@ -271,7 +271,7 @@ export default function RegistrationForm() {
             <button
               type="submit"
               disabled={isSubmitting}
-              className={styles.submitButton}
+              className={`${styles.submitButton} brown-btn`}
             >
               {isLoading || isSubmitting ? 'Creating...' : 'Create account'}
             </button>
