@@ -26,7 +26,6 @@ const LoginSchema = Yup.object().shape({
 export default function LoginForm() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const error = useSelector(selectAuthError);
   const isLoading = useSelector(selectAuthIsLoading);
   const [showPassword, setShowPassword] = useState(false);
   const [successMessage, setSuccessMessage] = useState(null);
