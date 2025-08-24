@@ -1,0 +1,15 @@
+section {
+  padding: 91px 0 91px 0;
+}
+
+@media only screen and (min-width: 768px) {
+  section {
+    padding: 262px 0 262px 0;
+  }
+}
+
+@media only screen and (min-width: 1440px) {
+  section {
+    padding: 176px 0 176px 0;
+  }
+}

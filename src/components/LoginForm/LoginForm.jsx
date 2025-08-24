@@ -11,7 +11,7 @@ import { useState } from "react";
 import ErrorToastMessage from "../ErrorToastMessage/ErrorToastMessage";
 import { logInUser } from "../../redux/auth/operations";
 import styles from "./loginForm.module.css";
-import SuccessToastMessage from "../ErrorToastMessage/SuccessToastMessage";
+import SuccessToastMessage from "../SuccessToastMessage/SuccessToastMessage";
 
 const LoginSchema = Yup.object().shape({
   email: Yup.string()
@@ -36,7 +36,7 @@ export default function LoginForm() {
       await dispatch(logInUser(values)).unwrap();
       resetForm();
 
-      // 🟢 Додаємо повідомлення про успіх
+      //  Додаємо повідомлення про успіх
       setSuccessMessage("Login successful!");
       navigate("/", { replace: true });
     } catch (error) {
