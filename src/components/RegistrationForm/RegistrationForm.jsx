@@ -11,6 +11,7 @@ import {
 } from "../../redux/auth/selectors";
 import styles from "./registrationForm.module.css";
 import ErrorToastMessage from "../ErrorToastMessage/ErrorToastMessage";
+import SuccessToastMessage from "../SuccessToastMessage/SuccessToastMessage";
 
 const RegisterSchema = Yup.object().shape({
   name: Yup.string()
@@ -36,6 +37,7 @@ export default function RegistrationForm() {
   const navigate = useNavigate();
   const isLoading = useSelector(selectAuthIsLoading);
   const error = useSelector(selectAuthError);
+  const [successMessage, setSuccessMessage] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
@@ -59,6 +61,9 @@ export default function RegistrationForm() {
         and share your cooking creations
       </p>
 
+      {successMessage && (
+        <SuccessToastMessage>{successMessage}</SuccessToastMessage>
+      )}
       {error && <ErrorToastMessage>{error}</ErrorToastMessage>}
 
       <Formik
@@ -236,13 +241,34 @@ export default function RegistrationForm() {
               />
             </div>
 
-            <div className={styles.checkBoxGroup}>
+            {/* <div className={styles.checkBoxGroup}>
               <label className={styles.checkBoxLabel}>
                 <Field
                   type="checkbox"
                   name="acceptTerms"
                   className={styles.checkbox}
                 />
+                I agree to the Terms of Service and Privacy Policy
+              </label>
+
+              <ErrorMessage
+                name="acceptTerms"
+                component="div"
+                className={styles.error}
+              />
+            </div> */}
+
+            <div className={styles.checkBoxGroup}>
+              <label className={styles.checkBoxLabel}>
+                <Field
+                  type="checkbox"
+                  name="acceptTerms"
+                  id="acceptTerms"
+                  className={styles.checkbox}
+                />
+                <svg className={styles.checkIcon}>
+                  <use href="/icons.svg#icon-checkbox" />
+                </svg>
                 I agree to the Terms of Service and Privacy Policy
               </label>
 
