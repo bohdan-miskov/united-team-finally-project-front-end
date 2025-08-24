@@ -45,6 +45,7 @@ export default function RegistrationForm() {
     try {
       await dispatch(registerAndLoginUser(values)).unwrap();
       resetForm();
+      setSuccessMessage("Register successful!");
       navigate("/", { replace: true });
     } catch (error) {
       // Тимчасово без тостів, обробимо пізніше
@@ -240,23 +241,6 @@ export default function RegistrationForm() {
                 className={styles.error}
               />
             </div>
-
-            {/* <div className={styles.checkBoxGroup}>
-              <label className={styles.checkBoxLabel}>
-                <Field
-                  type="checkbox"
-                  name="acceptTerms"
-                  className={styles.checkbox}
-                />
-                I agree to the Terms of Service and Privacy Policy
-              </label>
-
-              <ErrorMessage
-                name="acceptTerms"
-                component="div"
-                className={styles.error}
-              />
-            </div> */}
 
             <div className={styles.checkBoxGroup}>
               <label className={styles.checkBoxLabel}>
