@@ -1,27 +1,27 @@
-import { Formik, Form, Field, ErrorMessage } from "formik";
-import * as Yup from "yup";
-import { useDispatch, useSelector } from "react-redux";
+import { Formik, Form, Field, ErrorMessage } from 'formik';
+import * as Yup from 'yup';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   selectAuthError,
   selectAuthIsLoading,
-} from "../../redux/auth/selectors";
-import { useNavigate, Link } from "react-router-dom";
+} from '../../redux/auth/selectors';
+import { useNavigate, Link } from 'react-router-dom';
 // import { toast } from "react-hot-toast";
-import { useState } from "react";
-import ErrorToastMessage from "../ErrorToastMessage/ErrorToastMessage";
-import { logInUser } from "../../redux/auth/operations";
-import styles from "./loginForm.module.css";
-import SuccessToastMessage from "../SuccessToastMessage/SuccessToastMessage";
+import { useState } from 'react';
+import ErrorToastMessage from '../ErrorToastMessage/ErrorToastMessage';
+import { logInUser } from '../../redux/auth/operations';
+import styles from './loginForm.module.css';
+import SuccessToastMessage from '../SuccessToastMessage/SuccessToastMessage';
 
 const LoginSchema = Yup.object().shape({
   email: Yup.string()
-    .email("Invalid email address")
-    .max(128, "Email must be at most 128 characters")
-    .required("Email is required"),
+    .email('Invalid email address')
+    .max(128, 'Email must be at most 128 characters')
+    .required('Email is required'),
   password: Yup.string()
-    .min(8, "Password must be at least 8 characters")
-    .max(128, "Password must be at most 128 characters")
-    .required("Password is required"),
+    .min(8, 'Password must be at least 8 characters')
+    .max(128, 'Password must be at most 128 characters')
+    .required('Password is required'),
 });
 export default function LoginForm() {
   const dispatch = useDispatch();
@@ -39,8 +39,8 @@ export default function LoginForm() {
       resetForm();
 
       //  Додаємо повідомлення про успіх
-      setSuccessMessage("Login successful!");
-      navigate("/", { replace: true });
+      setSuccessMessage('Login successful!');
+      navigate('/', { replace: true });
     } catch (error) {
       // Помилки зараз не обробляємо
     } finally {
@@ -49,16 +49,17 @@ export default function LoginForm() {
   };
 
   return (
-    <div className={styles.loginContainer}>
+    <div className={styles.loginContainer} data-login>
       <h2 className={styles.title}>Login</h2>
       {successMessage && (
         <SuccessToastMessage>{successMessage}</SuccessToastMessage>
       )}
       <ErrorToastMessage>{error}</ErrorToastMessage>
       <Formik
-        initialValues={{ email: "", password: "" }}
+        initialValues={{ email: '', password: '' }}
         validationSchema={LoginSchema}
-        onSubmit={handleSubmit}>
+        onSubmit={handleSubmit}
+      >
         {({ values, touched, errors, isSubmitting }) => (
           <Form className={styles.form} noValidate>
             <div className={styles.fieldGroup}>
@@ -72,14 +73,14 @@ export default function LoginForm() {
                 placeholder="email@gmail.com"
                 className={[
                   styles.input,
-                  values.email ? styles.filled : "",
-                  touched.email && errors.email ? styles.errorInput : "",
+                  values.email ? styles.filled : '',
+                  touched.email && errors.email ? styles.errorInput : '',
                 ]
                   .filter(Boolean)
-                  .join(" ")}
-                aria-invalid={touched.email && errors.email ? "true" : "false"}
+                  .join(' ')}
+                aria-invalid={touched.email && errors.email ? 'true' : 'false'}
                 aria-describedby={
-                  touched.email && errors.email ? "email-error" : undefined
+                  touched.email && errors.email ? 'email-error' : undefined
                 }
                 autoComplete="email"
               />
@@ -96,37 +97,38 @@ export default function LoginForm() {
               </label>
               <div className={styles.passwordWrapper}>
                 <Field
-                  type={showPassword ? "text" : "password"}
+                  type={showPassword ? 'text' : 'password'}
                   id="password"
                   name="password"
                   placeholder="*********"
                   className={[
                     styles.input,
                     styles.passwordInput,
-                    values.password ? styles.filled : "",
+                    values.password ? styles.filled : '',
                     touched.password && errors.password
                       ? styles.errorInput
-                      : "",
+                      : '',
                   ]
                     .filter(Boolean)
-                    .join(" ")}
+                    .join(' ')}
                   aria-invalid={
-                    touched.password && errors.password ? "true" : "false"
+                    touched.password && errors.password ? 'true' : 'false'
                   }
                   aria-describedby={
                     touched.password && errors.password
-                      ? "password-error"
+                      ? 'password-error'
                       : undefined
                   }
                 />
                 <button
                   type="button"
                   className={styles.eyeButton}
-                  onClick={() => setShowPassword(!showPassword)}>
+                  onClick={() => setShowPassword(!showPassword)}
+                >
                   <svg>
                     <use
                       href={`/icons.svg#icon-${
-                        showPassword ? "eye-stroke" : "eye-crossed"
+                        showPassword ? 'eye-stroke' : 'eye-crossed'
                       }`}
                     />
                   </svg>
@@ -142,12 +144,13 @@ export default function LoginForm() {
             <button
               type="submit"
               disabled={isSubmitting || isLoading}
-              className={styles.submitButton}>
-              {isLoading || isSubmitting ? "Logging in..." : "Login"}
+              className={`${styles.submitButton} brown-btn`}
+            >
+              {isLoading || isSubmitting ? 'Logging in...' : 'Login'}
             </button>
 
             <p className={styles.redirectText}>
-              Don't have an account?{" "}
+              Don't have an account?{' '}
               <Link to="/auth/register" className={styles.link}>
                 Register
               </Link>
