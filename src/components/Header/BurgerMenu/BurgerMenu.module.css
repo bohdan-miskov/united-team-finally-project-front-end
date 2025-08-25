@@ -1,0 +1,63 @@
+.burgerBtn,
+.closeBtn {
+  background: none;
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  cursor: pointer;
+  color: #fff;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.burgerBtn:hover,
+.closeBtn:hover {
+  opacity: 0.9;
+  color: #f5e4d0; 
+}
+
+.burgerBtn:active,
+.closeBtn:active {
+  transform: scale(0.96);
+}
+
+.burgerBtn:focus-visible,
+.closeBtn:focus-visible {
+  outline: 2px solid #ffffffcc;
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .burgerBtn,
+  .closeBtn {
+    transition: none;
+  }
+}
+
+/* === ICONS === */
+.burgerIcon {
+  width: 22px;
+  height: 16px;
+  stroke: currentColor;
+  fill: none;
+}
+
+.closeIcon {
+  width: 16px;
+  height: 16px;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  fill: none;
+}
+
+/* ==== Tablet ==== */
+@media (min-width: 768px) {
+  .burgerBtn,
+  .closeBtn {
+    display: none;
+  }
+}
+
