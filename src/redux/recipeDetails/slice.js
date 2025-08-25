@@ -1,6 +1,6 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { getRecipeDetails } from "./operations";
-import { setPending, setRejected } from "../helpers/statusHandlers";
+import { createSlice } from '@reduxjs/toolkit';
+import { getRecipeDetails } from './operations';
+import { setPending, setRejected } from '../helpers/statusHandlers';
 
 const initialState = {
   recipe: {},
@@ -9,12 +9,12 @@ const initialState = {
 };
 
 const recipeDetailsSlice = createSlice({
-  name: "recipeDetails",
+  name: 'recipeDetails',
   initialState,
   reducers: {},
-  extraReducers: (builder) => {
+  extraReducers: builder => {
     builder
-      .addCase(getRecipeDetails.pending, (state) => {
+      .addCase(getRecipeDetails.pending, state => {
         setPending(state);
       })
       .addCase(getRecipeDetails.fulfilled, (state, action) => {

@@ -1,4 +1,4 @@
-import css from "./BurgerMenu.module.css";
+import css from './BurgerMenu.module.css';
 
 export default function BurgerMenu({ isOpen, onToggle }) {
   return (
@@ -6,19 +6,21 @@ export default function BurgerMenu({ isOpen, onToggle }) {
       type="button"
       className={isOpen ? css.closeBtn : css.burgerBtn}
       onClick={onToggle}
-      aria-label={isOpen ? "Close menu" : "Open menu"}
+      aria-label={isOpen ? 'Close menu' : 'Open menu'}
       aria-expanded={!!isOpen}
       aria-controls="mobile-nav"
     >
       <svg
         className={isOpen ? css.closeIcon : css.burgerIcon}
-        width={isOpen ? 22 : 20}
-        height={isOpen ? 22 : 14}
+        width={isOpen ? 32 : 32}
+        height={isOpen ? 32 : 32}
         aria-hidden="true"
         focusable="false"
       >
         <use
-          href={isOpen ? "/icons.svg#icon-close-circle" : "/icons.svg#icon-burger"}
+          href={
+            isOpen ? '/icons.svg#icon-close-circle' : '/icons.svg#icon-burger'
+          }
         ></use>
       </svg>
     </button>
