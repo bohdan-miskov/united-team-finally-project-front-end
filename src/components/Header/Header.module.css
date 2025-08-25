@@ -13,10 +13,7 @@
 }
 
 .container {
-  max-width: 393px; 
   width: 100%;
-  padding: 0 16px;
-  margin: 0 auto;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -25,21 +22,16 @@
 .logoBlock {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 4px;
   cursor: pointer;
-}
-
-.logo {
-  width: 24px; 
-  height: 24px;
 }
 
 .logoText {
   font-family: 'Montserrat', sans-serif;
-  font-weight: 600;          
-  font-size: 18px;           
-  line-height: 100%;        
-  letter-spacing: -0.03em;   
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 100%;
+  letter-spacing: -0.03em;
   color: #fff;
 }
 
@@ -73,31 +65,15 @@
   text-align: center;
 }
 
-/* ==== Burger button ==== */
-.burgerBtn {
-  background: none;
-  border: none;
-  padding: 0;
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-  color: inherit;
-}
-
 /* Tablet */
 @media (min-width: 768px) {
-  .container {
-    max-width: 768px;
-    padding: 0 32px;
-  }
-
   .logo {
     width: 28px;
     height: 28px;
   }
 
   .logoText {
-    font-size: 18px; 
+    font-size: 18px;
     line-height: 100%;
   }
 
@@ -112,13 +88,3 @@
 }
 
 /* Desktop */
-@media (min-width: 1440px) {
-  .container {
-    max-width: 1440px;
-    padding: 0 108px;
-  }
-}
-
-
-
-
