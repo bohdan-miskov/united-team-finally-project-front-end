@@ -10,6 +10,7 @@ export default function Navigation({
   isMobile = false,
 }) {
   return (
+    <div className="container">
     <nav className={css.navGroup}>
       <NavLink
         to="/"
@@ -79,5 +80,6 @@ export default function Navigation({
         </>
       )}
     </nav>
+      </div>
   );
 }
