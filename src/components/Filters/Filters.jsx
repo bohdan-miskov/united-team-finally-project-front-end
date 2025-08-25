@@ -16,13 +16,12 @@ import {
   selectIngredientsIsLoading,
 } from '../../redux/ingredients/selectors';
 import {
-  selectSearchQuery,
   selectSearchCategory,
   selectSearchIngredients,
 } from '../../redux/filters/selectors';
 import { getCategories } from '../../redux/categories/operations';
 import { getIngredients } from '../../redux/ingredients/operations';
-import { selectAllRecipesTotalItems } from '../../redux/recipes/selectors';
+//import { selectAllRecipesTotalItems } from '../../redux/recipes/selectors';
 
 export default function Filters() {
   const dispatch = useDispatch();
@@ -36,7 +35,7 @@ export default function Filters() {
 
   const selectedCategories = useSelector(selectSearchCategory);
   const selectedIngredients = useSelector(selectSearchIngredients);
-  const totalItems = useSelector(selectAllRecipesTotalItems);
+  //const totalItems = useSelector(selectAllRecipesTotalItems);
 
   const customStyles = {
     control: (base, state) => ({
@@ -102,10 +101,10 @@ export default function Filters() {
   return (
     <>
       <div className={styles.filtersSection}>
-        <p className={styles.count}>
+        {/* <p className={styles.count}>
           <span>{totalItems}</span>
           <span> recipes</span>
-        </p>
+        </p> */}
         <div className={styles.filtersWrapper}>
           <div className={styles.desktopFilters}>
             <div className={styles.rightSide}>
@@ -116,10 +115,12 @@ export default function Filters() {
                 isMulti
                 isClearable={false}
                 isLoading={isLoadingCategories}
-                options={categories.map(c => ({
-                  value: c.name,
-                  label: c.name,
-                }))}
+                options={categories.map(c => {
+                  return {
+                    value: c,
+                    label: c,
+                  };
+                })}
                 value={selectedCategories.map(c => ({ value: c, label: c }))}
                 onChange={handleCategoriesChange}
                 placeholder="Category"
@@ -131,10 +132,13 @@ export default function Filters() {
                 isClearable={false}
                 isLoading={isLoadingIngredients}
                 options={ingredients.map(i => ({
-                  value: i.name,
+                  value: i.id,
                   label: i.name,
                 }))}
-                value={selectedIngredients.map(i => ({ value: i, label: i }))}
+                value={selectedIngredients.map(i => ({
+                  value: i.id,
+                  label: i.name,
+                }))}
                 onChange={handleIngredientsChange}
                 placeholder="Ingredient"
                 classNamePrefix="customSelect"
@@ -173,8 +177,8 @@ export default function Filters() {
                   isClearable={false}
                   isLoading={isLoadingCategories}
                   options={categories.map(c => ({
-                    value: c.name,
-                    label: c.name,
+                    value: c,
+                    label: c,
                   }))}
                   value={selectedCategories.map(c => ({
                     value: c,
@@ -191,12 +195,12 @@ export default function Filters() {
                   isClearable={false}
                   isLoading={isLoadingIngredients}
                   options={ingredients.map(i => ({
-                    value: i.name,
+                    value: i.id,
                     label: i.name,
                   }))}
                   value={selectedIngredients.map(i => ({
-                    value: i,
-                    label: i,
+                    value: i.id,
+                    label: i.name,
                   }))}
                   onChange={handleIngredientsChange}
                   placeholder="Ingredient"
