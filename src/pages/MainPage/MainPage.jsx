@@ -1,4 +1,4 @@
-import Hero from './components/Hero';
+import Hero from '../../components/Hero/Hero';
 import Filters from '../../components/Filters/Filters';
 import RecipesList from '../../components/RecipesList/RecipesList';
 import styles from './MainPage.module.css';

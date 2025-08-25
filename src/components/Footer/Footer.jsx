@@ -5,7 +5,7 @@ import { useState, useCallback } from 'react';
 import { selectIsLoggedIn } from '../../redux/auth/selectors';
 import css from './Footer.module.css';
 import Logo from '../../assets/img/logo.svg';
-import Modal from '../../shared/Modal';
+import Modal from '../Modal/Modal';
 
 const Footer = () => {
   const isLoggedIn = useSelector(selectIsLoggedIn);
