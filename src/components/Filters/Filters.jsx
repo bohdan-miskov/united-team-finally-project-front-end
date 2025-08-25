@@ -7,7 +7,6 @@ import {
   changeSearchIngredients,
   clearFilters,
 } from '../../redux/filters/slice';
-
 import {
   selectCategories,
   selectCategoriesIsLoading,
@@ -16,8 +15,14 @@ import {
   selectIngredients,
   selectIngredientsIsLoading,
 } from '../../redux/ingredients/selectors';
-
-import { selectAllRecipesItems } from '../../redux/recipes/selectors';
+import {
+  selectSearchQuery,
+  selectSearchCategory,
+  selectSearchIngredients,
+} from '../../redux/filters/selectors';
+import { getCategories } from '../../redux/categories/operations';
+import { getIngredients } from '../../redux/ingredients/operations';
+import { selectAllRecipesTotalItems } from '../../redux/recipes/selectors';
 
 export default function Filters() {
   const dispatch = useDispatch();
@@ -29,29 +34,41 @@ export default function Filters() {
   const isLoadingCategories = useSelector(selectCategoriesIsLoading);
   const isLoadingIngredients = useSelector(selectIngredientsIsLoading);
 
-  const selectedCategories = useSelector(state => state.filters.category);
-  const selectedIngredients = useSelector(state => state.filters.ingredients);
-  const searchQuery = useSelector(state => state.filters.searchQuery);
+  const selectedCategories = useSelector(selectSearchCategory);
+  const selectedIngredients = useSelector(selectSearchIngredients);
+  const totalItems = useSelector(selectAllRecipesTotalItems);
 
-  const allItems = useSelector(selectAllRecipesItems);
-
-  const filteredItems = allItems.filter(r => {
-    const matchesSearch = r.title
-      .toLowerCase()
-      .includes(searchQuery.toLowerCase());
-
-    const matchesCategory =
-      selectedCategories.length === 0 ||
-      selectedCategories.includes(r.category);
-
-    const matchesIngredients =
-      selectedIngredients.length === 0 ||
-      selectedIngredients.every(i => r.ingredients.some(ing => ing.name === i));
-
-    return matchesSearch && matchesCategory && matchesIngredients;
-  });
-
-  const totalFiltered = filteredItems.length;
+  const customStyles = {
+    control: (base, state) => ({
+      ...base,
+      width: '179px',
+      minHeight: '33px',
+      borderRadius: '4px',
+      border: '1px solid rgba(139, 137, 137, 0.5)',
+      backgroundColor: 'var(--light-grey)',
+      boxShadow: 'none',
+      '&:hover': {
+        borderColor: 'var(--black)',
+      },
+      '&:focus': {
+        borderColor: 'var(--black)',
+        outline: 'none',
+      },
+    }),
+    valueContainer: base => ({
+      ...base,
+      flexWrap: 'wrap',
+      padding: '0 8px',
+    }),
+    dropdownIndicator: base => ({
+      ...base,
+      color: 'var(--black)',
+      padding: '0 8px',
+    }),
+    indicatorSeparator: () => ({
+      display: 'none',
+    }),
+  };
 
   const handleCategoriesChange = selected => {
     dispatch(changeSearchCategory(selected?.map(c => c.value) || []));
@@ -65,7 +82,11 @@ export default function Filters() {
     dispatch(clearFilters());
   };
 
-  // Close modal on click outside
+  useEffect(() => {
+    dispatch(getCategories());
+    dispatch(getIngredients());
+  }, [dispatch]);
+
   useEffect(() => {
     const handleClickOutside = e => {
       if (modalRef.current && !modalRef.current.contains(e.target)) {
@@ -81,15 +102,46 @@ export default function Filters() {
   return (
     <>
       <div className={styles.filtersSection}>
-        {/* Left side: recipes count */}
         <p className={styles.count}>
-          <span>{totalFiltered}</span>
-          <span>recipes</span>
+          <span>{totalItems}</span>
+          <span> recipes</span>
         </p>
-
-        {/* Filters */}
-        <div className={styles.dropdownWrapper}>
-          {/* Button (only visible on mobile/tablet) */}
+        <div className={styles.filtersWrapper}>
+          <div className={styles.desktopFilters}>
+            <div className={styles.rightSide}>
+              <button onClick={handleReset} className={styles.reset}>
+                Reset filters
+              </button>
+              <Select
+                isMulti
+                isClearable={false}
+                isLoading={isLoadingCategories}
+                options={categories.map(c => ({
+                  value: c.name,
+                  label: c.name,
+                }))}
+                value={selectedCategories.map(c => ({ value: c, label: c }))}
+                onChange={handleCategoriesChange}
+                placeholder="Category"
+                classNamePrefix="customSelect"
+                styles={customStyles}
+              />
+              <Select
+                isMulti
+                isClearable={false}
+                isLoading={isLoadingIngredients}
+                options={ingredients.map(i => ({
+                  value: i.name,
+                  label: i.name,
+                }))}
+                value={selectedIngredients.map(i => ({ value: i, label: i }))}
+                onChange={handleIngredientsChange}
+                placeholder="Ingredient"
+                classNamePrefix="customSelect"
+                styles={customStyles}
+              />
+            </div>
+          </div>
           <button
             className={styles.filtersToggle}
             onClick={() => setIsOpen(true)}
@@ -99,98 +151,65 @@ export default function Filters() {
               <use href="/icons.svg#icon-filter"></use>
             </svg>
           </button>
-
-          {/* Modal window (mobile/tablet) */}
-          {isOpen && (
-            <div className={styles.modalOverlay}>
-              <div className={styles.modalContent} ref={modalRef}>
-                {/* Header */}
-                <div className={styles.modalHeader}>
-                  <span className={styles.modalTitle}>Filters</span>
-                  <button
-                    className={styles.closeBtn}
-                    onClick={() => setIsOpen(false)}
-                  >
-                    <svg width="24" height="24">
-                      <use href="/icons.svg#icon-close-circle"></use>
-                    </svg>
-                  </button>
-                </div>
-
-                {/* Body */}
-                <div className={styles.modalBody}>
-                  <Select
-                    isMulti
-                    isLoading={isLoadingCategories}
-                    options={categories.map(c => ({
-                      value: c.name,
-                      label: c.name,
-                    }))}
-                    value={selectedCategories.map(c => ({
-                      value: c,
-                      label: c,
-                    }))}
-                    onChange={handleCategoriesChange}
-                    placeholder="Category"
-                    classNamePrefix="customSelect"
-                  />
-
-                  <Select
-                    isMulti
-                    isLoading={isLoadingIngredients}
-                    options={ingredients.map(i => ({
-                      value: i.name,
-                      label: i.name,
-                    }))}
-                    value={selectedIngredients.map(i => ({
-                      value: i,
-                      label: i,
-                    }))}
-                    onChange={handleIngredientsChange}
-                    placeholder="Ingredient"
-                    classNamePrefix="customSelect"
-                  />
-                  <button onClick={handleReset} className={styles.reset}>
-                    Reset filters
-                  </button>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* Desktop filters */}
-          <div className={styles.desktopFilters}>
-            <button onClick={handleReset} className={styles.reset}>
-              Reset filters
-            </button>
-
-            <Select
-              isMulti
-              isLoading={isLoadingCategories}
-              options={categories.map(c => ({
-                value: c.name,
-                label: c.name,
-              }))}
-              value={selectedCategories.map(c => ({ value: c, label: c }))}
-              onChange={handleCategoriesChange}
-              placeholder="Category"
-              classNamePrefix="customSelect"
-            />
-
-            <Select
-              isMulti
-              isLoading={isLoadingIngredients}
-              options={ingredients.map(i => ({
-                value: i.name,
-                label: i.name,
-              }))}
-              value={selectedIngredients.map(i => ({ value: i, label: i }))}
-              onChange={handleIngredientsChange}
-              placeholder="Ingredient"
-              classNamePrefix="customSelect"
-            />
-          </div>
         </div>
+
+        {isOpen && (
+          <div className={styles.modalOverlay}>
+            <div className={styles.modalContent} ref={modalRef}>
+              <div className={styles.modalHeader}>
+                <span className={styles.modalTitle}>Filters</span>
+                <button
+                  className={styles.closeBtn}
+                  onClick={() => setIsOpen(false)}
+                >
+                  <svg width="24" height="24">
+                    <use href="/icons.svg#icon-close-circle"></use>
+                  </svg>
+                </button>
+              </div>
+              <div className={styles.modalBody}>
+                <Select
+                  isMulti
+                  isClearable={false}
+                  isLoading={isLoadingCategories}
+                  options={categories.map(c => ({
+                    value: c.name,
+                    label: c.name,
+                  }))}
+                  value={selectedCategories.map(c => ({
+                    value: c,
+                    label: c,
+                  }))}
+                  onChange={handleCategoriesChange}
+                  placeholder="Category"
+                  classNamePrefix="customSelect"
+                  styles={customStyles}
+                />
+
+                <Select
+                  isMulti
+                  isClearable={false}
+                  isLoading={isLoadingIngredients}
+                  options={ingredients.map(i => ({
+                    value: i.name,
+                    label: i.name,
+                  }))}
+                  value={selectedIngredients.map(i => ({
+                    value: i,
+                    label: i,
+                  }))}
+                  onChange={handleIngredientsChange}
+                  placeholder="Ingredient"
+                  classNamePrefix="customSelect"
+                  styles={customStyles}
+                />
+              </div>
+              <button onClick={handleReset} className={styles.reset}>
+                Reset filters
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </>
   );

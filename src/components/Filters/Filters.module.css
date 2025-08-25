@@ -33,11 +33,6 @@
   stroke-width: 1.5;
 }
 
-.dropdownWrapper {
-  position: relative;
-}
-
-/* MODAL WINDOW */
 .modalOverlay {
   position: fixed;
   inset: 0;
@@ -62,7 +57,7 @@
 
 .modalHeader {
   display: flex;
-  justify-content: right;
+  justify-content: space-between;
   align-items: center;
 }
 
@@ -93,14 +88,21 @@
   gap: 24px;
 }
 
-/* Desktop filters */
 .desktopFilters {
   display: none;
+}
+
+.filtersWrapper {
+  display: flex;
+  align-items: center;
+}
+
+.rightSide {
+  display: flex;
   align-items: center;
   gap: 24px;
 }
 
-/* Reset filters button */
 .reset {
   font-size: 13px;
   font-weight: 600;
@@ -126,24 +128,18 @@
   background-color: var(--black);
 }
 
-/* Tablet */
 @media (min-width: 768px) {
-  .title {
-    font-size: 1.75rem;
-  }
-
   .count {
-    font-size: 15px;
+    font-size: 20px;
   }
 }
 
-/* Desktop */
-@media (min-width: 1440px) {
-  .filtersToggle {
-    display: none;
+@media (min-width: 1024px) {
+  .desktopFilters {
+    display: block;
   }
 
-  .desktopFilters {
-    display: flex;
+  .filtersToggle {
+    display: none;
   }
 }
