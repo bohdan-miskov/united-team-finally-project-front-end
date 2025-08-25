@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useDebounce } from 'use-debounce';
 import RecipeCard from '../RecipeCard/RecipeCard.jsx';
 import LoadMoreBtn from '../LoadMoreBtn/LoadMoreBtn.jsx';
 import styles from './RecipesList.module.css';
@@ -10,8 +9,6 @@ import {
   getOwnRecipes,
   getFavoriteRecipes,
 } from '../../redux/recipes/operations';
-import { getCategories } from '../../redux/categories/operations';
-import { getIngredients } from '../../redux/ingredients/operations';
 
 import {
   selectAllRecipesItems,
@@ -23,64 +20,127 @@ import {
   selectAllRecipesIsLoading,
   selectOwnRecipesIsLoading,
   selectFavoriteRecipesIsLoading,
+  selectOwnRecipesHasNextPage,
+  selectAllRecipesHasNextPage,
+  selectFavoriteRecipesHasNextPage,
+  selectOwnRecipesError,
+  selectAllRecipesError,
+  selectFavoriteRecipesError,
 } from '../../redux/recipes/selectors';
-
 import {
-  selectSearchQuery,
   selectSearchCategory,
   selectSearchIngredients,
-} from '../../redux/filters/selectors';
+  selectSearchQuery,
+} from '../../redux/filters/selectors.js';
+import { useDebounce } from 'use-debounce';
 
 export default function RecipesList({ recipeType }) {
   const dispatch = useDispatch();
-  const type = recipeType || 'all';
+  const [page, setPage] = useState(1);
+
+  const items = useSelector(state => {
+    switch (recipeType) {
+      case 'own':
+        return selectOwnRecipesItems(state);
+      case 'favorites':
+        return selectFavoriteRecipesItems(state);
+      case 'all':
+        return selectAllRecipesItems(state);
+      default:
+        return [];
+    }
+  });
+
+  const total = useSelector(state => {
+    switch (recipeType) {
+      case 'own':
+        return selectOwnRecipesTotalItems(state);
+      case 'favorites':
+        return selectFavoriteRecipesTotalItems(state);
+      case 'all':
+        return selectAllRecipesTotalItems(state);
+      default:
+        return 0;
+    }
+  });
+
+  const isLoading = useSelector(state => {
+    switch (recipeType) {
+      case 'own':
+        return selectOwnRecipesIsLoading(state);
+      case 'favorites':
+        return selectFavoriteRecipesIsLoading(state);
+      case 'all':
+        return selectAllRecipesIsLoading(state);
+      default:
+        return 0;
+    }
+  });
+
+  const error = useSelector(state => {
+    switch (recipeType) {
+      case 'own':
+        return selectOwnRecipesError(state);
+      case 'favorites':
+        return selectFavoriteRecipesError(state);
+      case 'all':
+        return selectAllRecipesError(state);
+      default:
+        return 0;
+    }
+  });
+
+  const hasNextPage = useSelector(state => {
+    switch (recipeType) {
+      case 'own':
+        return selectOwnRecipesHasNextPage(state);
+      case 'favorites':
+        return selectFavoriteRecipesHasNextPage(state);
+      case 'all':
+        return selectAllRecipesHasNextPage(state);
+      default:
+        return false;
+    }
+  });
 
   const searchQuery = useSelector(selectSearchQuery);
+  const [debouncedSearchQuery] = useDebounce(searchQuery, 500);
   const selectedCategories = useSelector(selectSearchCategory);
   const selectedIngredients = useSelector(selectSearchIngredients);
 
-  const [page, setPage] = useState(1);
-  const [debouncedSearch] = useDebounce(searchQuery, 500);
-
-  const allItems = useSelector(selectAllRecipesItems);
-  const ownItems = useSelector(selectOwnRecipesItems);
-  const favItems = useSelector(selectFavoriteRecipesItems);
-
-  const isLoadingAll = useSelector(selectAllRecipesIsLoading);
-  const isLoadingOwn = useSelector(selectOwnRecipesIsLoading);
-  const isLoadingFav = useSelector(selectFavoriteRecipesIsLoading);
-
-  const totalAll = useSelector(selectAllRecipesTotalItems);
-  const totalOwn = useSelector(selectOwnRecipesTotalItems);
-  const totalFav = useSelector(selectFavoriteRecipesTotalItems);
-
-  const items =
-    type === 'own' ? ownItems : type === 'favorites' ? favItems : allItems;
-  const isLoading =
-    type === 'own'
-      ? isLoadingOwn
-      : type === 'favorites'
-      ? isLoadingFav
-      : isLoadingAll;
+  useEffect(() => {
+    if (recipeType === 'all') {
+      setPage(1);
+    }
+  }, [
+    debouncedSearchQuery,
+    selectedCategories,
+    selectedIngredients,
+    recipeType,
+  ]);
 
   useEffect(() => {
-    setPage(1);
-  }, [debouncedSearch, selectedCategories, selectedIngredients]);
-
-  useEffect(() => {
-    const filters = {
-      query: debouncedSearch,
-      categories: selectedCategories,
-      ingredients: selectedIngredients,
-    };
-    if (type === 'all') dispatch(getAllRecipes({ page, filters }));
-    if (type === 'own') dispatch(getOwnRecipes({ page, filters }));
-    if (type === 'favorites') dispatch(getFavoriteRecipes({ page, filters }));
+    if (recipeType === 'all') {
+      dispatch(
+        getAllRecipes({
+          page,
+          query: debouncedSearchQuery,
+          categories: selectedCategories,
+          ingredients: selectedIngredients,
+        })
+      );
+    }
+    if (recipeType === 'own') {
+      dispatch(getOwnRecipes({ page }));
+    }
+    if (recipeType === 'favorites') {
+      dispatch(getFavoriteRecipes({ page }));
+    }
   }, [
     dispatch,
-    type,
+    recipeType,
     page,
-    debouncedSearch,
+    debouncedSearchQuery,
     selectedCategories,
     selectedIngredients,
   ]);
@@ -89,35 +149,35 @@ export default function RecipesList({ recipeType }) {
     setPage(prev => prev + 1);
   };
 
-  const hasMore = items && items.length < totalItems;
+  const isEmpty = !isLoading && (!items || items.length === 0);
+
+  const emptyMessages = {
+    favorites: "You haven't saved any recipes yet",
+    own: "You don't have any of your own recipes yet",
+    all: 'No recipes found',
+  };
 
   return (
     <>
-      <p className={styles.recipeCounter}>{items?.length || 0} recipes</p>
+      <p className={styles.recipeCounter}>{total || 0} recipes</p>
 
       <ul className={styles.list}>
         {items?.map((recipe, idx) => (
           <li className={styles.item} key={`${recipe._id}-${idx}`}>
-            <RecipeCard recipe={recipe} recipeType={type} />
+            <RecipeCard recipe={recipe} recipeType={recipeType} />
           </li>
         ))}
       </ul>
 
-      {isLoading && <p>Loading...</p>}
+      {isLoading && !error && <p>Loading...</p>}
 
-      {!isLoading && (!items || items.length === 0) && type === 'favorites' && (
-        <p>You haven't saved any recipes yet</p>
-      )}
-      {!isLoading && (!items || items.length === 0) && type === 'own' && (
-        <p>You don't have any of your own recipes yet</p>
-      )}
-      {!isLoading && (!items || items.length === 0) && type === 'all' && (
-        <p>No recipes found</p>
+      {isEmpty && emptyMessages[recipeType] && (
+        <p>{emptyMessages[recipeType]}</p>
       )}
 
       <LoadMoreBtn
         onLoadMore={handleLoadMore}
-        hasMore={hasMore}
+        hasMore={hasNextPage}
         loading={isLoading}
       />
     </>
