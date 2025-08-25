@@ -31,8 +31,7 @@ export default function RecipeCard({ recipe, recipeType }) {
 
   const isSaved =
     isFavorites ||
-    (Array.isArray(favItems) &&
-      favItems.some((r) => (r?._id ?? r?.id) === _id));
+    (Array.isArray(favItems) && favItems.some(r => (r?._id ?? r?.id) === _id));
 
   const handleBookmark = () => {
     if (!_id) return;
