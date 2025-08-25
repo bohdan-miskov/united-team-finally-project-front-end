@@ -5,12 +5,8 @@ export default function Layout({ children }) {
   return (
     <div className={css.container}>
       <Header />
-      {/* <div className={css.mainContent}>{children}</div> */}
-      <div>
-        ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss
-        sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss
-        sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss
-      </div>
+      <div className={css.mainContent}>{children}</div>
+
       <Footer />
     </div>
   );

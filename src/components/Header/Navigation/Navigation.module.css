@@ -1,10 +1,10 @@
-
 /* БАЗА: мобільний */
 .navGroup {
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 36px;
+  gap: 32px;
   font-size: 16px;
   font-weight: 600;
 }
@@ -32,7 +32,7 @@
 
 /* underline-ефект */
 .link::after {
-  content: "";
+  content: '';
   position: absolute;
   left: 0;
   bottom: 0;
@@ -42,7 +42,7 @@
   transition: width 0.3s ease;
 }
 .link.active::after,
-.link[aria-current="page"]::after,
+.link[aria-current='page']::after,
 .link:hover::after {
   width: 100%;
 }
@@ -52,91 +52,81 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 100%; 
-  min-height: 40px;
-  padding: 12px 16px;
-  background-color: #9b6c43;
-  color: #fff;
-  border: 1px solid transparent;
   border-radius: 8px;
+  color: var(--white);
+  width: 100%;
+  min-height: 40px;
   font-size: 16px;
   font-weight: 600;
   text-decoration: none;
   cursor: pointer;
-  transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.1s ease;
-}
-.linkBtn:hover {
-  background-color: #6d554b;
-}
-.linkBtn:focus-visible {
-  outline: 2px solid #fff;
-  outline-offset: 2px;
-}
-.linkBtn:active {
-  transform: translateY(1px);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease,
+    transform 0.1s ease;
 }
 
 /* Порядок елементів (мобілка) */
-.navGroup > .recipes  { order: 0; }
-.navGroup > .profile  { order: 1; }
-.navGroup > .userInfo { order: 2; margin-bottom: 12px; }
-.navGroup > .addRecipe{ order: 3; }
-
+.navGroup > .recipes {
+  order: 0;
+}
+.navGroup > .profile {
+  order: 1;
+}
+.navGroup > .userInfo {
+  order: 2;
+  margin-bottom: 12px;
+}
+.navGroup > .addRecipe {
+  order: 3;
+}
 
 @media (min-width: 768px) {
   .navGroup {
     flex-direction: row;
     align-items: center;
     justify-content: flex-start;
-    gap: 32px; 
+    gap: 32px;
     flex-wrap: nowrap;
   }
 
   .link {
-    font-size: 12px;         
+    font-size: 12px;
     line-height: 16px;
-    letter-spacing: -0.03em; 
-    font-weight: 500;        
+    letter-spacing: -0.03em;
+    font-weight: 500;
     padding: 8px 10px;
     border-radius: 8px;
   }
-  .link:hover {
-    background: rgba(255, 255, 255, 0.08);
-  }
 
   .linkBtn {
-    width: auto;
     min-height: 36px;
-    padding: 10px 14px;
-    font-size: 12px;
-    line-height: 16px;
-    border-radius: 8px;
+    padding: 12px 16px;
     white-space: nowrap;
-    background-color: #ffffff;
-    color: #3d2218;
-    border-color: #ffffff;
-  }
-  .linkBtn:hover {
-    background-color: #f4e9e4;
-    border-color: #f4e9e4;
   }
 
   /* порядок елементів у рядку */
-  .navGroup > .recipes  { order: 0; }
-  .navGroup > .profile  { order: 1; }
-  .navGroup > .addRecipe{ order: 2; }
-  .navGroup > .userInfo { order: 3; margin-left: auto; margin-bottom: 0; }
-}
-
-/* === DESKTOP (>=1440px) === */
-@media (min-width: 1440px) {
-  .navGroup { gap: 20px; }
-}
-
-/* Reduced motion */
-@media (prefers-reduced-motion: reduce) {
-  .link, .link::after, .linkBtn {
-    transition: none !important;
+  .navGroup > .recipes {
+    order: 0;
+  }
+  .navGroup > .profile {
+    order: 1;
+  }
+  .navGroup > .addRecipe {
+    order: 2;
+  }
+  .navGroup > .userInfo {
+    order: 3;
+    margin-left: auto;
+    margin-bottom: 0;
   }
 }
 
+/* === DESKTOP (>=1440px) === */
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .link,
+  .link::after,
+  .linkBtn {
+    transition: none;
+  }
+}

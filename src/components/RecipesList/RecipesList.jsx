@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import RecipeCard from '../RecipeCard/RecipeCard.jsx';
 import styles from './RecipesList.module.css';
@@ -34,7 +34,11 @@ export default function RecipesList({ recipeType }) {
     type === 'own' ? ownItems : type === 'favorites' ? favItems : allItems;
 
   const isLoading =
-    type === 'own' ? isLoadingOwn : type === 'favorites' ? isLoadingFav : isLoadingAll;
+    type === 'own'
+      ? isLoadingOwn
+      : type === 'favorites'
+      ? isLoadingFav
+      : isLoadingAll;
 
   useEffect(() => {
     if (!items || items.length === 0) {
@@ -50,26 +54,19 @@ export default function RecipesList({ recipeType }) {
 
       <ul className={styles.list}>
         {items?.map((recipe, idx) => (
-          <li className={styles.item}>
-            <RecipeCard
-              key={`${recipe._id}-${idx}`}
-              recipe={recipe}
-              recipeType={type}
-            />
+          <li className={styles.item} key={`${recipe._id}-${idx}`}>
+            <RecipeCard recipe={recipe} recipeType={type} />
           </li>
           // <li className={styles.item} key={${recipe._id}-${idx}}>
           // <RecipeCard recipe={recipe} recipeType={type} />
           // </li>
         ))}
 
-
-
-
         {isLoading && <p>Loading...</p>}
 
-        {!isLoading && (!items || items.length === 0) && type === 'favorites' && (
-          <p>You haven't saved any recipes yet</p>
-        )}
+        {!isLoading &&
+          (!items || items.length === 0) &&
+          type === 'favorites' && <p>You haven't saved any recipes yet</p>}
         {!isLoading && (!items || items.length === 0) && type === 'own' && (
           <p>You don't have any of your own recipes yet</p>
         )}
