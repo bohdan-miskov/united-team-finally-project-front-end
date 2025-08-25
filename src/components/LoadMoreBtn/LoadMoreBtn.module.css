@@ -1,0 +1,27 @@
+.wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 24px;
+}
+
+.button {
+  width: 289px;
+  height: 54px;
+  border-radius: 10px;
+  background: var(--light-brown);
+  color: var(--white);
+  font-weight: 600;
+  font-size: 18px;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.button:hover {
+  background: var(--dark-brown);
+}
+
+.loading {
+  background: var(--light-gray-3);
+  cursor: not-allowed;
+}
