@@ -1,14 +1,16 @@
-import { NavLink, useLocation, useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { useState, useCallback } from "react";
-import { selectUser } from "../../redux/auth/selectors";
-import css from "./Footer.module.css";
-import Logo from "../../assets/img/logo.svg";
-import Modal from "../../shared/Modal/Modal";
+import { NavLink, useLocation, useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { useState, useCallback } from 'react';
+
+import { selectIsAuthenticated } from '../../redux/auth/selectors';
+import css from './Footer.module.css';
+import Logo from '../../assets/img/logo.svg';
+import Modal from '../../shared/Modal';
 
 const Footer = () => {
-  const user = useSelector(selectUser);
-  const isLoggedIn = !!user;
+  const isAuthenticated = useSelector(selectIsAuthenticated);
+  const isLoggedIn = isAuthenticated;
+
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -25,7 +27,7 @@ const Footer = () => {
         <button
           type="button"
           className={css.logoBlock}
-          onClick={() => navigate("/")}
+          onClick={() => navigate('/')}
           aria-label="Go to home"
         >
           <img src={Logo} alt="" className={css.logo} width={24} height={24} />
@@ -46,7 +48,7 @@ const Footer = () => {
               Account
             </NavLink>
           ) : (
-            !location.pathname.includes("/auth") && (
+            !location.pathname.includes('/auth') && (
               <button
                 type="button"
                 className={css.link}
@@ -67,7 +69,7 @@ const Footer = () => {
               type="button"
               onClick={() => {
                 closeAuthModal();
-                navigate("/auth/login");
+                navigate('/auth/login');
               }}
             >
               Log in
@@ -76,7 +78,7 @@ const Footer = () => {
               type="button"
               onClick={() => {
                 closeAuthModal();
-                navigate("/auth/register");
+                navigate('/auth/register');
               }}
             >
               Register
@@ -89,7 +91,3 @@ const Footer = () => {
 };
 
 export default Footer;
-
-
-
-
