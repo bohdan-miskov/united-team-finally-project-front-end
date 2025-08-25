@@ -79,8 +79,7 @@ export default function Filters() {
   }, [isOpen]);
 
   return (
-    <div className="container">
-      <h2 className={styles.title}>Recepies</h2>
+    <>
       <div className={styles.filtersSection}>
         {/* Left side: recipes count */}
         <p className={styles.count}>
@@ -193,6 +192,6 @@ export default function Filters() {
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
