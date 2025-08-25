@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 import {
   addRecipeToFavorite,
   createRecipe,
@@ -6,12 +6,12 @@ import {
   getAllRecipes,
   getFavoriteRecipes,
   getOwnRecipes,
-} from "./operations";
+} from './operations';
 import {
   setPaginationArrayRejected,
   setPending,
   setRejected,
-} from "../helpers/statusHandlers";
+} from '../helpers/statusHandlers';
 
 const initialState = {
   all: {
@@ -47,12 +47,12 @@ const initialState = {
 };
 
 const recipesSlice = createSlice({
-  name: "recipes",
+  name: 'recipes',
   initialState,
   reducers: {},
-  extraReducers: (builder) => {
+  extraReducers: builder => {
     builder
-      .addCase(getAllRecipes.pending, (state) => {
+      .addCase(getAllRecipes.pending, state => {
         setPending(state.all);
       })
       .addCase(getAllRecipes.fulfilled, (state, action) => {
@@ -67,7 +67,7 @@ const recipesSlice = createSlice({
       .addCase(getAllRecipes.rejected, (state, action) => {
         setPaginationArrayRejected(state.all, action);
       })
-      .addCase(createRecipe.pending, (state) => {
+      .addCase(createRecipe.pending, state => {
         setPending(state.all);
       })
       .addCase(createRecipe.fulfilled, (state, action) => {
@@ -82,7 +82,7 @@ const recipesSlice = createSlice({
       .addCase(createRecipe.rejected, (state, action) => {
         setRejected(state.all, action);
       })
-      .addCase(getFavoriteRecipes.pending, (state) => {
+      .addCase(getFavoriteRecipes.pending, state => {
         setPending(state.favorite);
       })
       .addCase(getFavoriteRecipes.fulfilled, (state, action) => {
@@ -100,7 +100,7 @@ const recipesSlice = createSlice({
       .addCase(getFavoriteRecipes.rejected, (state, action) => {
         setPaginationArrayRejected(state.favorite, action);
       })
-      .addCase(addRecipeToFavorite.pending, (state) => {
+      .addCase(addRecipeToFavorite.pending, state => {
         setPending(state.favorite);
       })
       .addCase(addRecipeToFavorite.fulfilled, (state, action) => {
@@ -113,7 +113,7 @@ const recipesSlice = createSlice({
       .addCase(addRecipeToFavorite.rejected, (state, action) => {
         setRejected(state.favorite, action);
       })
-      .addCase(deleteRecipeFromFavorite.pending, (state) => {
+      .addCase(deleteRecipeFromFavorite.pending, state => {
         setPending(state.favorite);
       })
       .addCase(deleteRecipeFromFavorite.fulfilled, (state, action) => {
@@ -126,7 +126,7 @@ const recipesSlice = createSlice({
       .addCase(deleteRecipeFromFavorite.rejected, (state, action) => {
         setRejected(state.favorite, action);
       })
-      .addCase(getOwnRecipes.pending, (state) => {
+      .addCase(getOwnRecipes.pending, state => {
         setPending(state.own);
       })
       .addCase(getOwnRecipes.fulfilled, (state, action) => {
