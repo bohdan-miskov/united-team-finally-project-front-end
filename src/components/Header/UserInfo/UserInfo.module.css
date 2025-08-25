@@ -1,7 +1,7 @@
 .wrapper {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 8px;
   justify-content: center;
   color: #fff;
   font-weight: 600;
@@ -31,6 +31,8 @@
   width: 1px;
   height: 24px;
   background-color: #fff;
+  margin-left: 8px;
+  margin-right: 8px;
 }
 
 .logoutBtn {
@@ -43,7 +45,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #fff; 
+  color: #fff;
 }
 
 .logoutBtn:focus-visible {
@@ -53,14 +55,11 @@
 }
 
 .logoutBtn:hover {
-  color: #ff4d4d; 
+  color: #ff4d4d;
 }
 
 .logoutIcon {
-  width: 17px;
-  height: 17px;
-  stroke: currentColor; 
+  stroke: currentColor;
   transition: stroke 0.3s;
   fill: none;
 }
-

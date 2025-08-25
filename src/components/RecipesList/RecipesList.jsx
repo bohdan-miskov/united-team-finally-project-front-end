@@ -62,13 +62,6 @@ export default function RecipesList({ recipeType }) {
       : type === 'favorites'
       ? isLoadingFav
       : isLoadingAll;
-  const totalItems =
-    type === 'own' ? totalOwn : type === 'favorites' ? totalFav : totalAll;
-
-  useEffect(() => {
-    dispatch(getCategories());
-    dispatch(getIngredients());
-  }, [dispatch]);
 
   useEffect(() => {
     setPage(1);
