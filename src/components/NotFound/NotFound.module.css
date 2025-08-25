@@ -1,0 +1,61 @@
+.img {
+  margin-top: 31px;
+  margin-bottom: 32px;
+}
+
+.h1 {
+  font-size: 48px;
+  color: var(--black);
+  margin-bottom: 16px;
+}
+
+.h3 {
+  font-weight: 400;
+  margin-bottom: 32px;
+}
+
+.button {
+  display: flex;
+  gap: 16px;
+  width: 100%;
+  padding: 17px 0;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 31px;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.icon {
+  stroke-width: 1;
+  stroke: var(--white);
+}
+
+@media only screen and (min-width: 768px) {
+  .img {
+    margin-top: 85.5px;
+  }
+
+  .button {
+    margin-bottom: 85.5px;
+    width: 340px;
+  }
+}
+
+@media only screen and (min-width: 1440px) {
+  .desktopSection {
+    padding: 38px 0;
+  }
+
+  .img {
+    margin-top: 0px;
+  }
+
+  .button {
+    margin-bottom: 0px;
+  }
+}

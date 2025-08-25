@@ -1,21 +1,21 @@
-import { NavLink } from "react-router-dom";
-import css from "./Navigation.module.css";
-import UserInfo from "../UserInfo/UserInfo";
+import { NavLink } from 'react-router-dom';
+import css from './Navigation.module.css';
+import UserInfo from '../UserInfo/UserInfo';
 
 export default function Navigation({
   isLoggedIn = false,
   closeMenu = () => {},
-  userName = "",
-  userInitial = "U",
+  userName = '',
   onLogout = () => {},
   isMobile = false,
 }) {
   return (
+    <div className="container">
     <nav className={css.navGroup}>
       <NavLink
         to="/"
         className={({ isActive }) =>
-          `${css.link} ${css.recipes} ${isActive ? css.active : ""}`
+          `${css.link} ${css.recipes} ${isActive ? css.active : ''}`
         }
         onClick={closeMenu}
       >
@@ -27,7 +27,7 @@ export default function Navigation({
           <NavLink
             to="/auth/login"
             className={({ isActive }) =>
-              `${css.link} ${css.login} ${isActive ? css.active : ""}`
+              `${css.link} ${css.login} ${isActive ? css.active : ''}`
             }
             onClick={closeMenu}
           >
@@ -37,7 +37,9 @@ export default function Navigation({
           <NavLink
             to="/auth/register"
             className={({ isActive }) =>
-              `${css.linkBtn} ${css.register} ${isActive ? css.active : ""}`
+              `brown-btn ${css.linkBtn} ${css.register} ${
+                isActive ? css.active : ''
+              }`
             }
             onClick={closeMenu}
           >
@@ -49,7 +51,7 @@ export default function Navigation({
           <NavLink
             to="/profile"
             className={({ isActive }) =>
-              `${css.link} ${css.profile} ${isActive ? css.active : ""}`
+              `${css.link} ${css.profile} ${isActive ? css.active : ''}`
             }
             onClick={closeMenu}
           >
@@ -59,7 +61,9 @@ export default function Navigation({
           <NavLink
             to="/add-recipe"
             className={({ isActive }) =>
-              `${css.linkBtn} ${css.addRecipe} ${isActive ? css.active : ""}`
+              `brown-btn ${css.linkBtn} ${css.addRecipe} ${
+                isActive ? css.active : ''
+              }`
             }
             onClick={closeMenu}
           >
@@ -69,7 +73,6 @@ export default function Navigation({
           <div className={css.userInfo}>
             <UserInfo
               userName={userName}
-              userInitial={userInitial}
               onLogout={onLogout}
               isMobile={isMobile}
             />
@@ -77,6 +80,6 @@ export default function Navigation({
         </>
       )}
     </nav>
+      </div>
   );
 }
-
