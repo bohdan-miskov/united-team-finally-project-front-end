@@ -1,21 +1,14 @@
-.title {
-  font-size: 1.5rem;
-  font-weight: 700;
-  margin-top: 24px;
-  margin-bottom: 12px;
-}
-
 .filtersSection {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 1.5rem;
   width: 100%;
+  margin-bottom: 16px;
 }
 
 .count {
   font-weight: 600;
-  font-size: 14px;
+  font-size: 18px;
   display: inline-flex;
   gap: 4px;
 }
@@ -137,8 +130,6 @@
 @media (min-width: 768px) {
   .title {
     font-size: 1.75rem;
-    margin-top: 32px;
-    margin-bottom: 16px;
   }
 
   .count {

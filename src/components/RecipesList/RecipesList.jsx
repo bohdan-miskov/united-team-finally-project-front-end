@@ -66,15 +66,13 @@ export default function RecipesList({ recipeType }) {
 
   return (
     <>
-      <div className="container">
-        <ul className={styles.list}>
-          {visibleItems?.map((recipe, idx) => (
-            <li className={styles.item} key={`${recipe._id}-${idx}`}>
-              <RecipeCard recipe={recipe} recipeType={type} />
-            </li>
-          ))}
-        </ul>
-      </div>
+      <ul className={styles.list}>
+        {visibleItems?.map((recipe, idx) => (
+          <li className={styles.item} key={`${recipe._id}-${idx}`}>
+            <RecipeCard recipe={recipe} recipeType={type} />
+          </li>
+        ))}
+      </ul>
 
       {isLoading && <p>Loading...</p>}
 
