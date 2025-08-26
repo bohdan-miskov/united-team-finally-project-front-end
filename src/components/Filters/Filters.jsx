@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import Select from 'react-select';
+// import Select from 'react-select';
 import styles from './Filters.module.css';
 import { useDispatch, useSelector } from 'react-redux';
 import {

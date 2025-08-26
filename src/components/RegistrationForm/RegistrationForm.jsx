@@ -3,8 +3,13 @@ import * as Yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { registerAndLoginUser } from '../../redux/auth/operations';
+import {
+  calculatePasswordStrength,
+  getPasswordStrengthColor,
+  getPasswordStrengthText,
+} from '../../utils/passwordStrength.js';
 import {
   selectAuthError,
   selectAuthIsLoading,
@@ -42,6 +47,7 @@ export default function RegistrationForm() {
   const [successMessage, setSuccessMessage] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [passwordStrength, setPasswordStrength] = useState(0);
 
   const handleSubmit = async (values, { setSubmitting, resetForm }) => {
     try {
@@ -79,211 +85,246 @@ export default function RegistrationForm() {
         }}
         validationSchema={RegisterSchema}
         onSubmit={handleSubmit}
-        validateOnChange={false}
+        validateOnChange={true}
         validateOnBlur={true}
       >
-        {({ values, touched, errors, isSubmitting }) => (
-          <Form className={styles.form} noValidate>
-            <div className={styles.fieldGroup}>
-              <label htmlFor="email" className={styles.label}>
-                Enter your email
-              </label>
-              <Field
-                type="email"
-                name="email"
-                id="email"
-                placeholder="email@gmail.com"
-                className={[
-                  styles.input,
-                  values.email ? styles.filled : '',
-                  touched.email && errors.email ? styles.errorInput : '',
-                ]
-                  .filter(Boolean)
-                  .join(' ')}
-                aria-invalid={touched.email && errors.email ? 'true' : 'false'}
-                aria-describedby={
-                  touched.email && errors.email ? 'email-error' : undefined
-                }
-                autoComplete="email"
-              />
-              <ErrorMessage
-                name="email"
-                component="div"
-                className={`${styles.error} ${styles.errorLabel}`}
-              />
-            </div>
+        {({ values, touched, errors, isSubmitting, setFieldValue }) => {
+          useEffect(() => {
+            const strength = calculatePasswordStrength(values.password);
+            setPasswordStrength(strength);
+          }, [values.password]);
 
-            <div className={styles.fieldGroup}>
-              <label htmlFor="name" className={styles.label}>
-                Enter your name
-              </label>
-              <Field
-                type="text"
-                id="name"
-                name="name"
-                placeholder="Max"
-                className={[
-                  styles.input,
-                  values.name ? styles.filled : '',
-                  touched.name && errors.name ? styles.errorInput : '',
-                ]
-                  .filter(Boolean)
-                  .join(' ')}
-                aria-invalid={touched.name && errors.name ? 'true' : 'false'}
-                aria-describedby={
-                  touched.name && errors.name ? 'name-error' : undefined
-                }
-                autoComplete="name"
-              />
-              <ErrorMessage
-                name="name"
-                component="div"
-                className={styles.error}
-              />
-            </div>
-
-            <div className={styles.fieldGroup}>
-              <label htmlFor="password" className={styles.label}>
-                Create a strong password
-              </label>
-              <div className={styles.passwordWrapper}>
+          return (
+            <Form className={styles.form} noValidate>
+              <div className={styles.fieldGroup}>
+                <label htmlFor="email" className={styles.label}>
+                  Enter your email
+                </label>
                 <Field
-                  type={showPassword ? 'text' : 'password'}
-                  id="password"
+                  validateOnChange={false}
+                  type="email"
+                  name="email"
+                  id="email"
+                  placeholder="email@gmail.com"
+                  className={[
+                    styles.input,
+                    values.email ? styles.filled : '',
+                    touched.email && errors.email ? styles.errorInput : '',
+                  ]
+                    .filter(Boolean)
+                    .join(' ')}
+                  aria-invalid={
+                    touched.email && errors.email ? 'true' : 'false'
+                  }
+                  aria-describedby={
+                    touched.email && errors.email ? 'email-error' : undefined
+                  }
+                  autoComplete="email"
+                />
+                <ErrorMessage
+                  name="email"
+                  component="div"
+                  className={`${styles.error} ${styles.errorLabel}`}
+                />
+              </div>
+
+              <div className={styles.fieldGroup}>
+                <label htmlFor="name" className={styles.label}>
+                  Enter your name
+                </label>
+                <Field
+                  validateOnChange={false}
+                  type="text"
+                  id="name"
+                  name="name"
+                  placeholder="Max"
+                  className={[
+                    styles.input,
+                    values.name ? styles.filled : '',
+                    touched.name && errors.name ? styles.errorInput : '',
+                  ]
+                    .filter(Boolean)
+                    .join(' ')}
+                  aria-invalid={touched.name && errors.name ? 'true' : 'false'}
+                  aria-describedby={
+                    touched.name && errors.name ? 'name-error' : undefined
+                  }
+                  autoComplete="name"
+                />
+                <ErrorMessage
+                  name="name"
+                  component="div"
+                  className={styles.error}
+                />
+              </div>
+
+              <div className={styles.fieldGroup}>
+                <label htmlFor="password" className={styles.label}>
+                  Create a strong password
+                </label>
+                <div className={styles.passwordWrapper}>
+                  <Field
+                    type={showPassword ? 'text' : 'password'}
+                    id="password"
+                    name="password"
+                    placeholder="*********"
+                    className={[
+                      styles.input,
+                      values.password ? styles.filled : '',
+                      touched.password && errors.password
+                        ? styles.errorInput
+                        : '',
+                    ]
+                      .filter(Boolean)
+                      .join(' ')}
+                    aria-invalid={
+                      touched.password && errors.password ? 'true' : 'false'
+                    }
+                    aria-describedby={
+                      touched.password && errors.password
+                        ? 'password-error'
+                        : undefined
+                    }
+                    autoComplete="new-password"
+                  />
+
+                  <button
+                    type="button"
+                    className={styles.eyeButton}
+                    onClick={() => setShowPassword(!showPassword)}
+                    aria-label={
+                      showPassword ? 'Hide password' : 'Show password'
+                    }
+                  >
+                    <svg width="24" height="24">
+                      <use
+                        href={`/icons.svg#icon-${
+                          showPassword ? 'eye-stroke' : 'eye-crossed'
+                        }`}
+                      />
+                    </svg>
+                  </button>
+                </div>
+
+                <ErrorMessage
                   name="password"
-                  placeholder="*********"
-                  className={[
-                    styles.input,
-                    values.password ? styles.filled : '',
-                    touched.password && errors.password
-                      ? styles.errorInput
-                      : '',
-                  ]
-                    .filter(Boolean)
-                    .join(' ')}
-                  aria-invalid={
-                    touched.password && errors.password ? 'true' : 'false'
-                  }
-                  aria-describedby={
-                    touched.password && errors.password
-                      ? 'password-error'
-                      : undefined
-                  }
-                  autoComplete="new-password"
+                  component="div"
+                  className={`${styles.error} ${styles.inlineError}`}
                 />
+                {/* //TODO: ШКАЛА СКЛАДНОСТІ ПАРОЛЮ */}
 
-                <button
-                  type="button"
-                  className={styles.eyeButton}
-                  onClick={() => setShowPassword(!showPassword)}
-                  aria-label={showPassword ? 'Hide password' : 'Show password'}
-                >
-                  <svg width="24" height="24">
-                    <use
-                      href={`/icons.svg#icon-${
-                        showPassword ? 'eye-stroke' : 'eye-crossed'
-                      }`}
-                    />
-                  </svg>
-                </button>
+                <div className={styles.passwordStrengthMeter}>
+                  <div
+                    className={`${styles.strengthBar} ${
+                      styles[getPasswordStrengthColor(passwordStrength)]
+                    }`}
+                    style={{ width: `${(passwordStrength / 4) * 100}%` }}
+                  ></div>
+                </div>
+
+                {passwordStrength > 0 && (
+                  <div
+                    className={`${styles.passwordStrengthText} ${
+                      styles[getPasswordStrengthColor(passwordStrength)]
+                    }`}
+                  >
+                    {getPasswordStrengthText(passwordStrength)}
+                  </div>
+                )}
               </div>
-              <ErrorMessage
-                name="password"
-                component="div"
-                className={styles.error}
-              />
-            </div>
+              {/* /* //TODO: ШКАЛА СКЛАДНОСТІ ПАРОЛЮ */}
 
-            <div className={styles.fieldGroup}>
-              <label htmlFor="confirmPassword" className={styles.label}>
-                Repeat your password
-              </label>
-              <div className={styles.passwordWrapper}>
-                <Field
-                  type={showConfirmPassword ? 'text' : 'password'}
-                  id="confirmPassword"
+              <div className={styles.fieldGroup}>
+                <label htmlFor="confirmPassword" className={styles.label}>
+                  Repeat your password
+                </label>
+                <div className={styles.passwordWrapper}>
+                  <Field
+                    type={showConfirmPassword ? 'text' : 'password'}
+                    id="confirmPassword"
+                    name="confirmPassword"
+                    placeholder="*********"
+                    className={[
+                      styles.input,
+                      values.confirmPassword ? styles.filled : '',
+                      touched.confirmPassword && errors.confirmPassword
+                        ? styles.errorInput
+                        : '',
+                    ]
+                      .filter(Boolean)
+                      .join(' ')}
+                    aria-invalid={
+                      touched.confirmPassword && errors.confirmPassword
+                        ? 'true'
+                        : 'false'
+                    }
+                    aria-describedby={
+                      touched.confirmPassword && errors.confirmPassword
+                        ? 'confirmPassword-error'
+                        : undefined
+                    }
+                    autoComplete="new-password"
+                  />
+
+                  <button
+                    type="button"
+                    className={styles.eyeButton}
+                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                  >
+                    <svg width="24" height="24">
+                      <use
+                        href={`/icons.svg#icon-${
+                          showConfirmPassword ? 'eye-stroke' : 'eye-crossed'
+                        }`}
+                      />
+                    </svg>
+                  </button>
+                </div>
+                <ErrorMessage
                   name="confirmPassword"
-                  placeholder="*********"
-                  className={[
-                    styles.input,
-                    values.confirmPassword ? styles.filled : '',
-                    touched.confirmPassword && errors.confirmPassword
-                      ? styles.errorInput
-                      : '',
-                  ]
-                    .filter(Boolean)
-                    .join(' ')}
-                  aria-invalid={
-                    touched.confirmPassword && errors.confirmPassword
-                      ? 'true'
-                      : 'false'
-                  }
-                  aria-describedby={
-                    touched.confirmPassword && errors.confirmPassword
-                      ? 'confirmPassword-error'
-                      : undefined
-                  }
-                  autoComplete="new-password"
+                  component="div"
+                  className={styles.error}
                 />
-
-                <button
-                  type="button"
-                  className={styles.eyeButton}
-                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                >
-                  <svg width="24" height="24">
-                    <use
-                      href={`/icons.svg#icon-${
-                        showConfirmPassword ? 'eye-stroke' : 'eye-crossed'
-                      }`}
-                    />
-                  </svg>
-                </button>
               </div>
-              <ErrorMessage
-                name="confirmPassword"
-                component="div"
-                className={styles.error}
-              />
-            </div>
 
-            <div className={styles.checkBoxGroup}>
-              <label className={styles.checkBoxLabel}>
-                <Field
-                  type="checkbox"
+              <div className={styles.checkBoxGroup}>
+                <label className={styles.checkBoxLabel}>
+                  <Field
+                    type="checkbox"
+                    name="acceptTerms"
+                    id="acceptTerms"
+                    className={styles.checkbox}
+                  />
+                  <svg className={styles.checkIcon}>
+                    <use href="/icons.svg#icon-checkbox" />
+                  </svg>
+                  I agree to the Terms of Service and Privacy Policy
+                </label>
+
+                <ErrorMessage
                   name="acceptTerms"
-                  id="acceptTerms"
-                  className={styles.checkbox}
+                  component="div"
+                  className={styles.error}
                 />
-                <svg className={styles.checkIcon}>
-                  <use href="/icons.svg#icon-checkbox" />
-                </svg>
-                I agree to the Terms of Service and Privacy Policy
-              </label>
+              </div>
 
-              <ErrorMessage
-                name="acceptTerms"
-                component="div"
-                className={styles.error}
-              />
-            </div>
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className={`${styles.submitButton} brown-btn`}
+              >
+                {isLoading || isSubmitting ? 'Creating...' : 'Create account'}
+              </button>
 
-            <button
-              type="submit"
-              disabled={isSubmitting}
-              className={`${styles.submitButton} brown-btn`}
-            >
-              {isLoading || isSubmitting ? 'Creating...' : 'Create account'}
-            </button>
-
-            <p className={styles.redirectText}>
-              Already have an account?{' '}
-              <Link to="/auth/login" className={styles.link}>
-                Log in
-              </Link>
-            </p>
-          </Form>
-        )}
+              <p className={styles.redirectText}>
+                Already have an account?{' '}
+                <Link to="/auth/login" className={styles.link}>
+                  Log in
+                </Link>
+              </p>
+            </Form>
+          );
+        }}
       </Formik>
     </div>
   );
