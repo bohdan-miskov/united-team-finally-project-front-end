@@ -131,7 +131,7 @@ select {
 
 .ingredientsSection {
     padding: 0;
-    height: 299px;
+    min-height: 299px;
 }
 
 /* Ingredients список */
@@ -368,7 +368,13 @@ gap: 72px;
         color: var(--black);
     }
 
-
+    .imageUpload {
+        height: 374px;
+    }
+    .imageUpload svg {
+        width: 163px;
+        height: 136px;
+    }
 
     .ingredientsSection button {
         border: 1px solid var(--light-brown);
@@ -397,9 +403,9 @@ gap: 72px;
 
     }
         .ingredientsSection{
-            height: 240px;
+            min-height: 240px;
         }
-
+    
     .selectedIngredients li {
         width: 332px;
         height: 28px;
