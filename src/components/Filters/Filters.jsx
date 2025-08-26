@@ -132,11 +132,11 @@ export default function Filters() {
                 isClearable={false}
                 isLoading={isLoadingIngredients}
                 options={ingredients.map(i => ({
-                  value: i.id,
+                  value: i._id,
                   label: i.name,
                 }))}
                 value={selectedIngredients.map(i => ({
-                  value: i.id,
+                  value: i._id,
                   label: i.name,
                 }))}
                 onChange={handleIngredientsChange}
