@@ -10,7 +10,7 @@ export default function NotFound() {
   const isTabletOrDesktop = useMediaQuery({ minWidth: 768 });
 
   return (
-    <section className={css.desktopSection}>
+    <section className={css.section}>
       <div className={`container ${css.wrapper}`}>
         {isMobile && (
           <img
