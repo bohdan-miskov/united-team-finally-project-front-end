@@ -35,5 +35,3 @@ export const recipeDetailsExample = {
   updatedAt: '2025-08-21T19:43:48.602+00:00',
   cals: 224,
 };
-
-console.log(recipeDetailsExample);

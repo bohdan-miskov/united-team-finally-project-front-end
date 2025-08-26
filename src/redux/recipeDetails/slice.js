@@ -3,7 +3,7 @@ import { getRecipeDetails } from './operations';
 import { setPending, setRejected } from '../helpers/statusHandlers';
 
 const initialState = {
-  recipe: {},
+  recipe: null,
   isLoading: false,
   error: null,
 };
