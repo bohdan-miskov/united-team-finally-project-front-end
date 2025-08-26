@@ -77,7 +77,7 @@ export default function RecipeCard({ recipe, recipeType }) {
             aria-label={isSaved ? 'Remove from saved' : 'Save recipe'}
             className={`${styles.bookmarkBtn} ${
               isSaved ? styles.bookmarkActive : ''
-            } brown-btn`}
+            } ${recipeType === 'all' ? 'outline-btn' : 'brown-btn'}`}
           >
             <svg className={styles.iconSave}>
               <use href={'/icons.svg#icon-save-to-list'} />

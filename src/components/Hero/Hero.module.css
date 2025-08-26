@@ -15,7 +15,8 @@
       rgba(0, 0, 0, 0.9),
       rgba(0, 0, 0, 0.3)
     ),
-    url('../../assets/img//hero/main-mob.webp');
+    -webkit-image-set(url('../../assets/img//hero/main-mob.webp') 1x, url('../../assets/img//hero/main-mob@2x.webp')
+          21x);
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
@@ -46,7 +47,8 @@
         rgba(0, 0, 0, 0.9),
         rgba(0, 0, 0, 0.3)
       ),
-      url('../../assets/img/hero/main-tab.webp');
+      -webkit-image-set(url('../../assets/img/hero/main-tab.webp') 1x, url('../../assets/img/hero/main-tab@2x.webp')
+            2x);
   }
   .content h1 {
     font-size: 48px;
@@ -63,6 +65,7 @@
         rgba(0, 0, 0, 0.9),
         rgba(0, 0, 0, 0.3)
       ),
-      url('../../assets/img/hero/main-desk.webp');
+      -webkit-image-set(url('../../assets/img/hero/main-desk.webp') 1x, url('../../assets/img/hero/main-desk@2x.webp')
+            2x);
   }
 }
