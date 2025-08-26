@@ -1,34 +1,7 @@
-.page {
-    max-width: 361px;
-    margin: 48px 0 48px;
-    padding: 0 16px;
-}
+
 
 .title {
-    font-family: var(--font-family);
-    font-weight: 600;
-    font-size: 40px;
     color: var(--black);
     margin-bottom: 16px;
-}
 
-@media (min-width: 768px) {
-    .page {
-        max-width: 704px;
-    }
-
-    .title {
-        line-height: 110%;
-    }
-}
-
-@media (min-width: 1440px) {
-    .page {
-        max-width: 1226px;
-    }
-
-    .title {
-        font-size: 48px;
-        margin-bottom: 40px;
-    }
 }
