@@ -1,17 +1,16 @@
-import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
+import { Link, NavLink, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useState, useCallback } from 'react';
 
 import { selectIsLoggedIn } from '../../redux/auth/selectors';
 import css from './Footer.module.css';
 import Logo from '../../assets/img/logo.svg';
-import Modal from '../Modal/Modal';
+import Modal from '../AuthenticateModal/AuthenticateModal';
 
 const Footer = () => {
   const isLoggedIn = useSelector(selectIsLoggedIn);
 
   const location = useLocation();
-  const navigate = useNavigate();
 
   const [authModalOpen, setAuthModalOpen] = useState(false);
 
@@ -62,31 +61,7 @@ const Footer = () => {
           </nav>
         </div>
 
-        {authModalOpen && (
-          <Modal title="Authorization required" onClose={closeAuthModal}>
-            <p>You need to log in or register to view your account.</p>
-            <div className={css.modalActions}>
-              <button
-                type="button"
-                onClick={() => {
-                  closeAuthModal();
-                  navigate('/auth/login');
-                }}
-              >
-                Log in
-              </button>
-              <button
-                type="button"
-                onClick={() => {
-                  closeAuthModal();
-                  navigate('/auth/register');
-                }}
-              >
-                Register
-              </button>
-            </div>
-          </Modal>
-        )}
+        {authModalOpen && <Modal closeAuthModal={closeAuthModal}></Modal>}
       </div>
     </footer>
   );
