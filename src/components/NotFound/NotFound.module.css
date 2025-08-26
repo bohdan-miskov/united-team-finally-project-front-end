@@ -1,5 +1,8 @@
+.section {
+  padding: 79px 0;
+}
+
 .img {
-  margin-top: 31px;
   margin-bottom: 32px;
 }
 
@@ -21,7 +24,6 @@
   padding: 17px 0;
   justify-content: center;
   align-items: center;
-  margin-bottom: 31px;
 }
 
 .wrapper {
@@ -36,26 +38,17 @@
 }
 
 @media only screen and (min-width: 768px) {
-  .img {
-    margin-top: 85.5px;
+  .section {
+    padding: 133.5px 0;
   }
 
   .button {
-    margin-bottom: 85.5px;
     width: 340px;
   }
 }
 
 @media only screen and (min-width: 1440px) {
-  .desktopSection {
+  .section {
     padding: 38px 0;
-  }
-
-  .img {
-    margin-top: 0px;
-  }
-
-  .button {
-    margin-bottom: 0px;
   }
 }
