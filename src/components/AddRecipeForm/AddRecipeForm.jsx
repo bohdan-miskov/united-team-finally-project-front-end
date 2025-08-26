@@ -95,7 +95,7 @@ export default function AddRecipeForm() {
                   {preview ? (
                     <img src={preview} alt="Preview" width="150" />
                   ) : (
-                    <svg width="52" height="52">
+                    <svg width="82" height="82">
                       <use href="/icons.svg#icon-photo"></use>
                     </svg>
                   )}
