@@ -1,22 +1,7 @@
 import { useMediaQuery } from 'react-responsive';
-import { useSelector, useDispatch } from 'react-redux';
-import { selectRecipeDetails } from '../../redux/recipeDetails/selectors.js';
-import { useParams } from 'react-router-dom';
 import css from './RecipeDetails.module.css';
-import { useEffect } from 'react';
-import { getRecipeDetails } from '../../redux/recipeDetails/operations.js';
 
-export default function RecipeDetails() {
-  const { id } = useParams();
-
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(getRecipeDetails(id));
-  }, [dispatch, id]);
-
-  const recipe = useSelector(selectRecipeDetails);
-
+export default function RecipeDetails({ recipe }) {
   const isMobile = useMediaQuery({ maxWidth: 767 });
   const isTabletOrDesktop = useMediaQuery({ minWidth: 768 });
   const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 1439 });
