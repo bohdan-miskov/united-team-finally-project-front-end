@@ -20,10 +20,14 @@ const authSlice = createSlice({
         setPending(state);
       })
       .addCase(registerUser.fulfilled, state => {
+        state.isLoggedIn = true;
         state.isLoading = false;
+        state.isAuthenticated = true;
       })
       .addCase(registerUser.rejected, (state, action) => {
         setRejected(state, action);
+        state.isLoggedIn = false;
+        state.isAuthenticated = false;
       })
       .addCase(logInUser.pending, state => {
         setPending(state);

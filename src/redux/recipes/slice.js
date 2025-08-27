@@ -76,12 +76,12 @@ const recipesSlice = createSlice({
       })
       .addCase(createRecipe.fulfilled, (state, action) => {
         state.all.isLoading = false;
-        state.all.items.pop();
-        state.all.items.unshift(action.payload);
-        state.all.totalItems += 1;
-        state.own.items.pop();
-        state.own.items.unshift(action.payload);
-        state.own.totalItems += 1;
+        // state.all.items.pop();
+        // state.all.items.unshift(action.payload);
+        // state.all.totalItems += 1;
+        // state.own.items.pop();
+        // state.own.items.unshift(action.payload);
+        // state.own.totalItems += 1;
       })
       .addCase(createRecipe.rejected, (state, action) => {
         setRejected(state.all, action);
@@ -122,10 +122,10 @@ const recipesSlice = createSlice({
       })
       .addCase(addRecipeToFavorite.fulfilled, (state, action) => {
         state.favorite.isLoading = false;
-        state.favorite.items.pop();
-        state.favorite.items.unshift(action.payload);
         // state.favorite.items.pop();
-        state.favorite.totalItems += 1;
+        // state.favorite.items.unshift(action.payload);
+        // // state.favorite.items.pop();
+        // state.favorite.totalItems += 1;
       })
       .addCase(addRecipeToFavorite.rejected, (state, action) => {
         setRejected(state.favorite, action);

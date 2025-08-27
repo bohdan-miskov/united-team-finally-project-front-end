@@ -14,7 +14,7 @@ export const setAuthHeader = token => {
 };
 
 export const clearAuthHeader = () => {
-  delete api.defaults.headers.common.Authorization;
+  api.defaults.headers.common.Authorization = '';
 };
 
 // Змінна для передачі store

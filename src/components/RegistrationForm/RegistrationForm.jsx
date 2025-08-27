@@ -45,7 +45,13 @@ export default function RegistrationForm() {
 
   const handleSubmit = async (values, { setSubmitting, resetForm }) => {
     try {
-      await dispatch(registerUser(values)).unwrap();
+      await dispatch(
+        registerUser({
+          name: values.name,
+          email: values.email,
+          password: values.password,
+        })
+      ).unwrap();
       resetForm();
       setSuccessMessage('Register successful!');
       navigate('/', { replace: true });
