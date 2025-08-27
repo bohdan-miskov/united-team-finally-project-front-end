@@ -20,7 +20,8 @@
 .fieldGroup {
   margin-bottom: 16px;
 }
-.fieldGroup:has(.passwordStrengthMeter) {
+
+.fieldGroupWithStrength {
   margin-bottom: 8px;
 }
 .label {
@@ -50,8 +51,9 @@
   border: 1px solid var(--light-gray);
 }
 .inlineError {
-  position: static;
+  position: relative;
   transform: none;
+  margin-left: 6px;
 }
 .errorInput {
   border: 2px solid var(--red);
@@ -95,13 +97,18 @@
 }
 
 /* #region PASSWORD SCALE METER */
+
+.passwordStrengthContainer {
+  margin-top: 8px;
+
+  animation: fadeIn 0.2s ease-in-out;
+}
+
 .passwordStrengthMeter {
   height: 8px;
   background-color: #e0e0e0;
   border-radius: 4px;
-  margin-top: 8px;
   overflow: hidden;
-  transition: background-color 0.3s ease;
 }
 
 .strengthBar {
@@ -134,7 +141,7 @@
   color: #9e9e9e;
   transition: color 0.3s ease;
   animation: fadeIn 0.2s ease-in-out;
-  min-height: 1.2em;
+  /* min-height: 1.2em; */
 }
 
 .passwordStrengthText.very-weak {
@@ -153,11 +160,21 @@
   color: #2196f3;
 }
 
-.checkBoxGroup {
-  margin-bottom: 27px;
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 /* #endregion */
 
+.checkBoxGroup {
+  margin-bottom: 27px;
+}
 .checkBoxLabel {
   display: flex;
   align-items: center;

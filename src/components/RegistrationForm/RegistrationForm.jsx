@@ -158,11 +158,15 @@ export default function RegistrationForm() {
                 />
               </div>
 
-              <div className={styles.fieldGroup}>
+              <div
+                className={`${styles.fieldGroup} ${
+                  values.password ? styles.fieldGroupWithStrength : ''
+                }`}
+              >
                 <label htmlFor="password" className={styles.label}>
                   Create a strong password
                 </label>
-                <div className={styles.passwordWrapper}>
+                <div className={`${styles.passwordWrapper} ${styles.hasStyle}`}>
                   <Field
                     type={showPassword ? 'text' : 'password'}
                     id="password"
@@ -213,22 +217,25 @@ export default function RegistrationForm() {
                 />
                 {/* //TODO: ШКАЛА СКЛАДНОСТІ ПАРОЛЮ */}
 
-                <div className={styles.passwordStrengthMeter}>
-                  <div
-                    className={`${styles.strengthBar} ${
-                      styles[getPasswordStrengthColor(passwordStrength)]
-                    }`}
-                    style={{ width: `${(passwordStrength / 4) * 100}%` }}
-                  ></div>
-                </div>
-
-                {passwordStrength > 0 && (
-                  <div
-                    className={`${styles.passwordStrengthText} ${
-                      styles[getPasswordStrengthColor(passwordStrength)]
-                    }`}
-                  >
-                    {getPasswordStrengthText(passwordStrength)}
+                {values.password && (
+                  <div className={styles.passwordStrengthContainer}>
+                    <div className={styles.passwordStrengthMeter}>
+                      <div
+                        className={`${styles.strengthBar} ${
+                          styles[getPasswordStrengthColor(passwordStrength)]
+                        }`}
+                        style={{ width: `${(passwordStrength / 4) * 100}%` }}
+                      ></div>
+                    </div>
+                    {passwordStrength > 0 && (
+                      <div
+                        className={`${styles.passwordStrengthText} ${
+                          styles[getPasswordStrengthColor(passwordStrength)]
+                        }`}
+                      >
+                        {getPasswordStrengthText(passwordStrength)}
+                      </div>
+                    )}
                   </div>
                 )}
               </div>
