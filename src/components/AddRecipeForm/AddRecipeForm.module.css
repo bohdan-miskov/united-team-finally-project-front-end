@@ -124,10 +124,7 @@ select {
     
 }
 
-.selectCategory {
-    
 
-}
 
 .ingredientsSection {
     padding: 0;
@@ -225,7 +222,7 @@ select {
 
 .instructionsSection {
     padding: 0 ;
-    height: 189px;
+    min-height: 189px;
 }
 
 .textInstructions {
@@ -331,7 +328,7 @@ button:hover {
     }
 
     .instructionsSection {
-        height: 199px;
+        min-height: 199px;
 
     }
 
