@@ -10,7 +10,7 @@ export default function NotFound() {
   const isTabletOrDesktop = useMediaQuery({ minWidth: 768 });
 
   return (
-    <section className={css.desktopSection}>
+    <section className={css.section}>
       <div className={`container ${css.wrapper}`}>
         {isMobile && (
           <img
@@ -30,7 +30,7 @@ export default function NotFound() {
           />
         )}
         <h1 className={css.h1}>404</h1>
-        <h3 className={css.h3}>Recipe not found</h3>
+        <p className={css.h3}>Recipe not found</p>
         <button type="button" className={`brown-btn ${css.button}`}>
           <svg className={css.icon} width={24} height={24}>
             <use href="/icons.svg#icon-left-short-arrow"></use>
