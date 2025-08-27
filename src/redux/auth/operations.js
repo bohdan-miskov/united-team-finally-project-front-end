@@ -23,6 +23,7 @@ import { selectIsAuthenticated } from './selectors';
 
 export const registerUser = createAsyncThunk('auth/register', async user => {
   const response = await api.post('/auth/register', user);
+  setAuthHeader(response.data.data.accessToken);
   return response.data.data;
   // console.log(api.e);
   // await new Promise((resolve) => setTimeout(resolve, 2000));
