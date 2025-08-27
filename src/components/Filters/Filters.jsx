@@ -3,7 +3,7 @@ import Select from 'react-select';
 import styles from './Filters.module.css';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  changeSearchCategory,
+  changeSearchCategories,
   changeSearchIngredients,
   clearFilters,
 } from '../../redux/filters/slice';
@@ -16,7 +16,7 @@ import {
   selectIngredientsIsLoading,
 } from '../../redux/ingredients/selectors';
 import {
-  selectSearchCategory,
+  selectSearchCategories,
   selectSearchIngredients,
 } from '../../redux/filters/selectors';
 import { getCategories } from '../../redux/categories/operations';
@@ -33,7 +33,7 @@ export default function Filters() {
   const isLoadingCategories = useSelector(selectCategoriesIsLoading);
   const isLoadingIngredients = useSelector(selectIngredientsIsLoading);
 
-  const selectedCategories = useSelector(selectSearchCategory);
+  const selectedCategories = useSelector(selectSearchCategories);
   const selectedIngredients = useSelector(selectSearchIngredients);
   //const totalItems = useSelector(selectAllRecipesTotalItems);
 
@@ -70,7 +70,7 @@ export default function Filters() {
   };
 
   const handleCategoriesChange = selected => {
-    dispatch(changeSearchCategory(selected?.map(c => c.value) || []));
+    dispatch(changeSearchCategories(selected?.map(c => c.value) || []));
   };
 
   const handleIngredientsChange = selected => {
@@ -131,14 +131,12 @@ export default function Filters() {
                 isMulti
                 isClearable={false}
                 isLoading={isLoadingIngredients}
-                options={ingredients.map(i => ({
-                  value: i._id,
-                  label: i.name,
-                }))}
-                value={selectedIngredients.map(i => ({
-                  value: i._id,
-                  label: i.name,
-                }))}
+                options={ingredients.map(i => {
+                  return {
+                    value: i._id,
+                    label: i.name,
+                  };
+                })}
                 onChange={handleIngredientsChange}
                 placeholder="Ingredient"
                 classNamePrefix="customSelect"
