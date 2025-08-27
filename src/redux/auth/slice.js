@@ -1,12 +1,6 @@
-import { createSlice } from "@reduxjs/toolkit";
-import {
-  logInUser,
-  logOutUser,
-  refreshUser,
-  registerAndLoginUser,
-  registerUser,
-} from "./operations";
-import { setPending, setRejected } from "../helpers/statusHandlers";
+import { createSlice } from '@reduxjs/toolkit';
+import { logInUser, logOutUser, refreshUser, registerUser } from './operations';
+import { setPending, setRejected } from '../helpers/statusHandlers';
 
 const initialState = {
   isLoggedIn: false,
@@ -17,24 +11,24 @@ const initialState = {
 };
 
 const authSlice = createSlice({
-  name: "auth",
+  name: 'auth',
   initialState,
   reducers: {},
-  extraReducers: (builder) => {
+  extraReducers: builder => {
     builder
-      .addCase(registerUser.pending, (state) => {
+      .addCase(registerUser.pending, state => {
         setPending(state);
       })
-      .addCase(registerUser.fulfilled, (state) => {
+      .addCase(registerUser.fulfilled, state => {
         state.isLoading = false;
       })
       .addCase(registerUser.rejected, (state, action) => {
         setRejected(state, action);
       })
-      .addCase(logInUser.pending, (state) => {
+      .addCase(logInUser.pending, state => {
         setPending(state);
       })
-      .addCase(logInUser.fulfilled, (state) => {
+      .addCase(logInUser.fulfilled, state => {
         state.isLoggedIn = true;
         state.isLoading = false;
         state.isAuthenticated = true;
@@ -44,10 +38,10 @@ const authSlice = createSlice({
         state.isLoggedIn = false;
         state.isAuthenticated = false;
       })
-      .addCase(logOutUser.pending, (state) => {
+      .addCase(logOutUser.pending, state => {
         setPending(state);
       })
-      .addCase(logOutUser.fulfilled, (state) => {
+      .addCase(logOutUser.fulfilled, state => {
         state.isLoggedIn = false;
         state.isLoading = false;
         state.isAuthenticated = false;
@@ -55,11 +49,11 @@ const authSlice = createSlice({
       .addCase(logOutUser.rejected, (state, action) => {
         setRejected(state, action);
       })
-      .addCase(refreshUser.pending, (state) => {
+      .addCase(refreshUser.pending, state => {
         state.isRefreshing = true;
         state.error = null;
       })
-      .addCase(refreshUser.fulfilled, (state) => {
+      .addCase(refreshUser.fulfilled, state => {
         state.isAuthenticated = true;
         state.isLoggedIn = true;
         state.isRefreshing = false;
@@ -68,11 +62,6 @@ const authSlice = createSlice({
         state.isRefreshing = false;
         state.isAuthenticated = false;
         state.isLoggedIn = false;
-      })
-      .addCase(registerAndLoginUser.rejected, (state, action) => {
-        setRejected(state, action);
-        state.isLoggedIn = false;
-        state.isAuthenticated = false;
       });
   },
 });
