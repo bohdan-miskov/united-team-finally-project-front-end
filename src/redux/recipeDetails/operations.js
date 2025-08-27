@@ -1,8 +1,8 @@
-import { createAsyncThunk } from '@reduxjs/toolkit';
 import api from '../../services/axiosConfig';
+import { wrapAsyncThunk } from '../../services/wrapAsyncThunk';
 import { recipeDetailsExample } from '../tempObjects/recipeDetails';
 
-export const getRecipeDetails = createAsyncThunk(
+export const getRecipeDetails = wrapAsyncThunk(
   'recipeDetails/getRecipe',
   async recipeId => {
     const response = await api.get(`recipes/${recipeId}`);
