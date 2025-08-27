@@ -22,7 +22,9 @@ import { selectIsAuthenticated } from './selectors';
 // );
 
 export const registerUser = createAsyncThunk('auth/register', async user => {
-  const response = await api.post('/auth/register', user);
+  const response = await api.post('/auth/register', user, {
+    skipRefresh: true,
+  });
   setAuthHeader(response.data.data.accessToken);
   return response.data.data;
   // console.log(api.e);
@@ -31,7 +33,9 @@ export const registerUser = createAsyncThunk('auth/register', async user => {
 });
 
 export const logInUser = createAsyncThunk('auth/logIn', async userData => {
-  const response = await api.post('/auth/login', userData);
+  const response = await api.post('/auth/login', userData, {
+    skipRefresh: true,
+  });
   setAuthHeader(response.data.data.accessToken);
   return response.data.data;
   // console.log(userData);
@@ -41,7 +45,7 @@ export const logInUser = createAsyncThunk('auth/logIn', async userData => {
 });
 
 export const logOutUser = createAsyncThunk('auth/logOut', async () => {
-  await api.post('/auth/logout');
+  await api.post('/auth/logout', { skipRefresh: true });
   clearAuthHeader();
   //await new Promise(resolve => setTimeout(resolve, 2000));
 });
@@ -53,12 +57,12 @@ export const refreshUser = createAsyncThunk(
     if (!isAuthenticated) {
       return thunkApi.rejectWithValue('Is not Authenticated user');
     }
-    return thunkApi.rejectWithValue('Is not Authenticated user');
-    // const response = await api.post("/auth/");
-    // setAuthHeader(response.data.data.accessToken);
-    // return response.data.data;
-    setAuthHeader('1234');
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    return { accessToken: '1234' };
+    // return thunkApi.rejectWithValue('Is not Authenticated user');
+    const response = await api.post('/auth/refresh', { skipRefresh: true });
+    setAuthHeader(response.data.data.accessToken);
+    return response.data.data;
+    // setAuthHeader('1234');
+    // await new Promise(resolve => setTimeout(resolve, 2000));
+    // return { accessToken: '1234' };
   }
 );
