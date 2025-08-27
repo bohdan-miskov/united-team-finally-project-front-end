@@ -23,23 +23,26 @@ export const injectStore = _store => {
   store = _store;
 };
 
-// Інтерсептор з викликом refreshUser через dispatch
 api.interceptors.response.use(
   response => response,
   async error => {
     const originalRequest = error.config;
 
+    // Перевіряємо, чи цей thunk позначений skipRefresh
+    if (originalRequest?.skipRefresh) {
+      return Promise.reject(error);
+    }
+
     if (error.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
 
-      if (!store) return Promise.reject(error); // якщо store не підключений
+      if (!store) return Promise.reject(error);
 
       try {
-        // Викликаємо refreshUser thunk через dispatch
         const resultAction = await store.dispatch(refreshUser());
 
         if (refreshUser.fulfilled.match(resultAction)) {
-          return api(originalRequest); // повторюємо запит
+          return api(originalRequest);
         } else {
           return Promise.reject(error);
         }
