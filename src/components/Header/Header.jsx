@@ -11,16 +11,22 @@ import Navigation from './Navigation/Navigation';
 
 import css from './Header.module.css';
 import { selectUserProfile } from '../../redux/user/selectors';
+import { getUserInfo } from '../../redux/user/operations';
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const userName = useSelector(selectUserProfile)?.name ?? 'Guest';
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
 
   const isLoggedIn = useSelector(selectIsLoggedIn);
+
+  useEffect(() => {
+    isLoggedIn && dispatch(getUserInfo());
+  }, [dispatch, isLoggedIn]);
+
+  const userName = useSelector(selectUserProfile)?.name ?? 'Guest';
 
   useEffect(() => {
     setMenuOpen(false);

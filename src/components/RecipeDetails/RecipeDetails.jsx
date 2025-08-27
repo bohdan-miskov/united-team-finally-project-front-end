@@ -11,15 +11,35 @@ export default function RecipeDetails({ recipe }) {
     <section>
       <div className="container">
         {isTabletOrDesktop && <h1 className={css.header}>{recipe.title}</h1>}
-        {isMobile && (
-          <img className={css.img} src={recipe.thumb} alt={recipe.title} />
-        )}
-        {isTablet && (
-          <img className={css.img} src={recipe.thumb} alt={recipe.title} />
-        )}
-        {isDesktop && (
-          <img className={css.img} src={recipe.thumb} alt={recipe.title} />
-        )}
+        <div className={css.imgContainer}>
+          {isMobile && (
+            <img
+              className={css.img}
+              src={recipe.thumb}
+              alt={recipe.title}
+              width={361}
+              height={276}
+            />
+          )}
+          {isTablet && (
+            <img
+              className={css.img}
+              src={recipe.thumb}
+              alt={recipe.title}
+              width={704}
+              height={624}
+            />
+          )}
+          {isDesktop && (
+            <img
+              className={css.img}
+              src={recipe.thumb}
+              alt={recipe.title}
+              width={704}
+              height={624}
+            />
+          )}
+        </div>
         {isMobile && <h1 className={css.header}>{recipe.title}</h1>}
         <div className={css.desktopWrapper}>
           <div className={css.tabletWrapper}>

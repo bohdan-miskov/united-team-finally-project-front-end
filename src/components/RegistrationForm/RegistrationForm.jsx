@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 import { useState } from 'react';
-import { registerAndLoginUser } from '../../redux/auth/operations';
+import { registerUser } from '../../redux/auth/operations';
 import {
   selectAuthError,
   selectAuthIsLoading,
@@ -45,7 +45,7 @@ export default function RegistrationForm() {
 
   const handleSubmit = async (values, { setSubmitting, resetForm }) => {
     try {
-      await dispatch(registerAndLoginUser(values)).unwrap();
+      await dispatch(registerUser(values)).unwrap();
       resetForm();
       setSuccessMessage('Register successful!');
       navigate('/', { replace: true });

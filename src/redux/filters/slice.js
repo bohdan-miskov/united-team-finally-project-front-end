@@ -1,26 +1,26 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  searchQuery: "",
-  category: [],
+  searchQuery: '',
+  categories: [],
   ingredients: [],
 };
 
 const filtersSlice = createSlice({
-  name: "filters",
+  name: 'filters',
   initialState,
   reducers: {
     changeSearchQuery(state, action) {
       state.searchQuery = action.payload?.trim().toLowerCase();
     },
-    changeSearchCategory(state, action) {
-      state.category = action.payload;
+    changeSearchCategories(state, action) {
+      state.categories = action.payload;
     },
     changeSearchIngredients(state, action) {
       state.ingredients = action.payload;
     },
     clearFilters(state) {
-      state.category = [];
+      state.categories = [];
       state.ingredients = [];
     },
   },
@@ -30,7 +30,7 @@ export default filtersSlice.reducer;
 
 export const {
   changeSearchQuery,
-  changeSearchCategory,
+  changeSearchCategories,
   changeSearchIngredients,
   clearFilters,
 } = filtersSlice.actions;
