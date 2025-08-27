@@ -22,7 +22,6 @@ const categoriesSlice = createSlice({
         state.isLoading = false;
       })
       .addCase(getCategories.rejected, (state, action) => {
-        console.log('🚀 ~  action:', action);
         setRejected(state, action);
       });
   },
