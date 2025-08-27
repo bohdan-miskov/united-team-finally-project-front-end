@@ -150,6 +150,12 @@ export default function LoginForm() {
             </button>
 
             <p className={styles.redirectText}>
+              <Link to="/auth/request-reset" className={styles.link}>
+                Forgot password?
+              </Link>
+            </p>
+
+            <p className={styles.redirectText}>
               Don't have an account?{' '}
               <Link to="/auth/register" className={styles.link}>
                 Register
