@@ -11,19 +11,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectIsRefreshing } from '../redux/auth/selectors';
 import { refreshUser } from '../redux/auth/operations';
 import Loader from '../components/Loader/Loader';
-import { lazy, Suspense, useEffect } from 'react';
-import Layout from '../components/Layout/Layout';
-import { Toaster } from 'react-hot-toast';
-import { Navigate, Route, Routes } from 'react-router-dom';
-import PrivateRoute from '../components/PrivateRoute';
-import RestrictedRoute from '../components/RestrictedRoute';
-import Refreshing from '../components/Refreshing/Refreshing';
-import ProfileOwn from '../components/ProfileOwn/ProfileOwn';
-import ProfileFavorites from '../components/ProfileFavorites/ProfileFavorites';
-import { useDispatch, useSelector } from 'react-redux';
-import { selectIsRefreshing } from '../redux/auth/selectors';
-import { refreshUser } from '../redux/auth/operations';
-import Loader from '../components/Loader/Loader';
 
 const MainPage = lazy(() => import('../pages/MainPage/MainPage'));
 const RecipeViewPage = lazy(() =>
@@ -75,7 +62,10 @@ function App() {
           <Route
             path="/profile/:recipeType"
             element={<PrivateRoute component={<ProfilePage />} />}
-          />
+          >
+            {/* <Route path="own" element={<ProfileOwn />} />
+            <Route path="favorites" element={<ProfileFavorites />} /> */}
+          </Route>
           <Route
             path="/auth/:authType"
             element={<RestrictedRoute component={<AuthPage />} />}
@@ -89,7 +79,7 @@ function App() {
             path="/auth/reset-password/:token"
             element={<RestrictedRoute component={<ResetPasswordForm />} />}
           />
-          <Route path="*" element={<Navigate to="/" replace />} />
+          <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </Suspense>
       <Toaster position="top-center" reverseOrder={false} />

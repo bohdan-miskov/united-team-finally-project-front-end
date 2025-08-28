@@ -45,15 +45,7 @@ export default function RecipeCard({ recipe, recipeType }) {
 
   return (
     <div className={styles.card}>
-      {imgSrc ? (
-        <img src={imgSrc} alt={title} className={styles.image} />
-      ) : (
-        <div className={styles.defaultImg}>
-          <svg className={styles.iconPhoto} width={48} height={48}>
-            <use href={'/icons.svg#icon-photo'} />
-          </svg>
-        </div>
-      )}
+      <img src={imgSrc} alt={title} className={styles.image} />
 
       <div className={styles.header}>
         <h3 className={styles.title}>{title}</h3>

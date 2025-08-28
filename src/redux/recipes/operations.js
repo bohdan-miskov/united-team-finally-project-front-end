@@ -1,109 +1,96 @@
+import { createAsyncThunk } from "@reduxjs/toolkit";
 import {
-  selectSearchCategories,
+  selectSearchCategory,
   selectSearchIngredients,
   selectSearchQuery,
-} from '../filters/selectors';
-import api from '../../services/axiosConfig';
-import { recipesExample } from '../tempObjects/recipes';
-import { recipeDetailsExample } from '../tempObjects/recipeDetails';
-import { wrapAsyncThunk } from '../../services/wrapAsyncThunk';
+} from "../filters/selectors";
+import api from "../../services/axiosConfig";
+import { recipesExample } from "../tempObjects/recipes";
+import { recipeDetailsExample } from "../tempObjects/recipeDetails";
 
 const perPage = 12;
 
-export const getAllRecipes = wrapAsyncThunk(
-  'recipes/getAll',
+export const getAllRecipes = createAsyncThunk(
+  "recipes/getAll",
   async (newPage, thunkApi) => {
     const state = thunkApi.getState();
-    const searchQuery = selectSearchQuery(state);
-    const categories = selectSearchCategories(state);
-    const ingredients = selectSearchIngredients(state);
-    const params = {
-      searchQuery,
-      categories,
+    const query = selectSearchQuery(state);
+    const category = selectSearchCategory(state).join(",");
+    const ingredients = selectSearchIngredients(state).join(",");
+
+    // const response = await api.get("/recipes/", {
+    //   params: { query, category, ingredients, page: newPage, perPage },
+    // });
+    // return response.data.data;
+
+    console.log(
+      newPage,
+      thunkApi.e,
+      query,
+      category,
       ingredients,
-      page: newPage,
-      perPage,
-    };
-    const response = await api.get('/recipes', {
-      params: params,
-    });
-    return response.data.data;
-
-    // console.log(
-    //   newPage,
-    //   thunkApi.e,
-    //   query,
-    //   category,
-    //   ingredients,
-    //   api.e,
-    //   perPage
-    // );
-    // await new Promise((resolve) => setTimeout(resolve, 2000));
-    // return recipesExample;
+      api.e,
+      perPage
+    );
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+    return recipesExample;
   }
 );
 
-export const createRecipe = wrapAsyncThunk(
-  'recipes/createRecipe',
-  async payload => {
-    const response = await api.post('/recipes', payload);
-    return response.data.data;
-    // console.log(payload);
-    // await new Promise(resolve => setTimeout(resolve, 2000));
-    // return recipeDetailsExample;
+export const createRecipe = createAsyncThunk(
+  "recipes/createRecipe",
+  async (payload) => {
+    // const response = await api.post("/recipes/", payload);
+    // return response.data.data;
+    console.log(payload);
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+    return recipeDetailsExample;
   }
 );
 
-export const deleteRecipe = wrapAsyncThunk(
-  'recipes/deleteRecipe',
-  async recipeId => {
-    await api.delete(`/recipes/${recipeId}`);
-    return recipeId;
-    // await new Promise(resolve => setTimeout(resolve, 2000));
+export const getFavoriteRecipes = createAsyncThunk(
+  "recipes/getFavorite",
+  async (newPage) => {
+    // const response = await api.get("/recipes/", {
+    //   params: { page: newPage, perPage },
+    // });
+    // return response.data.data;
+    console.log(newPage);
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+    return recipesExample;
+  }
+);
+
+export const addRecipeToFavorite = createAsyncThunk(
+  "recipes/addToFavorite",
+  async (recipeId) => {
+    // const response = await api.post(`/recipes/${recipeId}`);
+    // return response.data.data;
+    console.log(recipeId);
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+    return recipeDetailsExample;
+  }
+);
+
+export const deleteRecipeFromFavorite = createAsyncThunk(
+  "recipes/deleteFromFavorite",
+  async (recipeId) => {
+    // await api.delete(`/recipes/${recipeId}`);
     // return recipeId;
-  }
-);
-
-export const getFavoriteRecipes = wrapAsyncThunk(
-  'recipes/getFavorite',
-  async newPage => {
-    const response = await api.get('/recipes/favourites', {
-      params: { page: newPage, perPage },
-    });
-    return response.data.data;
-    // console.log(newPage);
-    // await new Promise(resolve => setTimeout(resolve, 2000));
-    // return recipesExample;
-  }
-);
-
-export const addRecipeToFavorite = wrapAsyncThunk(
-  'recipes/addToFavorite',
-  async recipeId => {
-    const response = await api.post(`/recipes/favourites/${recipeId}`);
-    return response.data.data;
-    // console.log(recipeId);
-    // await new Promise(resolve => setTimeout(resolve, 2000));
-    // return recipeDetailsExample;
-  }
-);
-
-export const deleteRecipeFromFavorite = wrapAsyncThunk(
-  'recipes/deleteFromFavorite',
-  async recipeId => {
-    await api.delete(`/recipes/favourites/${recipeId}`);
+    await new Promise((resolve) => setTimeout(resolve, 2000));
     return recipeId;
-    // await new Promise(resolve => setTimeout(resolve, 2000));
-    // return recipeId;
   }
 );
 
-export const getOwnRecipes = wrapAsyncThunk('recipes/getOwn', async newPage => {
-  const response = await api.get('/recipes/own', {
-    params: { page: newPage, perPage },
-  });
-  return response.data.data;
-  // console.log(newPage);
-  // await new Promise(resolve => setTimeout(resolve, 2000));
-  // return recipesExample;
-});
+export const getOwnRecipes = createAsyncThunk(
+  "recipes/getOwn",
+  async (newPage) => {
+    // const response = await api.get("/recipes/", {
+    //   params: { page: newPage, perPage },
+    // });
+    // return response.data.data;
+    console.log(newPage);
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+    return recipesExample;
+  }
+);
