@@ -1,9 +1,27 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import css from './AddRecipeForm.module.css';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 import Select from 'react-select';
+
+/*redux*/
+import { useDispatch, useSelector } from 'react-redux';
+import { getCategories } from '../../redux/categories/operations';
+import {
+  selectCategories,
+  selectCategoriesIsLoading,
+} from '../../redux/categories/selectors';
+
+import { getIngredients } from '../../redux/ingredients/operations';
+import {
+  selectIngredients,
+  selectIngredientsIsLoading,
+} from '../../redux/ingredients/selectors';
+
+import { createRecipe } from '../../redux/recipes/operations';
 
 const validationSchema = Yup.object({
   title: Yup.string().max(64).required('Required'),
@@ -15,35 +33,66 @@ const validationSchema = Yup.object({
   image: Yup.mixed().required('Required'),
 });
 
-{
-  /* заглушка */
-}
-const categoryOptions = [
-  { value: 'Breakfast', label: 'Breakfast' },
-  { value: 'Lunch', label: 'Lunch' },
-  { value: 'Dinner', label: 'Dinner' },
-];
-
-const ingredientOptions = [
-  { value: 'Tomato', label: 'Tomato' },
-  { value: 'Cheese', label: 'Cheese' },
-  { value: 'Chicken', label: 'Chicken' },
-];
-
 export default function AddRecipeForm() {
   const [selectedIngredients, setSelectedIngredients] = useState([]);
   const [preview, setPreview] = useState(null);
 
+  /*Redux*/
+  const dispatch = useDispatch();
+  const categories = useSelector(selectCategories);
+  const ingredients = useSelector(selectIngredients);
+
+  const categoriesLoading = useSelector(selectCategoriesIsLoading);
+  const ingredientsLoading = useSelector(selectIngredientsIsLoading);
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    dispatch(getCategories());
+    dispatch(getIngredients());
+  }, [dispatch]);
+
+  const categoryOptions = categories.map(c => ({
+    value: c,
+    label: c,
+  }));
+
+  const ingredientOptions = ingredients.map(i => ({
+    value: i._id,
+    label: i.name,
+  }));
+
   const handleAddIngredient = (values, setFieldValue) => {
     const { ingredient, amount } = values;
     if (!ingredient || !amount) return;
-    setSelectedIngredients(p => [...p, { name: ingredient, amount }]);
+
+    // перевірка на дубль
+    const isDuplicate = values.ingredients.some(
+      item => item.id === ingredient.value
+    );
+    if (isDuplicate) return;
+
+    const newIngredient = {
+      id: ingredient.value,
+      name: ingredient.label,
+      amount: amount,
+    };
+
+    setSelectedIngredients(p => [...p, newIngredient]);
+
+    setFieldValue('ingredients', [...values.ingredients, newIngredient]);
+
     setFieldValue('ingredient', '');
     setFieldValue('amount', '');
   };
 
-  const handleRemoveIngredient = i => {
-    setSelectedIngredients(p => p.filter((_, idx) => idx !== i));
+  const handleRemoveIngredient = (i, values, setFieldValue) => {
+    const newSelected = selectedIngredients.filter((_, idx) => idx !== i);
+    setSelectedIngredients(newSelected);
+    setFieldValue(
+      'ingredients',
+      values.ingredients.filter((_, idx) => idx !== i)
+    );
   };
 
   const handleImageChange = (e, setFieldValue) => {
@@ -54,10 +103,42 @@ export default function AddRecipeForm() {
     }
   };
 
-  const handleSubmit = (values, { setSubmitting }) => {
+  /* const handleSubmit = (values, { setSubmitting }) => {
     console.log('Form submitted:', values);
     console.log('Ingredients:', selectedIngredients);
     setSubmitting(false);
+  }; */
+
+  const handleSubmit = async (values, { resetForm }) => {
+    const payload = {
+      title: values.title,
+      description: values.description,
+      time: values.time,
+      calories: values.calories,
+      category: values.category,
+      instructions: values.instructions,
+      thumb: values.image,
+      ingredients: (values.ingredients || []).map(i => ({
+        id: i.id,
+        amount: i.amount,
+      })),
+    };
+
+    try {
+      const res = await dispatch(createRecipe(payload)).unwrap();
+
+      if (res && res._id) {
+        console.log('✅ Recipe created:', res);
+        resetForm();
+        navigate(`/recipes/${res._id}`);
+      } else {
+        console.error('❌ Recipe not created:', res);
+        toast.error('Failed to create recipe. Please try again.');
+      }
+    } catch (err) {
+      console.error('🔥 Error creating recipe:', err);
+      toast.error(err.message || 'Something went wrong');
+    }
   };
 
   return (
@@ -69,9 +150,10 @@ export default function AddRecipeForm() {
         calories: '',
         category: '',
         instructions: '',
-        ingredient: '',
+        ingredient: null,
         amount: '',
         image: null,
+        ingredients: [],
       }}
       validationSchema={validationSchema}
       onSubmit={handleSubmit}
@@ -174,6 +256,7 @@ export default function AddRecipeForm() {
                     <label className={css.smallTitle}>Category</label>
                     <Select
                       options={categoryOptions}
+                      isLoading={categoriesLoading}
                       value={
                         categoryOptions.find(
                           opt => opt.value === values.category
@@ -182,7 +265,7 @@ export default function AddRecipeForm() {
                       onChange={option =>
                         setFieldValue('category', option.value)
                       }
-                      placeholder="Soup"
+                      placeholder="Select category"
                       styles={{
                         control: base => ({
                           ...base,
@@ -230,14 +313,9 @@ export default function AddRecipeForm() {
                   <label className={css.smallTitle}>Name</label>
                   <Select
                     options={ingredientOptions}
-                    value={
-                      ingredientOptions.find(
-                        opt => opt.value === values.ingredient
-                      ) || null
-                    }
-                    onChange={option =>
-                      setFieldValue('ingredient', option.value)
-                    }
+                    isLoading={ingredientsLoading}
+                    value={values.ingredient}
+                    onChange={option => setFieldValue('ingredient', option)}
                     placeholder="Select ingredient"
                     styles={{
                       control: base => ({
@@ -245,7 +323,6 @@ export default function AddRecipeForm() {
                         border: '1px solid var(--light-gray)',
                         borderRadius: '8px',
                         padding: '0 12px',
-
                         height: '48px',
                         minHeight: '48px',
                         maxHeight: '48px',
@@ -306,7 +383,9 @@ export default function AddRecipeForm() {
                     <span className={css.spanItemsAmount}>{item.amount}</span>
                     <button
                       type="button"
-                      onClick={() => handleRemoveIngredient(i)}
+                      onClick={() =>
+                        handleRemoveIngredient(i, values, setFieldValue)
+                      }
                     >
                       <svg width="24" height="24">
                         <use href="/icons.svg#icon-delete"></use>
