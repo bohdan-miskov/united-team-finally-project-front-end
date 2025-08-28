@@ -67,3 +67,42 @@ export const refreshUser = wrapAsyncThunk(
     // return { accessToken: '1234' };
   }
 );
+
+export const requestPasswordReset = createAsyncThunk(
+  'auth/requestPasswordReset',
+  async (email, thunkApi) => {
+    try {
+      console.log('Requesting password reset for:', email);
+      // const response = await api.post("/auth/request-reset", { email });
+      // return response.data;
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      return { message: 'Reset link sent' };
+    } catch (error) {
+      return thunkApi.rejectWithValue(
+        error.message || 'Failed to send reset link'
+      );
+    }
+  }
+);
+
+export const resetPassword = createAsyncThunk(
+  'auth/resetPassword',
+  async ({ token, password }, thunkApi) => {
+    try {
+      console.log(
+        'Resetting password with token:',
+        token,
+        'New password:',
+        password
+      );
+      // const response = await api.post("/auth/reset-password", { token, password });
+      // return response.data;
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      return { message: 'Password reset successful' };
+    } catch (error) {
+      return thunkApi.rejectWithValue(
+        error.message || 'Failed to reset password'
+      );
+    }
+  }
+);
