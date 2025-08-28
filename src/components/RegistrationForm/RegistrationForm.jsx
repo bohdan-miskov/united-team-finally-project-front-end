@@ -3,12 +3,7 @@ import * as Yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
-import { useEffect, useState } from 'react';
-import {
-  calculatePasswordStrength,
-  getPasswordStrengthColor,
-  getPasswordStrengthText,
-} from '../../utils/passwordStrength.js';
+import { useState } from 'react';
 import { registerUser } from '../../redux/auth/operations';
 import {
   selectAuthError,
