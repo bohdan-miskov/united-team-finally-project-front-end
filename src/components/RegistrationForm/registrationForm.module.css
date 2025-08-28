@@ -18,9 +18,12 @@
 }
 
 .fieldGroup {
-  margin-bottom: 16px;
+  margin-bottom: 20px;
 }
 
+.fieldGroupWithStrength {
+  margin-bottom: 8px;
+}
 .label {
   display: block;
   font-size: 12px;
@@ -47,9 +50,13 @@
   background: var(--white);
   border: 1px solid var(--light-gray);
 }
-
+.inlineError {
+  position: relative;
+  transform: none;
+  margin-left: 6px;
+}
 .errorInput {
-  border: 2px solid var(--red);
+  border-color: var(--red);
   background: var(--white);
   color: var(--red);
   box-shadow: none;
@@ -89,10 +96,85 @@
   transition: fill 0.2s ease;
 }
 
+/* #region PASSWORD SCALE METER */
+
+.passwordStrengthContainer {
+  margin-top: 8px;
+
+  animation: fadeIn 0.2s ease-in-out;
+}
+
+.passwordStrengthMeter {
+  height: 8px;
+  background-color: #e0e0e0;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.strengthBar {
+  height: 100%;
+  width: 0;
+  border-radius: 4px;
+  transition: width 0.3s ease, background-color 0.3s ease;
+}
+
+.strengthBar.very-weak {
+  background-color: #f44336;
+}
+
+.strengthBar.fair {
+  background-color: #ff9800;
+}
+
+.strengthBar.good {
+  background-color: #4caf50;
+}
+
+.strengthBar.strong {
+  background-color: #2196f3;
+}
+
+.passwordStrengthText {
+  font-size: 0.875rem;
+  margin-top: 4px;
+
+  color: #9e9e9e;
+  transition: color 0.3s ease;
+  animation: fadeIn 0.2s ease-in-out;
+  /* min-height: 1.2em; */
+}
+
+.passwordStrengthText.very-weak {
+  color: #f44336;
+}
+
+.passwordStrengthText.fair {
+  color: #ff9800;
+}
+
+.passwordStrengthText.good {
+  color: #4caf50;
+}
+
+.passwordStrengthText.strong {
+  color: #2196f3;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+/* #endregion */
+
 .checkBoxGroup {
   margin-bottom: 27px;
 }
-
 .checkBoxLabel {
   display: flex;
   align-items: center;
@@ -189,13 +271,6 @@
 .filled {
   background: var(--white);
   border: 1px solid var(--light-gray);
-}
-
-.errorInput {
-  border: 2px solid var(--red);
-  background: var(--white);
-  color: var(--red);
-  box-shadow: none;
 }
 
 .input:focus,
