@@ -2,8 +2,7 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
-import { toast } from 'react-hot-toast';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { registerUser } from '../../redux/auth/operations';
 import {
   selectAuthError,
@@ -38,10 +37,18 @@ export default function RegistrationForm() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const isLoading = useSelector(selectAuthIsLoading);
-  const error = useSelector(selectAuthError);
+  // const error = useSelector(selectAuthError);
+
+  const [errorMessage, setErrorMessage] = useState(null);
   const [successMessage, setSuccessMessage] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+  const errors = {
+    400: 'Your data is invalid',
+    409: 'Your email already used',
+    500: 'An error occurred, please try registering later.',
+  };
 
   const handleSubmit = async (values, { setSubmitting, resetForm }) => {
     try {
@@ -54,13 +61,105 @@ export default function RegistrationForm() {
       ).unwrap();
       resetForm();
       setSuccessMessage('Register successful!');
+      console.log('Ok!');
+      setErrorMessage(null);
       navigate('/', { replace: true });
     } catch (error) {
-      // Тимчасово без тостів, обробимо пізніше
+      console.log(error);
+      setErrorMessage(errors[error.status] ?? 'Connection error');
+      setSuccessMessage(null);
     } finally {
       setSubmitting(false);
     }
   };
+  // const handleSubmit = async (values, { setSubmitting, resetForm }) => {
+  //   setError(null);
+  //   setSuccessMessage(null);
+
+  //   try {
+  //     const resultAction = await dispatch(
+  //       registerUser({
+  //         name: values.name,
+  //         email: values.email,
+  //         password: values.password,
+  //       })
+  //     ).unwrap();
+
+  //     resetForm();
+  //     setSuccessMessage('Registration successful!');
+  //   } catch (error) {
+  //     let errorMessage = 'Registration failed. Please try again.';
+  //     if (error.payload) {
+  //       if (error.payload.message) {
+  //         errorMessage = error.payload.message;
+  //       } else if (error.payload.status) {
+  //         errorMessage = `Error ${error.payload.status}: ${
+  //           error.payload.message || 'Unknown error'
+  //         }`;
+  //       }
+  //     } else if (error.message) {
+  //       errorMessage = error.message;
+  //     }
+  //     setError(errorMessage);
+  //   } finally {
+  //     setSubmitting(false);
+  //   }
+  // };
+
+  // const handleSubmit = async (values, { setSubmitting, resetForm }) => {
+  //   setError(null);
+  //   setSuccessMessage(null);
+
+  //   try {
+  //     const resultAction = await dispatch(
+  //       registerUser({
+  //         name: values.name,
+  //         email: values.email,
+  //         password: values.password,
+  //       })
+  //     ).unwrap();
+
+  //     console.log('Registration successful, resultAction:', resultAction);
+  //     resetForm();
+  //     setSuccessMessage('Registration successful!');
+  //     console.log('Set successMessage state');
+  //   } catch (error) {
+  //     console.error('Registration failed, caught error:', error);
+  //     let errorMessage = 'Registration failed. Please try again.';
+
+  //     if (error.payload) {
+  //       console.log('Error has payload:', error.payload);
+  //       if (error.payload.message) {
+  //         console.log('Using payload.message:', error.payload.message);
+  //         errorMessage = error.payload.message;
+  //       } else if (error.payload.status) {
+  //         console.log('Using status and payload.message (might be undefined)');
+  //         errorMessage = `Error ${error.payload.status}: ${
+  //           error.payload.message || 'Unknown error'
+  //         }`;
+  //       }
+  //     } else if (error.message) {
+  //       console.log('Using error.message:', error.message);
+  //       errorMessage = error.message;
+  //     }
+  //     console.log('Final errorMessage to display:', errorMessage);
+  //     setError(errorMessage);
+  //     console.log('Set error state');
+  //   } finally {
+  //     setSubmitting(false);
+  //   }
+  // };
+
+  useEffect(() => {
+    if (successMessage) {
+      const timer = setTimeout(() => {
+        navigate('/', { replace: true });
+      }, 4500);
+
+      console.log(successMessage);
+      return () => clearTimeout(timer);
+    }
+  }, [successMessage, navigate]);
 
   return (
     <div className={styles.registerContainer} data-register>
@@ -73,7 +172,7 @@ export default function RegistrationForm() {
       {successMessage && (
         <SuccessToastMessage>{successMessage}</SuccessToastMessage>
       )}
-      {error && <ErrorToastMessage>{error}</ErrorToastMessage>}
+      {errorMessage && <ErrorToastMessage>{errorMessage}</ErrorToastMessage>}
 
       <Formik
         initialValues={{
