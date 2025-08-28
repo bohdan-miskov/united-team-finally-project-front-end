@@ -45,7 +45,7 @@ export const logInUser = wrapAsyncThunk('auth/logIn', async userData => {
 });
 
 export const logOutUser = wrapAsyncThunk('auth/logOut', async () => {
-  await api.post('/auth/logout', { skipRefresh: true });
+  await api.post('/auth/logout', {}, { skipRefresh: true });
   clearAuthHeader();
   //await new Promise(resolve => setTimeout(resolve, 2000));
 });
@@ -58,7 +58,7 @@ export const refreshUser = wrapAsyncThunk(
       return thunkApi.rejectWithValue('Is not Authenticated user');
     }
     // return thunkApi.rejectWithValue('Is not Authenticated user');
-    const response = await api.post('/auth/refresh', { skipRefresh: true });
+    const response = await api.post('/auth/refresh', {}, { skipRefresh: true });
     setAuthHeader(response.data.data.accessToken);
     return response.data.data;
     // setAuthHeader('1234');
