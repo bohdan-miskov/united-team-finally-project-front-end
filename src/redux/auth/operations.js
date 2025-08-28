@@ -1,11 +1,11 @@
-import { createAsyncThunk } from '@reduxjs/toolkit';
 import api, {
   clearAuthHeader,
   setAuthHeader,
 } from '../../services/axiosConfig';
+import { wrapAsyncThunk } from '../../services/wrapAsyncThunk';
 import { selectIsAuthenticated } from './selectors';
 
-// export const registerAndLoginUser = createAsyncThunk(
+// export const registerAndLoginUser = wrapAsyncThunk(
 //   "auth/registerAndLogin",
 //   async (userData, thunkApi) => {
 //     await thunkApi.dispatch(registerUser(userData)).unwrap();
@@ -21,8 +21,10 @@ import { selectIsAuthenticated } from './selectors';
 //   }
 // );
 
-export const registerUser = createAsyncThunk('auth/register', async user => {
-  const response = await api.post('/auth/register', user);
+export const registerUser = wrapAsyncThunk('auth/register', async user => {
+  const response = await api.post('/auth/register', user, {
+    skipRefresh: true,
+  });
   setAuthHeader(response.data.data.accessToken);
   return response.data.data;
   // console.log(api.e);
@@ -30,8 +32,10 @@ export const registerUser = createAsyncThunk('auth/register', async user => {
   // return user;
 });
 
-export const logInUser = createAsyncThunk('auth/logIn', async userData => {
-  const response = await api.post('/auth/login', userData);
+export const logInUser = wrapAsyncThunk('auth/logIn', async userData => {
+  const response = await api.post('/auth/login', userData, {
+    skipRefresh: true,
+  });
   setAuthHeader(response.data.data.accessToken);
   return response.data.data;
   // console.log(userData);
@@ -40,25 +44,25 @@ export const logInUser = createAsyncThunk('auth/logIn', async userData => {
   // return { accessToken: "1234" };
 });
 
-export const logOutUser = createAsyncThunk('auth/logOut', async () => {
-  await api.post('/auth/logout');
+export const logOutUser = wrapAsyncThunk('auth/logOut', async () => {
+  await api.post('/auth/logout', {}, { skipRefresh: true });
   clearAuthHeader();
   //await new Promise(resolve => setTimeout(resolve, 2000));
 });
 
-export const refreshUser = createAsyncThunk(
+export const refreshUser = wrapAsyncThunk(
   'auth/refresh',
   async (_, thunkApi) => {
     const isAuthenticated = selectIsAuthenticated(thunkApi.getState());
     if (!isAuthenticated) {
       return thunkApi.rejectWithValue('Is not Authenticated user');
     }
-    return thunkApi.rejectWithValue('Is not Authenticated user');
-    // const response = await api.post("/auth/");
-    // setAuthHeader(response.data.data.accessToken);
-    // return response.data.data;
-    setAuthHeader('1234');
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    return { accessToken: '1234' };
+    // return thunkApi.rejectWithValue('Is not Authenticated user');
+    const response = await api.post('/auth/refresh', {}, { skipRefresh: true });
+    setAuthHeader(response.data.data.accessToken);
+    return response.data.data;
+    // setAuthHeader('1234');
+    // await new Promise(resolve => setTimeout(resolve, 2000));
+    // return { accessToken: '1234' };
   }
 );

@@ -115,21 +115,21 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 8px;
+  /* border-radius: 8px; */
   padding: 0;
   cursor: pointer;
-  background: transparent;
-  border: 1px solid var(--black);
+  /* background: transparent;
+  border: 1px solid var(--black); */
 }
 
-.bookmarkActive {
+/* .bookmarkActive {
   background: var(--light-brown);
   border-color: transparent;
-}
+} */
 
-.bookmarkActive .iconSave {
+/* .bookmarkActive .iconSave {
   stroke: var(--white);
-}
+} */
 
 .iconClock {
   fill: none;
@@ -140,6 +140,6 @@
   fill: transparent;
   width: 24px;
   height: 24px;
-  fill: none;
-  stroke: var(--black);
+  /* fill: none; */
+  stroke: currentColor;
 }

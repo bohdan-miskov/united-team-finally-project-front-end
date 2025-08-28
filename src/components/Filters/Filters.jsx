@@ -115,13 +115,14 @@ export default function Filters() {
                 isMulti
                 isClearable={false}
                 isLoading={isLoadingCategories}
-                options={categories.map(c => {
-                  return {
-                    value: c,
-                    label: c,
-                  };
-                })}
-                value={selectedCategories.map(c => ({ value: c, label: c }))}
+                options={categories.map(c => ({
+                  value: c,
+                  label: c,
+                }))}
+                value={selectedCategories.map(c => ({
+                  value: c,
+                  label: c,
+                }))}
                 onChange={handleCategoriesChange}
                 placeholder="Category"
                 classNamePrefix="customSelect"
@@ -131,12 +132,14 @@ export default function Filters() {
                 isMulti
                 isClearable={false}
                 isLoading={isLoadingIngredients}
-                options={ingredients.map(i => {
-                  return {
-                    value: i._id,
-                    label: i.name,
-                  };
-                })}
+                options={ingredients.map(i => ({
+                  value: i._id,
+                  label: i.name,
+                }))}
+                value={selectedIngredients.map(id => ({
+                  value: id,
+                  label: ingredients.find(i => i._id === id)?.name || id,
+                }))}
                 onChange={handleIngredientsChange}
                 placeholder="Ingredient"
                 classNamePrefix="customSelect"
@@ -187,18 +190,17 @@ export default function Filters() {
                   classNamePrefix="customSelect"
                   styles={customStyles}
                 />
-
                 <Select
                   isMulti
                   isClearable={false}
                   isLoading={isLoadingIngredients}
                   options={ingredients.map(i => ({
-                    value: i.id,
+                    value: i._id,
                     label: i.name,
                   }))}
-                  value={selectedIngredients.map(i => ({
-                    value: i.id,
-                    label: i.name,
+                  value={selectedIngredients.map(id => ({
+                    value: id,
+                    label: ingredients.find(i => i._id === id)?.name || id,
                   }))}
                   onChange={handleIngredientsChange}
                   placeholder="Ingredient"

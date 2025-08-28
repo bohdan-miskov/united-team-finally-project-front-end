@@ -5,13 +5,13 @@ import {
   addRecipeToFavorite,
   deleteRecipeFromFavorite,
 } from '../../redux/recipes/operations';
-import { selectFavoriteRecipesItems } from '../../redux/recipes/selectors';
+import { selectUserProfile } from '../../redux/user/selectors';
 
 export default function RecipeCard({ recipe, recipeType }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const favItems = useSelector(selectFavoriteRecipesItems);
+  const favItems = useSelector(selectUserProfile)?.favourites;
 
   const {
     _id,
@@ -30,8 +30,7 @@ export default function RecipeCard({ recipe, recipeType }) {
   const isFavorites = type === 'favorites';
 
   const isSaved =
-    isFavorites ||
-    (Array.isArray(favItems) && favItems.some(r => (r?._id ?? r?.id) === _id));
+    isFavorites || (Array.isArray(favItems) && favItems.some(r => r === _id));
 
   const handleBookmark = () => {
     if (!_id) return;
@@ -84,8 +83,8 @@ export default function RecipeCard({ recipe, recipeType }) {
             onClick={handleBookmark}
             aria-label={isSaved ? 'Remove from saved' : 'Save recipe'}
             className={`${styles.bookmarkBtn} ${
-              isSaved ? styles.bookmarkActive : ''
-            } ${recipeType === 'all' ? 'outline-btn' : 'brown-btn'}`}
+              isAll ? (isSaved ? 'brown-btn' : 'dark-outline-btn') : 'brown-btn'
+            }`}
           >
             <svg className={styles.iconSave}>
               <use href={'/icons.svg#icon-save-to-list'} />
