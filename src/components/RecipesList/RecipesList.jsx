@@ -28,12 +28,11 @@ import {
   selectFavoriteRecipesError,
 } from '../../redux/recipes/selectors';
 import {
-  selectSearchCategories,
+  selectSearchCategory,
   selectSearchIngredients,
   selectSearchQuery,
 } from '../../redux/filters/selectors.js';
 import { useDebounce } from 'use-debounce';
-import Loader from '../Loader/Loader.jsx';
 
 export default function RecipesList({ recipeType }) {
   const dispatch = useDispatch();
@@ -106,7 +105,7 @@ export default function RecipesList({ recipeType }) {
 
   const searchQuery = useSelector(selectSearchQuery);
   const [debouncedSearchQuery] = useDebounce(searchQuery, 500);
-  const selectedCategories = useSelector(selectSearchCategories);
+  const selectedCategories = useSelector(selectSearchCategory);
   const selectedIngredients = useSelector(selectSearchIngredients);
 
   useEffect(() => {
@@ -122,13 +121,20 @@ export default function RecipesList({ recipeType }) {
 
   useEffect(() => {
     if (recipeType === 'all') {
-      dispatch(getAllRecipes(page));
+      dispatch(
+        getAllRecipes({
+          page,
+          query: debouncedSearchQuery,
+          categories: selectedCategories,
+          ingredients: selectedIngredients,
+        })
+      );
     }
     if (recipeType === 'own') {
-      dispatch(getOwnRecipes(page));
+      dispatch(getOwnRecipes({ page }));
     }
     if (recipeType === 'favorites') {
-      dispatch(getFavoriteRecipes(page));
+      dispatch(getFavoriteRecipes({ page }));
     }
   }, [
     dispatch,
@@ -163,7 +169,7 @@ export default function RecipesList({ recipeType }) {
         ))}
       </ul>
 
-      {isLoading && !error && <Loader />}
+      {isLoading && !error && <p>Loading...</p>}
 
       {isEmpty && emptyMessages[recipeType] && (
         <p>{emptyMessages[recipeType]}</p>

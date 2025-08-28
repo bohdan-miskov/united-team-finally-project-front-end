@@ -2,7 +2,6 @@ import { createSlice } from '@reduxjs/toolkit';
 import {
   addRecipeToFavorite,
   createRecipe,
-  deleteRecipe,
   deleteRecipeFromFavorite,
   getAllRecipes,
   getFavoriteRecipes,
@@ -58,10 +57,7 @@ const recipesSlice = createSlice({
       })
       .addCase(getAllRecipes.fulfilled, (state, action) => {
         state.all.isLoading = false;
-        state.all.items =
-          action.payload.page === 1
-            ? action.payload.items
-            : [...state.all.items, ...action.payload.items];
+        state.all.items = [...state.all.items, ...action.payload.items];
         state.all.hasPreviousPage = action.payload.hasPreviousPage;
         state.all.hasNextPage = action.payload.hasNextPage;
         state.all.page = action.payload.page;
@@ -76,38 +72,25 @@ const recipesSlice = createSlice({
       })
       .addCase(createRecipe.fulfilled, (state, action) => {
         state.all.isLoading = false;
-        // state.all.items.pop();
-        // state.all.items.unshift(action.payload);
-        // state.all.totalItems += 1;
-        // state.own.items.pop();
-        // state.own.items.unshift(action.payload);
-        // state.own.totalItems += 1;
+        state.all.items.pop();
+        state.all.items.unshift(action.payload);
+        state.all.totalItems += 1;
+        state.own.items.pop();
+        state.own.items.unshift(action.payload);
+        state.own.totalItems += 1;
       })
       .addCase(createRecipe.rejected, (state, action) => {
         setRejected(state.all, action);
-      })
-      .addCase(deleteRecipe.pending, state => {
-        setPending(state.own);
-      })
-      .addCase(deleteRecipe.fulfilled, (state, action) => {
-        state.own.isLoading = false;
-        state.own.items = state.own.items.filter(
-          ({ _id }) => _id !== action.payload
-        );
-        state.own.totalItems -= 1;
-      })
-      .addCase(deleteRecipe.rejected, (state, action) => {
-        setRejected(state.own, action);
       })
       .addCase(getFavoriteRecipes.pending, state => {
         setPending(state.favorite);
       })
       .addCase(getFavoriteRecipes.fulfilled, (state, action) => {
         state.favorite.isLoading = false;
-        state.favorite.items =
-          action.payload.page === 1
-            ? action.payload.items
-            : [...state.favorite.items, ...action.payload.items];
+        state.favorite.items = [
+          ...state.favorite.items,
+          ...action.payload.items,
+        ];
         state.favorite.hasPreviousPage = action.payload.hasPreviousPage;
         state.favorite.hasNextPage = action.payload.hasNextPage;
         state.favorite.page = action.payload.page;
@@ -122,10 +105,10 @@ const recipesSlice = createSlice({
       })
       .addCase(addRecipeToFavorite.fulfilled, (state, action) => {
         state.favorite.isLoading = false;
+        state.favorite.items.pop();
+        state.favorite.items.unshift(action.payload);
         // state.favorite.items.pop();
-        // state.favorite.items.unshift(action.payload);
-        // // state.favorite.items.pop();
-        // state.favorite.totalItems += 1;
+        state.favorite.totalItems += 1;
       })
       .addCase(addRecipeToFavorite.rejected, (state, action) => {
         setRejected(state.favorite, action);
@@ -148,10 +131,7 @@ const recipesSlice = createSlice({
       })
       .addCase(getOwnRecipes.fulfilled, (state, action) => {
         state.own.isLoading = false;
-        state.own.items =
-          action.payload.page === 1
-            ? action.payload.items
-            : [...state.own.items, ...action.payload.items];
+        state.own.items = [...state.own.items, ...action.payload.items];
         state.own.hasPreviousPage = action.payload.hasPreviousPage;
         state.own.hasNextPage = action.payload.hasNextPage;
         state.own.page = action.payload.page;

@@ -1,8 +1,4 @@
-.imgContainer {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #2b2d30;
+.img {
   margin-bottom: 32px;
 }
 
@@ -87,9 +83,6 @@
     flex-direction: row-reverse;
     gap: 24px;
     justify-content: space-between;
-  }
-  .wrapper {
-    margin-bottom: 0;
   }
 
   .tabletWrapper {
