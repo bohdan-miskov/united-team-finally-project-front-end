@@ -1,6 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { getUserInfo } from './operations';
 import { setPending, setRejected } from '../helpers/statusHandlers';
+import {
+  addRecipeToFavorite,
+  deleteRecipeFromFavorite,
+} from '../recipes/operations';
 
 const initialState = {
   profile: null,
@@ -11,26 +15,7 @@ const initialState = {
 const userSlice = createSlice({
   name: 'user',
   initialState,
-  reducers: {
-    addRecipeToUserFavourites(state, action) {
-      if (!state.profile) return;
-
-      const recipeId = action.payload;
-
-      if (!state.profile.favourites.includes(recipeId)) {
-        state.profile.favourites.push(recipeId);
-      }
-    },
-    removeRecipeFromUserFavourites(state, action) {
-      if (!state.profile) return;
-
-      const recipeId = action.payload;
-
-      state.profile.favourites = state.profile.favourites.filter(
-        fav => fav !== recipeId
-      );
-    },
-  },
+  reducers: {},
   extraReducers: builder => {
     builder
       .addCase(getUserInfo.pending, state => {
@@ -41,8 +26,25 @@ const userSlice = createSlice({
         state.profile = action.payload;
       })
       .addCase(getUserInfo.rejected, (state, action) => {
-        state.profile = {};
+        state.profile = null;
         setRejected(state, action);
+      })
+      .addCase(addRecipeToFavorite.fulfilled, (state, action) => {
+        console.log('🚀 ~  action:', action);
+        if (!state.profile) return;
+
+        const recipeId = action.payload._id;
+
+        if (!state.profile?.favourites.includes(recipeId)) {
+          state.profile.favourites?.push(recipeId);
+        }
+      })
+      .addCase(deleteRecipeFromFavorite.fulfilled, (state, action) => {
+        if (!state.profile) return;
+
+        state.profile.favourites = state.profile.favourites.filter(
+          fav => fav !== action.payload
+        );
       });
   },
 });

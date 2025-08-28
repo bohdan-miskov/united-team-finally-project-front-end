@@ -30,8 +30,7 @@ export default function RecipeCard({ recipe, recipeType }) {
   const isFavorites = type === 'favorites';
 
   const isSaved =
-    isFavorites ||
-    (Array.isArray(favItems) && favItems.some(r => r?._id === _id));
+    isFavorites || (Array.isArray(favItems) && favItems.some(r => r === _id));
 
   const handleBookmark = () => {
     if (!_id) return;
@@ -84,7 +83,7 @@ export default function RecipeCard({ recipe, recipeType }) {
             onClick={handleBookmark}
             aria-label={isSaved ? 'Remove from saved' : 'Save recipe'}
             className={`${styles.bookmarkBtn} ${
-              isAll ? (isSaved ? 'brown-btn' : 'outline-btn') : 'brown-btn'
+              isAll ? (isSaved ? 'brown-btn' : 'dark-outline-btn') : 'brown-btn'
             }`}
           >
             <svg className={styles.iconSave}>
