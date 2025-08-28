@@ -71,6 +71,10 @@ button {
   transition: 300ms ease-in;
 }
 
+textarea {
+  resize: none;
+}
+
 .brown-btn {
   background-color: var(--light-brown);
   transition-property: background-color, box-shadow, opacity;
@@ -106,6 +110,28 @@ button {
 }
 
 .outline-btn:disabled {
+  box-shadow: 0 0 0 6px rgba(78, 70, 180, 0.12), 0 0 0 2px var(--white);
+  background-color: var(--light-gray);
+  opacity: 0.3;
+}
+
+.dark-outline-btn {
+  border: 1px solid var(--black);
+  color: var(--black);
+  background-color: transparent;
+  transition-property: background-color, box-shadow, opacity;
+}
+.dark-outline-btn:is(:hover, :focus, :focus-visible) {
+  background-color: var(--light-gray);
+  /* color: var(--black); */
+}
+
+.dark-outline-btn:active {
+  box-shadow: 0 0 0 6px rgba(78, 70, 180, 0.12), 0 0 0 2px var(--white);
+  background-color: var(--light-gray);
+}
+
+.dark-outline-btn:disabled {
   box-shadow: 0 0 0 6px rgba(78, 70, 180, 0.12), 0 0 0 2px var(--white);
   background-color: var(--light-gray);
   opacity: 0.3;

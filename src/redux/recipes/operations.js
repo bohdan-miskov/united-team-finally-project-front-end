@@ -1,4 +1,3 @@
-import { createAsyncThunk } from '@reduxjs/toolkit';
 import {
   selectSearchCategories,
   selectSearchIngredients,
@@ -7,10 +6,11 @@ import {
 import api from '../../services/axiosConfig';
 import { recipesExample } from '../tempObjects/recipes';
 import { recipeDetailsExample } from '../tempObjects/recipeDetails';
+import { wrapAsyncThunk } from '../../services/wrapAsyncThunk';
 
 const perPage = 12;
 
-export const getAllRecipes = createAsyncThunk(
+export const getAllRecipes = wrapAsyncThunk(
   'recipes/getAll',
   async (newPage, thunkApi) => {
     const state = thunkApi.getState();
@@ -43,7 +43,7 @@ export const getAllRecipes = createAsyncThunk(
   }
 );
 
-export const createRecipe = createAsyncThunk(
+export const createRecipe = wrapAsyncThunk(
   'recipes/createRecipe',
   async payload => {
     const response = await api.post('/recipes', payload);
@@ -54,7 +54,7 @@ export const createRecipe = createAsyncThunk(
   }
 );
 
-export const deleteRecipe = createAsyncThunk(
+export const deleteRecipe = wrapAsyncThunk(
   'recipes/deleteRecipe',
   async recipeId => {
     await api.delete(`/recipes/${recipeId}`);
@@ -64,7 +64,7 @@ export const deleteRecipe = createAsyncThunk(
   }
 );
 
-export const getFavoriteRecipes = createAsyncThunk(
+export const getFavoriteRecipes = wrapAsyncThunk(
   'recipes/getFavorite',
   async newPage => {
     const response = await api.get('/recipes/favourites', {
@@ -77,7 +77,7 @@ export const getFavoriteRecipes = createAsyncThunk(
   }
 );
 
-export const addRecipeToFavorite = createAsyncThunk(
+export const addRecipeToFavorite = wrapAsyncThunk(
   'recipes/addToFavorite',
   async recipeId => {
     const response = await api.post(`/recipes/favourites/${recipeId}`);
@@ -88,7 +88,7 @@ export const addRecipeToFavorite = createAsyncThunk(
   }
 );
 
-export const deleteRecipeFromFavorite = createAsyncThunk(
+export const deleteRecipeFromFavorite = wrapAsyncThunk(
   'recipes/deleteFromFavorite',
   async recipeId => {
     await api.delete(`/recipes/favourites/${recipeId}`);
@@ -98,15 +98,12 @@ export const deleteRecipeFromFavorite = createAsyncThunk(
   }
 );
 
-export const getOwnRecipes = createAsyncThunk(
-  'recipes/getOwn',
-  async newPage => {
-    const response = await api.get('/recipes/own', {
-      params: { page: newPage, perPage },
-    });
-    return response.data.data;
-    // console.log(newPage);
-    // await new Promise(resolve => setTimeout(resolve, 2000));
-    // return recipesExample;
-  }
-);
+export const getOwnRecipes = wrapAsyncThunk('recipes/getOwn', async newPage => {
+  const response = await api.get('/recipes/own', {
+    params: { page: newPage, perPage },
+  });
+  return response.data.data;
+  // console.log(newPage);
+  // await new Promise(resolve => setTimeout(resolve, 2000));
+  // return recipesExample;
+});

@@ -360,19 +360,18 @@ export default function AddRecipeForm() {
 
               <button
                 type="button"
+                className={`brown-btn ${css.button}`}
                 onClick={() => handleAddIngredient(values, setFieldValue)}
               >
                 Add new Ingredient
               </button>
 
-              <ul className={css.selectedIngredients}>
-                <li
-                  className={`${css.selectedIngredientsHeader} ${
-                    selectedIngredients.length === 0
-                      ? css.hideHeaderOnMobile
-                      : ''
-                  }`}
-                >
+              <ul
+                className={`${css.selectedIngredients} ${
+                  selectedIngredients.length === 0 ? css.hideOnMobile : ''
+                } `}
+              >
+                <li className={`${css.selectedIngredientsHeader} `}>
                   <span className={css.spanName}>Name:</span>
                   <span className={css.spanAmount}>Amount:</span>
                   <span></span>
@@ -411,7 +410,11 @@ export default function AddRecipeForm() {
                 className={css.error}
               />
 
-              <button type="submit" disabled={isSubmitting}>
+              <button
+                className={`brown-btn ${css.button}`}
+                type="submit"
+                disabled={isSubmitting}
+              >
                 Publish Recipe
               </button>
             </section>

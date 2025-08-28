@@ -23,33 +23,71 @@ export const injectStore = _store => {
   store = _store;
 };
 
-// Інтерсептор з викликом refreshUser через dispatch
+let isRefreshing = false;
+let failedQueue = [];
+
+function processQueue(error, token = null) {
+  failedQueue.forEach(prom => {
+    if (token) {
+      prom.resolve(token);
+    } else {
+      prom.reject(error);
+    }
+  });
+
+  failedQueue = [];
+}
+
 api.interceptors.response.use(
   response => response,
   async error => {
     const originalRequest = error.config;
 
-    if (error.response?.status === 401 && !originalRequest._retry) {
-      originalRequest._retry = true;
+    if (originalRequest?.skipRefresh || error.response?.status !== 401) {
+      return Promise.reject(error);
+    }
 
-      if (!store) return Promise.reject(error); // якщо store не підключений
+    if (originalRequest._retry) {
+      return Promise.reject(error);
+    }
 
-      try {
-        // Викликаємо refreshUser thunk через dispatch
-        const resultAction = await store.dispatch(refreshUser());
+    originalRequest._retry = true;
 
-        if (refreshUser.fulfilled.match(resultAction)) {
-          return api(originalRequest); // повторюємо запит
-        } else {
-          return Promise.reject(error);
-        }
-      } catch {
+    if (isRefreshing) {
+      return new Promise((resolve, reject) => {
+        failedQueue.push({
+          resolve: token => {
+            originalRequest.headers['Authorization'] = `Bearer ${token}`;
+            resolve(api(originalRequest));
+          },
+          reject: err => reject(err),
+        });
+      });
+    }
+
+    isRefreshing = true;
+
+    try {
+      const resultAction = await store.dispatch(refreshUser());
+
+      if (refreshUser.fulfilled.match(resultAction)) {
+        const newToken = resultAction.payload.token;
+        setAuthHeader(newToken); // оновлюємо токен в axios
+
+        processQueue(null, newToken);
+        return api(originalRequest);
+      } else {
+        processQueue(error, null);
         clearAuthHeader();
         return Promise.reject(error);
       }
+    } catch (err) {
+      processQueue(err, null);
+      clearAuthHeader();
+      return Promise.reject(err);
+    } finally {
+      isRefreshing = false;
     }
-
-    return Promise.reject(error);
   }
 );
 
