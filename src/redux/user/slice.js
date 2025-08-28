@@ -11,7 +11,26 @@ const initialState = {
 const userSlice = createSlice({
   name: 'user',
   initialState,
-  reducers: {},
+  reducers: {
+    addRecipeToUserFavourites(state, action) {
+      if (!state.profile) return;
+
+      const recipeId = action.payload;
+
+      if (!state.profile.favourites.includes(recipeId)) {
+        state.profile.favourites.push(recipeId);
+      }
+    },
+    removeRecipeFromUserFavourites(state, action) {
+      if (!state.profile) return;
+
+      const recipeId = action.payload;
+
+      state.profile.favourites = state.profile.favourites.filter(
+        fav => fav !== recipeId
+      );
+    },
+  },
   extraReducers: builder => {
     builder
       .addCase(getUserInfo.pending, state => {
