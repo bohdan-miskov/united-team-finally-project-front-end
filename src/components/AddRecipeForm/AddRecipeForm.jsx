@@ -3,6 +3,7 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import css from './AddRecipeForm.module.css';
 import { useNavigate } from 'react-router-dom';
+
 //ANCHOR - import { toast } from 'react-toastify';
 
 import Select from 'react-select';
@@ -110,6 +111,7 @@ export default function AddRecipeForm() {
   }; */
 
   const handleSubmit = async (values, { resetForm }) => {
+
     const formData = new FormData();
 
     formData.append('title', values.title);
@@ -144,6 +146,7 @@ export default function AddRecipeForm() {
     } catch (err) {
       console.error('🔥 Error creating recipe:', err);
       //toast.error(err.message || 'Something went wrong');
+
     }
   };
 
