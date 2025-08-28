@@ -3,7 +3,8 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import css from './AddRecipeForm.module.css';
 import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
+
+//ANCHOR - import { toast } from 'react-toastify';
 
 import Select from 'react-select';
 
@@ -30,7 +31,7 @@ const validationSchema = Yup.object({
   calories: Yup.number().min(1).max(1000).required('Required'),
   category: Yup.string().required('Required'),
   instructions: Yup.string().required('Required'),
-  image: Yup.mixed().required('Required'),
+  //image: Yup.mixed(),
 });
 
 export default function AddRecipeForm() {
@@ -110,22 +111,29 @@ export default function AddRecipeForm() {
   }; */
 
   const handleSubmit = async (values, { resetForm }) => {
-    const payload = {
-      title: values.title,
-      description: values.description,
-      time: values.time,
-      calories: values.calories,
-      category: values.category,
-      instructions: values.instructions,
-      thumb: values.image,
-      ingredients: (values.ingredients || []).map(i => ({
-        id: i.id,
-        amount: i.amount,
-      })),
-    };
+
+    const formData = new FormData();
+
+    formData.append('title', values.title);
+    formData.append('description', values.description);
+    formData.append('time', values.time);
+    formData.append('cals', values.calories);
+    formData.append('category', values.category);
+    formData.append('instructions', values.instructions);
+    //formData.append('area', 'Ukraine');
+
+    if (values.image) {
+      formData.append('thumb', values.image);
+    }
+
+    (values.ingredients || []).forEach((i, index) => {
+      formData.append(`ingredients[${index}][id]`, i.id);
+      formData.append(`ingredients[${index}][measure]`, i.amount);
+    });
 
     try {
-      const res = await dispatch(createRecipe(payload)).unwrap();
+      console.log('🚀 ~ handleSubmit ~ payload:', formData);
+      const res = await dispatch(createRecipe(formData)).unwrap();
 
       if (res && res._id) {
         console.log('✅ Recipe created:', res);
@@ -133,11 +141,12 @@ export default function AddRecipeForm() {
         navigate(`/recipes/${res._id}`);
       } else {
         console.error('❌ Recipe not created:', res);
-        toast.error('Failed to create recipe. Please try again.');
+        //toast.error('Failed to create recipe. Please try again.');
       }
     } catch (err) {
       console.error('🔥 Error creating recipe:', err);
-      toast.error(err.message || 'Something went wrong');
+      //toast.error(err.message || 'Something went wrong');
+
     }
   };
 
