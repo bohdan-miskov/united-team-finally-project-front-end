@@ -1,3 +1,3 @@
-export const selectSearchQuery = (state) => state.filters.searchQuery;
-export const selectSearchCategory = (state) => state.filters.category;
-export const selectSearchIngredients = (state) => state.filters.ingredients;
+export const selectSearchQuery = state => state.filters.searchQuery;
+export const selectSearchCategories = state => state.filters.categories;
+export const selectSearchIngredients = state => state.filters.ingredients;

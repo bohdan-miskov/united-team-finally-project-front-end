@@ -1,7 +1,7 @@
-import { createAsyncThunk } from "@reduxjs/toolkit";
-import api from "../../services/axiosConfig";
+import api from '../../services/axiosConfig';
+import { wrapAsyncThunk } from '../../services/wrapAsyncThunk';
 
-export const getCategories = createAsyncThunk("categories/getAll", async () => {
-  const response = await api.get("/categories");
+export const getCategories = wrapAsyncThunk('categories/getAll', async () => {
+  const response = await api.get('/categories');
   return response.data.data;
 });

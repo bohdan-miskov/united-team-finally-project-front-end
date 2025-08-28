@@ -36,6 +36,27 @@
   }
 }
 
+.defaultImg {
+  width: 100%;
+  height: 337px;
+  border-radius: 12px;
+  background-color: var(--gray-3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (min-width: 768px) {
+  .defaultImg {
+    height: 315px;
+  }
+}
+
+.iconPhoto {
+  stroke-width: 1px;
+  stroke: var(--black-2);
+  fill: transparent;
+}
 .header {
   display: flex;
   gap: 8px;
