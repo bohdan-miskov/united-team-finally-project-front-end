@@ -71,6 +71,10 @@ button {
   transition: 300ms ease-in;
 }
 
+textarea {
+  resize: none;
+}
+
 .brown-btn {
   background-color: var(--light-brown);
   transition-property: background-color, box-shadow, opacity;
