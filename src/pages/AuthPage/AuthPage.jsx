@@ -1,7 +1,7 @@
 import { useParams } from 'react-router-dom';
 import LoginForm from '../../components/LoginForm/LoginForm';
 import RegistrationForm from '../../components/RegistrationForm/RegistrationForm';
-import styles from './AuthPage.module.css';
+import styles from './authPage.module.css';
 
 const AuthPage = () => {
   const { authType } = useParams();

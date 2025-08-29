@@ -13,7 +13,7 @@ import {
   getPasswordStrengthColor,
   getPasswordStrengthText,
 } from '../../utils/passwordStrength.js';
-import styles from './RegistrationForm.module.css';
+import styles from './registrationForm.module.css';
 import ErrorToastMessage from '../ErrorToastMessage/ErrorToastMessage';
 import SuccessToastMessage from '../SuccessToastMessage/SuccessToastMessage';
 
