@@ -23,6 +23,7 @@ import {
 } from '../../redux/ingredients/selectors';
 
 import { createRecipe } from '../../redux/recipes/operations';
+import ErrorToastMessage from '../ErrorToastMessage/ErrorToastMessage';
 
 const validationSchema = Yup.object({
   title: Yup.string().max(64).required('Required'),
@@ -45,8 +46,16 @@ export default function AddRecipeForm() {
 
   const categoriesLoading = useSelector(selectCategoriesIsLoading);
   const ingredientsLoading = useSelector(selectIngredientsIsLoading);
+  const [errorMessage, setErrorMessage] = useState(null);
 
   const navigate = useNavigate();
+
+  const errorMessages = {
+    400: 'Your data is invalid',
+    401: 'Authentication failed. Please try again later.',
+    422: 'Validation error. Please check your input data.',
+    500: 'Server error. Please try again later.',
+  };
 
   useEffect(() => {
     dispatch(getCategories());
@@ -111,7 +120,6 @@ export default function AddRecipeForm() {
   }; */
 
   const handleSubmit = async (values, { resetForm }) => {
-
     const formData = new FormData();
 
     formData.append('title', values.title);
@@ -132,158 +140,208 @@ export default function AddRecipeForm() {
     });
 
     try {
-      console.log('🚀 ~ handleSubmit ~ payload:', formData);
       const res = await dispatch(createRecipe(formData)).unwrap();
 
       if (res && res._id) {
-        console.log('✅ Recipe created:', res);
         resetForm();
         navigate(`/recipes/${res._id}`);
       } else {
-        console.error('❌ Recipe not created:', res);
-        //toast.error('Failed to create recipe. Please try again.');
+        setErrorMessage('Failed to create recipe. Please try again later.');
       }
     } catch (err) {
-      console.error('🔥 Error creating recipe:', err);
-      //toast.error(err.message || 'Something went wrong');
-
+      setErrorMessage(
+        errorMessages[err.status] ??
+          'Failed to create recipe. Please try again later.'
+      );
     }
   };
 
   return (
-    <Formik
-      initialValues={{
-        title: '',
-        description: '',
-        time: '',
-        calories: '',
-        category: '',
-        instructions: '',
-        ingredient: null,
-        amount: '',
-        image: null,
-        ingredients: [],
-      }}
-      validationSchema={validationSchema}
-      onSubmit={handleSubmit}
-    >
-      {({ isSubmitting, setFieldValue, values }) => (
-        <Form className={css.form}>
-          {/* Upload Photo*/}
-          <div className={css.rightGoup}>
-            <section className={css.uploadSection}>
-              <h2 className={css.sectionTitle}>Upload Photo</h2>
-              <div className={css.uploadItem}>
-                <label htmlFor="thumb" className={css.imageUpload}>
-                  <input
-                    id="thumb"
-                    name="image"
-                    type="file"
-                    accept="image/*"
-                    className={css.hiddenInput}
-                    onChange={e => handleImageChange(e, setFieldValue)}
-                  />
-                  {preview ? (
-                    <img src={preview} alt="Preview" width="150" />
-                  ) : (
-                    <svg width="82" height="82">
-                      <use href="/icons.svg#icon-photo"></use>
-                    </svg>
-                  )}
-                </label>
-              </div>
-              <ErrorMessage
-                name="image"
-                component="div"
-                className={css.error}
-              />
-            </section>
-          </div>
-          {/* General Information */}
-          <div className={css.leftGroup}>
-            <section className={css.generalSection}>
-              <h2 className={css.sectionTitle}>General Information</h2>
-              <div className={css.generalItems}>
-                <div className={css.descriptionItem}>
-                  <label className={css.smallTitle}>Recipe Title</label>
-                  <Field
-                    name="title"
-                    type="text"
-                    placeholder="Enter the name of your recipe"
-                  />
-                  <ErrorMessage
-                    name="title"
-                    component="div"
-                    className={css.error}
-                  />
-                </div>
-
-                <div className={css.descriptionItem}>
-                  <label className={css.smallTitle}>Recipe Description</label>
-                  <Field
-                    as="textarea"
-                    name="description"
-                    placeholder="Enter a brief description of your recipe"
-                    className={css.textGeneral}
-                  />
-                  <ErrorMessage
-                    name="description"
-                    component="div"
-                    className={css.error}
-                  />
-                </div>
-
-                <div className={css.descriptionItem}>
-                  <label className={css.smallTitle}>
-                    Cooking Time (minutes)
+    <>
+      <Formik
+        initialValues={{
+          title: '',
+          description: '',
+          time: '',
+          calories: '',
+          category: '',
+          instructions: '',
+          ingredient: null,
+          amount: '',
+          image: null,
+          ingredients: [],
+        }}
+        validationSchema={validationSchema}
+        onSubmit={handleSubmit}
+      >
+        {({ isSubmitting, setFieldValue, values }) => (
+          <Form className={css.form}>
+            {/* Upload Photo*/}
+            <div className={css.rightGoup}>
+              <section className={css.uploadSection}>
+                <h2 className={css.sectionTitle}>Upload Photo</h2>
+                <div className={css.uploadItem}>
+                  <label htmlFor="thumb" className={css.imageUpload}>
+                    <input
+                      id="thumb"
+                      name="image"
+                      type="file"
+                      accept="image/*"
+                      className={css.hiddenInput}
+                      onChange={e => handleImageChange(e, setFieldValue)}
+                    />
+                    {preview ? (
+                      <img src={preview} alt="Preview" width="150" />
+                    ) : (
+                      <svg width="82" height="82">
+                        <use href="/icons.svg#icon-photo"></use>
+                      </svg>
+                    )}
                   </label>
-                  <Field name="time" type="number" placeholder="10" />
-                  <ErrorMessage
-                    name="time"
-                    component="div"
-                    className={css.error}
-                  />
                 </div>
-
-                <div className={css.wrapp}>
-                  <div>
-                    <label className={css.smallTitle}>Calories</label>
+                <ErrorMessage
+                  name="image"
+                  component="div"
+                  className={css.error}
+                />
+              </section>
+            </div>
+            {/* General Information */}
+            <div className={css.leftGroup}>
+              <section className={css.generalSection}>
+                <h2 className={css.sectionTitle}>General Information</h2>
+                <div className={css.generalItems}>
+                  <div className={css.descriptionItem}>
+                    <label className={css.smallTitle}>Recipe Title</label>
                     <Field
-                      name="calories"
-                      type="number"
-                      placeholder="150"
-                      className={css.inputC}
+                      name="title"
+                      type="text"
+                      placeholder="Enter the name of your recipe"
                     />
                     <ErrorMessage
-                      name="calories"
+                      name="title"
                       component="div"
                       className={css.error}
                     />
                   </div>
 
-                  <div>
-                    <label className={css.smallTitle}>Category</label>
+                  <div className={css.descriptionItem}>
+                    <label className={css.smallTitle}>Recipe Description</label>
+                    <Field
+                      as="textarea"
+                      name="description"
+                      placeholder="Enter a brief description of your recipe"
+                      className={css.textGeneral}
+                    />
+                    <ErrorMessage
+                      name="description"
+                      component="div"
+                      className={css.error}
+                    />
+                  </div>
+
+                  <div className={css.descriptionItem}>
+                    <label className={css.smallTitle}>
+                      Cooking Time (minutes)
+                    </label>
+                    <Field name="time" type="number" placeholder="10" />
+                    <ErrorMessage
+                      name="time"
+                      component="div"
+                      className={css.error}
+                    />
+                  </div>
+
+                  <div className={css.wrapp}>
+                    <div>
+                      <label className={css.smallTitle}>Calories</label>
+                      <Field
+                        name="calories"
+                        type="number"
+                        placeholder="150"
+                        className={css.inputC}
+                      />
+                      <ErrorMessage
+                        name="calories"
+                        component="div"
+                        className={css.error}
+                      />
+                    </div>
+
+                    <div>
+                      <label className={css.smallTitle}>Category</label>
+                      <Select
+                        options={categoryOptions}
+                        isLoading={categoriesLoading}
+                        value={
+                          categoryOptions.find(
+                            opt => opt.value === values.category
+                          ) || null
+                        }
+                        onChange={option =>
+                          setFieldValue('category', option.value)
+                        }
+                        placeholder="Select category"
+                        styles={{
+                          control: base => ({
+                            ...base,
+                            border: '1px solid var(--light-gray)',
+                            borderRadius: '8px',
+                            padding: '0 12px',
+
+                            height: '48px',
+
+                            boxShadow: 'none',
+                            '&:hover': {
+                              borderColor: 'var(--light-gray)',
+                            },
+                          }),
+                          valueContainer: base => ({
+                            ...base,
+                            padding: 0,
+                          }),
+                          indicatorsContainer: base => ({
+                            ...base,
+                            height: '48px',
+                          }),
+                          dropdownIndicator: base => ({
+                            ...base,
+                            padding: '0 8px',
+                          }),
+                          indicatorSeparator: () => ({ display: 'none' }),
+                          menu: base => ({
+                            ...base,
+                            borderRadius: '8px',
+                            marginTop: '4px',
+                          }),
+                        }}
+                      />
+                    </div>
+                  </div>
+                </div>
+              </section>
+
+              {/* Ingredients */}
+              <section className={css.ingredientsSection}>
+                <h2 className={css.sectionTitle}>Ingredients</h2>
+                <div className={css.sectionsItems}>
+                  <div className={css.ingredientName}>
+                    <label className={css.smallTitle}>Name</label>
                     <Select
-                      options={categoryOptions}
-                      isLoading={categoriesLoading}
-                      value={
-                        categoryOptions.find(
-                          opt => opt.value === values.category
-                        ) || null
-                      }
-                      onChange={option =>
-                        setFieldValue('category', option.value)
-                      }
-                      placeholder="Select category"
+                      options={ingredientOptions}
+                      isLoading={ingredientsLoading}
+                      value={values.ingredient}
+                      onChange={option => setFieldValue('ingredient', option)}
+                      placeholder="Select ingredient"
                       styles={{
                         control: base => ({
                           ...base,
                           border: '1px solid var(--light-gray)',
                           borderRadius: '8px',
                           padding: '0 12px',
-
                           height: '48px',
-
+                          minHeight: '48px',
+                          maxHeight: '48px',
                           boxShadow: 'none',
                           '&:hover': {
                             borderColor: 'var(--light-gray)',
@@ -310,126 +368,77 @@ export default function AddRecipeForm() {
                       }}
                     />
                   </div>
+                  <div className={css.ingredientAmount}>
+                    <label className={css.smallTitle}>Amount</label>
+                    <Field name="amount" type="text" placeholder="100g" />
+                  </div>
                 </div>
-              </div>
-            </section>
 
-            {/* Ingredients */}
-            <section className={css.ingredientsSection}>
-              <h2 className={css.sectionTitle}>Ingredients</h2>
-              <div className={css.sectionsItems}>
-                <div className={css.ingredientName}>
-                  <label className={css.smallTitle}>Name</label>
-                  <Select
-                    options={ingredientOptions}
-                    isLoading={ingredientsLoading}
-                    value={values.ingredient}
-                    onChange={option => setFieldValue('ingredient', option)}
-                    placeholder="Select ingredient"
-                    styles={{
-                      control: base => ({
-                        ...base,
-                        border: '1px solid var(--light-gray)',
-                        borderRadius: '8px',
-                        padding: '0 12px',
-                        height: '48px',
-                        minHeight: '48px',
-                        maxHeight: '48px',
-                        boxShadow: 'none',
-                        '&:hover': {
-                          borderColor: 'var(--light-gray)',
-                        },
-                      }),
-                      valueContainer: base => ({
-                        ...base,
-                        padding: 0,
-                      }),
-                      indicatorsContainer: base => ({
-                        ...base,
-                        height: '48px',
-                      }),
-                      dropdownIndicator: base => ({
-                        ...base,
-                        padding: '0 8px',
-                      }),
-                      indicatorSeparator: () => ({ display: 'none' }),
-                      menu: base => ({
-                        ...base,
-                        borderRadius: '8px',
-                        marginTop: '4px',
-                      }),
-                    }}
-                  />
-                </div>
-                <div className={css.ingredientAmount}>
-                  <label className={css.smallTitle}>Amount</label>
-                  <Field name="amount" type="text" placeholder="100g" />
-                </div>
-              </div>
+                <button
+                  type="button"
+                  className={`brown-btn ${css.button}`}
+                  onClick={() => handleAddIngredient(values, setFieldValue)}
+                >
+                  Add new Ingredient
+                </button>
 
-              <button
-                type="button"
-                className={`brown-btn ${css.button}`}
-                onClick={() => handleAddIngredient(values, setFieldValue)}
-              >
-                Add new Ingredient
-              </button>
-
-              <ul
-                className={`${css.selectedIngredients} ${
-                  selectedIngredients.length === 0 ? css.hideOnMobile : ''
-                } `}
-              >
-                <li className={`${css.selectedIngredientsHeader} `}>
-                  <span className={css.spanName}>Name:</span>
-                  <span className={css.spanAmount}>Amount:</span>
-                  <span></span>
-                </li>
-
-                {selectedIngredients.map((item, i) => (
-                  <li key={i}>
-                    <span className={css.spanItemsName}>{item.name}</span>
-                    <span className={css.spanItemsAmount}>{item.amount}</span>
-                    <button
-                      type="button"
-                      onClick={() =>
-                        handleRemoveIngredient(i, values, setFieldValue)
-                      }
-                    >
-                      <svg width="24" height="24">
-                        <use href="/icons.svg#icon-delete"></use>
-                      </svg>
-                    </button>
+                <ul
+                  className={`${css.selectedIngredients} ${
+                    selectedIngredients.length === 0 ? css.hideOnMobile : ''
+                  } `}
+                >
+                  <li className={`${css.selectedIngredientsHeader} `}>
+                    <span className={css.spanName}>Name:</span>
+                    <span className={css.spanAmount}>Amount:</span>
+                    <span></span>
                   </li>
-                ))}
-              </ul>
-            </section>
-            {/* Instructions */}
-            <section className={css.instructionsSection}>
-              <label className={css.sectionTitle}>Instructions</label>
-              <Field
-                as="textarea"
-                name="instructions"
-                placeholder="Enter a text"
-                className={css.textInstructions}
-              />
-              <ErrorMessage
-                name="instructions"
-                component="div"
-                className={css.error}
-              />
 
-              <button
-                className={`brown-btn ${css.button}`}
-                type="submit"
-                disabled={isSubmitting}
-              >
-                Publish Recipe
-              </button>
-            </section>
-          </div>
-        </Form>
-      )}
-    </Formik>
+                  {selectedIngredients.map((item, i) => (
+                    <li key={i}>
+                      <span className={css.spanItemsName}>{item.name}</span>
+                      <span className={css.spanItemsAmount}>{item.amount}</span>
+                      <button
+                        type="button"
+                        onClick={() =>
+                          handleRemoveIngredient(i, values, setFieldValue)
+                        }
+                      >
+                        <svg width="24" height="24">
+                          <use href="/icons.svg#icon-delete"></use>
+                        </svg>
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </section>
+              {/* Instructions */}
+              <section className={css.instructionsSection}>
+                <label className={css.sectionTitle}>Instructions</label>
+                <Field
+                  as="textarea"
+                  name="instructions"
+                  placeholder="Enter a text"
+                  className={css.textInstructions}
+                />
+                <ErrorMessage
+                  name="instructions"
+                  component="div"
+                  className={css.error}
+                />
+
+                <button
+                  className={`brown-btn ${css.button}`}
+                  type="submit"
+                  disabled={isSubmitting}
+                >
+                  Publish Recipe
+                </button>
+              </section>
+            </div>
+          </Form>
+        )}
+      </Formik>
+      {errorMessage && <ErrorToastMessage>{errorMessage}</ErrorToastMessage>}
+    </>
   );
 }

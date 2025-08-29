@@ -26,9 +26,9 @@ export default function SearchBox() {
         placeholder="Search recipes"
         className={styles.input}
       />
-      <button type="submit" className={styles.button}>
+      {/* <button type="submit" className={styles.button}>
         Search
-      </button>
+      </button> */}
     </form>
   );
 }

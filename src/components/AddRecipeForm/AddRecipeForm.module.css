@@ -138,7 +138,7 @@ select {
 .selectedIngredients {
   list-style: none;
   padding: 0;
-  margin: 32px 0 40px;
+  margin-top: 32px;
   width: 100%;
 }
 
