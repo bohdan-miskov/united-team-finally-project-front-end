@@ -38,6 +38,7 @@ const validationSchema = Yup.object({
 export default function AddRecipeForm() {
   const [selectedIngredients, setSelectedIngredients] = useState([]);
   const [preview, setPreview] = useState(null);
+  const [ingredientError, setIngredientError] = useState(null);
 
   /*Redux*/
   const dispatch = useDispatch();
@@ -80,7 +81,12 @@ export default function AddRecipeForm() {
     const isDuplicate = values.ingredients.some(
       item => item.id === ingredient.value
     );
-    if (isDuplicate) return;
+    if (isDuplicate) {
+      setIngredientError('This ingredient is already in the list.');
+      return;
+    }
+
+    setIngredientError(null);
 
     const newIngredient = {
       id: ingredient.value,
@@ -89,7 +95,6 @@ export default function AddRecipeForm() {
     };
 
     setSelectedIngredients(p => [...p, newIngredient]);
-
     setFieldValue('ingredients', [...values.ingredients, newIngredient]);
 
     setFieldValue('ingredient', '');
@@ -316,6 +321,11 @@ export default function AddRecipeForm() {
                           }),
                         }}
                       />
+                      <ErrorMessage
+                        name="category"
+                        component="div"
+                        className={css.error}
+                      />
                     </div>
                   </div>
                 </div>
@@ -332,6 +342,7 @@ export default function AddRecipeForm() {
                       isLoading={ingredientsLoading}
                       value={values.ingredient}
                       onChange={option => setFieldValue('ingredient', option)}
+                      onMenuOpen={() => setIngredientError(null)}
                       placeholder="Select ingredient"
                       styles={{
                         control: base => ({
@@ -372,6 +383,9 @@ export default function AddRecipeForm() {
                     <label className={css.smallTitle}>Amount</label>
                     <Field name="amount" type="text" placeholder="100g" />
                   </div>
+                  {ingredientError && (
+                    <div className={css.error}>{ingredientError}</div>
+                  )}
                 </div>
 
                 <button
