@@ -22,6 +22,13 @@ const AddRecipePage = lazy(() =>
 const ProfilePage = lazy(() => import('../pages/ProfilePage/ProfilePage'));
 const AuthPage = lazy(() => import('../pages/AuthPage/AuthPage'));
 
+const RequestResetForm = lazy(() =>
+  import('../components/RequestResetForm/RequestResetForm')
+);
+const ResetPasswordForm = lazy(() =>
+  import('../components/ResetPasswordForm/ResetPasswordForm')
+);
+
 function App() {
   const dispatch = useDispatch();
 
@@ -59,6 +66,14 @@ function App() {
           <Route
             path="/auth/:authType"
             element={<RestrictedRoute component={<AuthPage />} />}
+          />
+          <Route
+            path="/auth/request-reset"
+            element={<RestrictedRoute component={<RequestResetForm />} />}
+          />
+          <Route
+            path="/auth/reset-password"
+            element={<RestrictedRoute component={<ResetPasswordForm />} />}
           />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>

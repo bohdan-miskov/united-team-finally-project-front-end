@@ -6,7 +6,6 @@ import {
   selectAuthIsLoading,
 } from '../../redux/auth/selectors';
 import { useNavigate, Link } from 'react-router-dom';
-// import { toast } from "react-hot-toast";
 import { useState } from 'react';
 import ErrorToastMessage from '../ErrorToastMessage/ErrorToastMessage';
 import { logInUser } from '../../redux/auth/operations';
@@ -24,25 +23,35 @@ const LoginSchema = Yup.object().shape({
     .required('Password is required'),
 });
 export default function LoginForm() {
+  const [errorMessage, setErrorMessage] = useState(null);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const isLoading = useSelector(selectAuthIsLoading);
   const [showPassword, setShowPassword] = useState(false);
   const [successMessage, setSuccessMessage] = useState(null);
-  // const [error, setError] = useState(null);
 
-  const error = useSelector(selectAuthError);
+  // const error = useSelector(selectAuthError);
+
+  const errors = {
+    400: 'Invalid request. Please check your email and password format.',
+    401: 'Email or password is incorrect.',
+    403: 'Access denied. Your account may be suspended or restricted.',
+    404: 'Account not found. Please check your email or register a new account.',
+    422: 'Validation error. Please check your input data.',
+    500: 'Server error. Please try registering again later.',
+  };
 
   const handleSubmit = async (values, { setSubmitting, resetForm }) => {
     try {
       await dispatch(logInUser(values)).unwrap();
       resetForm();
 
-      //  Додаємо повідомлення про успіх
       setSuccessMessage('Login successful!');
+      setErrorMessage(null);
       navigate('/', { replace: true });
     } catch (error) {
-      // Помилки зараз не обробляємо
+      setErrorMessage(errors[error.status] ?? 'Connection error');
+      setSuccessMessage(null);
     } finally {
       setSubmitting(false);
     }
@@ -54,13 +63,13 @@ export default function LoginForm() {
       {successMessage && (
         <SuccessToastMessage>{successMessage}</SuccessToastMessage>
       )}
-      <ErrorToastMessage>{error}</ErrorToastMessage>
+      <ErrorToastMessage>{errorMessage}</ErrorToastMessage>
       <Formik
         initialValues={{ email: '', password: '' }}
         validationSchema={LoginSchema}
         onSubmit={handleSubmit}
       >
-        {({ values, touched, errors, isSubmitting }) => (
+        {({ values, touched, errors: formikErrors, isSubmitting }) => (
           <Form className={styles.form} noValidate>
             <div className={styles.fieldGroup}>
               <label htmlFor="email" className={styles.label}>
@@ -74,13 +83,17 @@ export default function LoginForm() {
                 className={[
                   styles.input,
                   values.email ? styles.filled : '',
-                  touched.email && errors.email ? styles.errorInput : '',
+                  touched.email && formikErrors.email ? styles.errorInput : '',
                 ]
                   .filter(Boolean)
                   .join(' ')}
-                aria-invalid={touched.email && errors.email ? 'true' : 'false'}
+                aria-invalid={
+                  touched.email && formikErrors.email ? 'true' : 'false'
+                }
                 aria-describedby={
-                  touched.email && errors.email ? 'email-error' : undefined
+                  touched.email && formikErrors.email
+                    ? 'email-error'
+                    : undefined
                 }
                 autoComplete="email"
               />
@@ -105,17 +118,17 @@ export default function LoginForm() {
                     styles.input,
                     styles.passwordInput,
                     values.password ? styles.filled : '',
-                    touched.password && errors.password
+                    touched.password && formikErrors.password
                       ? styles.errorInput
                       : '',
                   ]
                     .filter(Boolean)
                     .join(' ')}
                   aria-invalid={
-                    touched.password && errors.password ? 'true' : 'false'
+                    touched.password && formikErrors.password ? 'true' : 'false'
                   }
                   aria-describedby={
-                    touched.password && errors.password
+                    touched.password && formikErrors.password
                       ? 'password-error'
                       : undefined
                   }
@@ -148,7 +161,11 @@ export default function LoginForm() {
             >
               {isLoading || isSubmitting ? 'Logging in...' : 'Login'}
             </button>
-
+            <p className={styles.redirectText}>
+              <Link to="/auth/request-reset" className={styles.link}>
+                Forgot password?
+              </Link>
+            </p>
             <p className={styles.redirectText}>
               Don't have an account?{' '}
               <Link to="/auth/register" className={styles.link}>
