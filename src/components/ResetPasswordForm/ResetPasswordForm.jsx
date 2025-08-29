@@ -15,7 +15,7 @@ import {
   getPasswordStrengthColor,
   getPasswordStrengthText,
 } from '../../utils/passwordStrength.js';
-import styles from './resetPasswordForm.module.css';
+import styles from './ResetPasswordForm.module.css';
 
 const ResetPasswordSchema = Yup.object().shape({
   password: Yup.string()

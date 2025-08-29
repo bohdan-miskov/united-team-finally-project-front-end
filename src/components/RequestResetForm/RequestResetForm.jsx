@@ -10,7 +10,7 @@ import {
   selectAuthError,
   selectAuthIsLoading,
 } from '../../redux/auth/selectors';
-import styles from './requestResetForm.module.css';
+import styles from './RequestResetForm.module.css';
 
 const RequestResetSchema = Yup.object().shape({
   email: Yup.string()
