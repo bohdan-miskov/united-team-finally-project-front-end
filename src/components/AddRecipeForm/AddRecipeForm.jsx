@@ -24,6 +24,7 @@ import {
 
 import { createRecipe } from '../../redux/recipes/operations';
 import ErrorToastMessage from '../ErrorToastMessage/ErrorToastMessage';
+import { ERROR_MESSAGES } from '../../constants';
 
 const validationSchema = Yup.object({
   title: Yup.string().max(64).required('Required'),
@@ -51,13 +52,6 @@ export default function AddRecipeForm() {
 
   const navigate = useNavigate();
 
-  const errorMessages = {
-    400: 'Your data is invalid',
-    401: 'Authentication failed. Please try again later.',
-    422: 'Validation error. Please check your input data.',
-    500: 'Server error. Please try again later.',
-  };
-
   useEffect(() => {
     dispatch(getCategories());
     dispatch(getIngredients());
@@ -75,7 +69,14 @@ export default function AddRecipeForm() {
 
   const handleAddIngredient = (values, setFieldValue) => {
     const { ingredient, amount } = values;
-    if (!ingredient || !amount) return;
+    if (!values.ingredient) {
+      setIngredientError('Ingredient is required');
+      return;
+    }
+    if (!values.amount) {
+      setIngredientError('Amount is required');
+      return;
+    }
 
     // перевірка на дубль
     const isDuplicate = values.ingredients.some(
@@ -144,6 +145,7 @@ export default function AddRecipeForm() {
       formData.append(`ingredients[${index}][measure]`, i.amount);
     });
 
+    setErrorMessage(null);
     try {
       const res = await dispatch(createRecipe(formData)).unwrap();
 
@@ -155,7 +157,7 @@ export default function AddRecipeForm() {
       }
     } catch (err) {
       setErrorMessage(
-        errorMessages[err.status] ??
+        ERROR_MESSAGES[err.status] ??
           'Failed to create recipe. Please try again later.'
       );
     }
@@ -337,7 +339,7 @@ export default function AddRecipeForm() {
                       isLoading={ingredientsLoading}
                       value={values.ingredient}
                       onChange={option => setFieldValue('ingredient', option)}
-                      onMenuOpen={() => setIngredientError(null)}
+                      onMenuClose={() => setIngredientError(null)}
                       placeholder="Select ingredient"
                       styles={{
                         control: base => ({
@@ -376,20 +378,27 @@ export default function AddRecipeForm() {
                   </div>
                   <div className={css.ingredientAmount}>
                     <label className={css.smallTitle}>Amount</label>
-                    <Field name="amount" type="text" placeholder="100g" />
+                    <Field
+                      name="amount"
+                      type="text"
+                      placeholder="100g"
+                      onBlur={() => setIngredientError(null)}
+                    />
                   </div>
+                </div>
+                <div className={css.ingredientsBtnContainer}>
+                  {' '}
                   {ingredientError && (
                     <div className={css.error}>{ingredientError}</div>
                   )}
+                  <button
+                    type="button"
+                    className={`brown-btn ${css.button}`}
+                    onClick={() => handleAddIngredient(values, setFieldValue)}
+                  >
+                    Add new Ingredient
+                  </button>
                 </div>
-
-                <button
-                  type="button"
-                  className={`brown-btn ${css.button}`}
-                  onClick={() => handleAddIngredient(values, setFieldValue)}
-                >
-                  Add new Ingredient
-                </button>
 
                 <ul
                   className={`${css.selectedIngredients} ${
@@ -399,11 +408,10 @@ export default function AddRecipeForm() {
                   <li className={`${css.selectedIngredientsHeader} `}>
                     <span className={css.spanName}>Name:</span>
                     <span className={css.spanAmount}>Amount:</span>
-                    <span></span>
                   </li>
 
                   {selectedIngredients.map((item, i) => (
-                    <li key={i}>
+                    <li key={item.id}>
                       <span className={css.spanItemsName}>{item.name}</span>
                       <span className={css.spanItemsAmount}>{item.amount}</span>
                       <button

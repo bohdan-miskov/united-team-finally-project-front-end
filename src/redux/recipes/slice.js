@@ -7,12 +7,15 @@ import {
   getAllRecipes,
   getFavoriteRecipes,
   getOwnRecipes,
+  updateRecipe,
 } from './operations';
 import {
+  resetPaginationArray,
   setPaginationArrayRejected,
   setPending,
   setRejected,
 } from '../helpers/statusHandlers';
+import { logOutUser } from '../auth/operations';
 
 const initialState = {
   all: {
@@ -84,6 +87,15 @@ const recipesSlice = createSlice({
         // state.own.totalItems += 1;
       })
       .addCase(createRecipe.rejected, (state, action) => {
+        setRejected(state.all, action);
+      })
+      .addCase(updateRecipe.pending, state => {
+        setPending(state.all);
+      })
+      .addCase(updateRecipe.fulfilled, state => {
+        state.all.isLoading = false;
+      })
+      .addCase(updateRecipe.rejected, (state, action) => {
         setRejected(state.all, action);
       })
       .addCase(deleteRecipe.pending, state => {
@@ -160,6 +172,10 @@ const recipesSlice = createSlice({
       })
       .addCase(getOwnRecipes.rejected, (state, action) => {
         setPaginationArrayRejected(state.own, action);
+      })
+      .addCase(logOutUser.fulfilled, state => {
+        resetPaginationArray(state.favorite);
+        resetPaginationArray(state.own);
       });
   },
 });

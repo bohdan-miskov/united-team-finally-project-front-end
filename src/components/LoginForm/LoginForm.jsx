@@ -1,16 +1,14 @@
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  selectAuthError,
-  selectAuthIsLoading,
-} from '../../redux/auth/selectors';
+import { selectAuthIsLoading } from '../../redux/auth/selectors';
 import { useNavigate, Link } from 'react-router-dom';
 import { useState } from 'react';
 import ErrorToastMessage from '../ErrorToastMessage/ErrorToastMessage';
 import { logInUser } from '../../redux/auth/operations';
 import styles from './loginForm.module.css';
-import SuccessToastMessage from '../SuccessToastMessage/SuccessToastMessage';
+//import SuccessToastMessage from '../SuccessToastMessage/SuccessToastMessage';
+import { ERROR_MESSAGES } from '../../constants';
 
 const LoginSchema = Yup.object().shape({
   email: Yup.string()
@@ -28,17 +26,15 @@ export default function LoginForm() {
   const navigate = useNavigate();
   const isLoading = useSelector(selectAuthIsLoading);
   const [showPassword, setShowPassword] = useState(false);
-  const [successMessage, setSuccessMessage] = useState(null);
+  //const [successMessage, setSuccessMessage] = useState(null);
 
   // const error = useSelector(selectAuthError);
 
   const errors = {
-    400: 'Invalid request. Please check your email and password format.',
+    ...ERROR_MESSAGES,
     401: 'Email or password is incorrect.',
     403: 'Access denied. Your account may be suspended or restricted.',
     404: 'Account not found. Please check your email or register a new account.',
-    422: 'Validation error. Please check your input data.',
-    500: 'Server error. Please try registering again later.',
   };
 
   const handleSubmit = async (values, { setSubmitting, resetForm }) => {
@@ -46,12 +42,12 @@ export default function LoginForm() {
       await dispatch(logInUser(values)).unwrap();
       resetForm();
 
-      setSuccessMessage('Login successful!');
+      //setSuccessMessage('Login successful!');
       setErrorMessage(null);
       navigate('/', { replace: true });
     } catch (error) {
       setErrorMessage(errors[error.status] ?? 'Connection error');
-      setSuccessMessage(null);
+      //setSuccessMessage(null);
     } finally {
       setSubmitting(false);
     }
@@ -60,9 +56,9 @@ export default function LoginForm() {
   return (
     <div className={styles.loginContainer} data-login>
       <h2 className={styles.title}>Login</h2>
-      {successMessage && (
+      {/* {successMessage && (
         <SuccessToastMessage>{successMessage}</SuccessToastMessage>
-      )}
+      )} */}
       <ErrorToastMessage>{errorMessage}</ErrorToastMessage>
       <Formik
         initialValues={{ email: '', password: '' }}
