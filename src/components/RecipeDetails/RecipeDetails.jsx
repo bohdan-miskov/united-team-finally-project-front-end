@@ -4,24 +4,47 @@ import css from './RecipeDetails.module.css';
 export default function RecipeDetails({ recipe }) {
   const isMobile = useMediaQuery({ maxWidth: 767 });
   const isTabletOrDesktop = useMediaQuery({ minWidth: 768 });
-  const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 1439 });
-  const isDesktop = useMediaQuery({ minWidth: 1440 });
+  //const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 1439 });
+  //const isDesktop = useMediaQuery({ minWidth: 1440 });
 
   return (
     <section>
       <div className="container">
         {isTabletOrDesktop && <h1 className={css.header}>{recipe.title}</h1>}
         <div className={css.imgContainer}>
-          {isMobile && (
-            <img
-              className={css.img}
-              src={recipe.thumb}
-              alt={recipe.title}
-              width={361}
-              height={276}
-            />
-          )}
-          {isTablet && (
+          {isMobile &&
+            (recipe.thumb ? (
+              <img
+                className={css.img}
+                src={recipe.thumb}
+                alt={recipe.title}
+                width={361}
+                height={276}
+              />
+            ) : (
+              <div className={css.defaultImg}>
+                <svg className={css.iconPhoto} width={80} height={80}>
+                  <use href={'/icons.svg#icon-photo'} />
+                </svg>
+              </div>
+            ))}
+          {isTabletOrDesktop &&
+            (recipe.thumb ? (
+              <img
+                className={css.img}
+                src={recipe.thumb}
+                alt={recipe.title}
+                width={704}
+                height={624}
+              />
+            ) : (
+              <div className={css.defaultImg}>
+                <svg className={css.iconPhoto} width={140} height={140}>
+                  <use href={'/icons.svg#icon-photo'} />
+                </svg>
+              </div>
+            ))}
+          {/* {isDesktop && (
             <img
               className={css.img}
               src={recipe.thumb}
@@ -29,16 +52,7 @@ export default function RecipeDetails({ recipe }) {
               width={704}
               height={624}
             />
-          )}
-          {isDesktop && (
-            <img
-              className={css.img}
-              src={recipe.thumb}
-              alt={recipe.title}
-              width={704}
-              height={624}
-            />
-          )}
+          )} */}
         </div>
         {isMobile && <h1 className={css.header}>{recipe.title}</h1>}
         <div className={css.desktopWrapper}>

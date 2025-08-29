@@ -4,6 +4,23 @@
   align-items: center;
   background-color: #2b2d30;
   margin-bottom: 32px;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.defaultImg {
+  width: 100%;
+  height: 276px;
+  background-color: var(--gray-3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.iconPhoto {
+  stroke-width: 1px;
+  stroke: var(--black-2);
+  fill: transparent;
 }
 
 .header {
@@ -78,6 +95,10 @@
     width: 249px;
     height: 56px;
     padding: 17px 0;
+  }
+
+  .defaultImg {
+    height: 624px;
   }
 }
 
