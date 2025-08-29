@@ -85,6 +85,12 @@
   fill: transparent;
 }
 
+.iconSaved {
+  stroke-width: 1;
+  stroke: var(--white);
+  fill: white;
+}
+
 @media only screen and (min-width: 768px) {
   .tabletWrapper {
     display: flex;

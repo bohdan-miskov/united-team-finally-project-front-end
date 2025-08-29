@@ -1,11 +1,40 @@
 import { useMediaQuery } from 'react-responsive';
 import css from './RecipeDetails.module.css';
+import {
+  addRecipeToFavorite,
+  deleteRecipeFromFavorite,
+} from '../../redux/recipes/operations';
+import { useDispatch, useSelector } from 'react-redux';
+import { useState, useCallback } from 'react';
+import { selectIsLoggedIn } from '../../redux/auth/selectors';
+import { selectUserProfile } from '../../redux/user/selectors';
+import Modal from '../AuthenticateModal/AuthenticateModal';
 
 export default function RecipeDetails({ recipe }) {
   const isMobile = useMediaQuery({ maxWidth: 767 });
   const isTabletOrDesktop = useMediaQuery({ minWidth: 768 });
-  //const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 1439 });
-  //const isDesktop = useMediaQuery({ minWidth: 1440 });
+
+  const dispatch = useDispatch();
+
+  const isLoggedIn = useSelector(selectIsLoggedIn);
+  const favItems = useSelector(selectUserProfile)?.favourites;
+
+  const isSaved =
+    Array.isArray(favItems) && favItems.some(r => r === recipe._id);
+
+  const [authModalOpen, setAuthModalOpen] = useState(false);
+  const openAuthModal = useCallback(() => setAuthModalOpen(true), []);
+  const closeAuthModal = useCallback(() => setAuthModalOpen(false), []);
+
+  const handleBookmark = () => {
+    if (!recipe._id) return;
+
+    if (isSaved) {
+      dispatch(deleteRecipeFromFavorite(recipe._id));
+    } else {
+      dispatch(addRecipeToFavorite(recipe._id));
+    }
+  };
 
   return (
     <section>
@@ -44,15 +73,6 @@ export default function RecipeDetails({ recipe }) {
                 </svg>
               </div>
             ))}
-          {/* {isDesktop && (
-            <img
-              className={css.img}
-              src={recipe.thumb}
-              alt={recipe.title}
-              width={704}
-              height={624}
-            />
-          )} */}
         </div>
         {isMobile && <h1 className={css.header}>{recipe.title}</h1>}
         <div className={css.desktopWrapper}>
@@ -80,9 +100,19 @@ export default function RecipeDetails({ recipe }) {
                 </li>
               </ul>
             </div>
-            <button type="button" className={`brown-btn ${css.button}`}>
-              Save
-              <svg className={css.icon} width={24} height={24}>
+            <button
+              type="button"
+              className={`brown-btn ${css.button}`}
+              onClick={() => {
+                !isLoggedIn ? openAuthModal() : handleBookmark();
+              }}
+            >
+              {!isSaved ? 'Save' : 'Unsave'}
+              <svg
+                className={!isSaved ? `${css.icon}` : `${css.iconSaved}`}
+                width={24}
+                height={24}
+              >
                 <use href="/icons.svg#icon-save-to-list"></use>
               </svg>
             </button>
@@ -108,6 +138,7 @@ export default function RecipeDetails({ recipe }) {
             </li>
           </ul>
         </div>
+        {authModalOpen && <Modal closeAuthModal={closeAuthModal}></Modal>}
       </div>
     </section>
   );
