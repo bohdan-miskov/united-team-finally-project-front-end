@@ -321,11 +321,6 @@ export default function AddRecipeForm() {
                           }),
                         }}
                       />
-                      <ErrorMessage
-                        name="category"
-                        component="div"
-                        className={css.error}
-                      />
                     </div>
                   </div>
                 </div>
