@@ -9,7 +9,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { useState } from 'react';
 import ErrorToastMessage from '../ErrorToastMessage/ErrorToastMessage';
 import { logInUser } from '../../redux/auth/operations';
-import styles from './LoginForm.module.css';
+import styles from './loginForm.module.css';
 import SuccessToastMessage from '../SuccessToastMessage/SuccessToastMessage';
 
 const LoginSchema = Yup.object().shape({
