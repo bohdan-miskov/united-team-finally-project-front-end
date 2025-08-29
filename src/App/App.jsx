@@ -5,12 +5,9 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 import PrivateRoute from '../components/PrivateRoute';
 import RestrictedRoute from '../components/RestrictedRoute';
 import Refreshing from '../components/Refreshing/Refreshing';
-import ProfileOwn from '../components/ProfileOwn/ProfileOwn';
-import ProfileFavorites from '../components/ProfileFavorites/ProfileFavorites';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectIsRefreshing } from '../redux/auth/selectors';
 import { refreshUser } from '../redux/auth/operations';
-import Loader from '../components/Loader/Loader';
 
 const MainPage = lazy(() => import('../pages/MainPage/MainPage'));
 const RecipeViewPage = lazy(() =>
@@ -39,7 +36,6 @@ function App() {
   return isRefreshing ? (
     <>
       <Refreshing />
-      <Loader />
     </>
   ) : (
     <Layout>
