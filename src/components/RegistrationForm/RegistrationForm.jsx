@@ -1,13 +1,10 @@
-import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { Formik, Form, Field, ErrorMessage, useFormikContext } from 'formik';
 import * as Yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { registerUser } from '../../redux/auth/operations';
-import {
-  selectAuthError,
-  selectAuthIsLoading,
-} from '../../redux/auth/selectors';
+import { selectAuthIsLoading } from '../../redux/auth/selectors';
 import {
   calculatePasswordStrength,
   getPasswordStrengthColor,
@@ -15,7 +12,8 @@ import {
 } from '../../utils/passwordStrength.js';
 import styles from './registrationForm.module.css';
 import ErrorToastMessage from '../ErrorToastMessage/ErrorToastMessage';
-import SuccessToastMessage from '../SuccessToastMessage/SuccessToastMessage';
+//import SuccessToastMessage from '../SuccessToastMessage/SuccessToastMessage';
+import { ERROR_MESSAGES } from '../../constants/index.js';
 
 const RegisterSchema = Yup.object().shape({
   name: Yup.string()
@@ -51,12 +49,20 @@ export default function RegistrationForm() {
   const [passwordStrength, setPasswordStrength] = useState(0);
 
   const errors = {
-    400: 'Your data is invalid',
-    401: 'Authentication failed. Please try again.',
+    ...ERROR_MESSAGES,
     409: 'Your email already used',
-    422: 'Validation error. Please check your input data.',
-    500: 'Server error. Please try registering again later.',
   };
+
+  function PasswordStrengthEffect() {
+    const { values } = useFormikContext();
+
+    useEffect(() => {
+      const strength = calculatePasswordStrength(values.password);
+      setPasswordStrength(strength);
+    }, [values.password]);
+
+    return null; // нічого не рендеримо
+  }
 
   const handleSubmit = async (values, { setSubmitting, resetForm }) => {
     try {
@@ -121,13 +127,9 @@ export default function RegistrationForm() {
         validateOnChange={false}
         validateOnBlur={true}
       >
-        {({ values, touched, errors, isSubmitting }) => {
-          useEffect(() => {
-            const strength = calculatePasswordStrength(values.password);
-            setPasswordStrength(strength);
-          }, [values.password]);
-
-          return (
+        {({ values, touched, errors, isSubmitting }) => (
+          <>
+            <PasswordStrengthEffect />
             <Form className={styles.form} noValidate>
               <div className={styles.fieldGroup}>
                 <label htmlFor="email" className={styles.label}>
@@ -354,8 +356,8 @@ export default function RegistrationForm() {
                 </Link>
               </p>
             </Form>
-          );
-        }}
+          </>
+        )}
       </Formik>
     </div>
   );

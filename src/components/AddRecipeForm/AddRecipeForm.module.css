@@ -212,7 +212,12 @@ select {
   width: 100%;
   height: 144px;
 }
-
+.ingredientsBtnContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  /* justify-content: space-between; */
+}
 /* Кнопки */
 .button {
   width: 100%;
@@ -229,13 +234,10 @@ select {
 
 /* Помилки */
 .error {
-  font-size: 12px;
+  font-size: 14px;
   color: red;
-  margin-top: 4px;
+  /* margin-top: 4px; */
 }
-
-
-
 
 /*---------------- TABLET----------------*/
 
@@ -262,7 +264,10 @@ select {
   /* .ingredientsSection {
     min-height: 269px;
   } */
-
+  .ingredientsBtnContainer {
+    flex-direction: row;
+    /* justify-content: space-between; */
+  }
   .ingredientsSection button {
     display: block;
     margin-left: auto;
@@ -289,16 +294,14 @@ select {
   .selectedIngredientsHeader.hideHeaderOnMobile,
   .selectedIngredients li {
     display: grid;
-    grid-template-columns: 1fr 1fr auto;
+    grid-template-columns: 2fr 2fr 1fr;
     width: 431px;
     height: 36px;
   }
 
-.sectionsItems {
-  
-  gap: 0 24px;
-  
-}
+  .sectionsItems {
+    gap: 0 24px;
+  }
 
   /* .instructionsSection {
     height: 199px;
