@@ -1,6 +1,7 @@
 .authPageSection:has([data-register]) {
   padding: 56px 0 56px 0;
 }
+
 .authPageSection:has([data-login]) {
   padding: 91px 0 91px 0;
 }
