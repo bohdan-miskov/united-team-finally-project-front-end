@@ -60,7 +60,7 @@
 
 .generalSection {
   width: 100%;
-  height: 497px;
+  min-height: 497px;
   padding: 0;
 }
 
@@ -124,7 +124,7 @@ select {
 .sectionsItems {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap:  24px;
   margin-bottom: 16px;
 }
 
@@ -234,6 +234,9 @@ select {
   margin-top: 4px;
 }
 
+
+
+
 /*---------------- TABLET----------------*/
 
 @media (min-width: 768px) {
@@ -242,7 +245,7 @@ select {
   }
 
   .generalSection {
-    height: 571px;
+    min-height: 571px;
   }
 
   .descriptionItem {
@@ -290,6 +293,12 @@ select {
     width: 431px;
     height: 36px;
   }
+
+.sectionsItems {
+  
+  gap: 0 24px;
+  
+}
 
   /* .instructionsSection {
     height: 199px;
