@@ -1,0 +1,46 @@
+/* фон */
+.overlay {
+  position: fixed;
+  top: 75px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.4);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 300ms ease, visibility 300ms ease;
+  z-index: 1000;
+}
+
+.overlay.open {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* меню */
+.mobileMenu {
+  position: fixed;
+  top: 65px;
+  left: 0;
+  width: 100%;
+  background: var(--dark-brown, #2d2d2d);
+  transform: translateY(-100%);
+  transition: transform 300ms ease;
+  z-index: 1001;
+  padding: 18px 0;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 40px;
+}
+
+.mobileMenu.open {
+  transform: translateY(0);
+}
+
+/* контейнер всередині */
+.container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
