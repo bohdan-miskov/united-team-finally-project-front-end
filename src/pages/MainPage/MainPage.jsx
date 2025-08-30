@@ -10,7 +10,7 @@ export default function MainPage() {
       <section className="section">
         <div className="container">
           <h2 className={styles.title}>Recepies</h2>
-          <Filters />
+          <Filters recipeType="all" />
           <RecipesList recipeType="all" />
         </div>
       </section>

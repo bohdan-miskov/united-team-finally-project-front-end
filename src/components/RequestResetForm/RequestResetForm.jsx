@@ -61,58 +61,56 @@ export default function RequestResetForm() {
   }, [successMessage, navigate]);
 
   return (
-    <section className={styles.requestResetSection}>
-      <div className={styles.resetContainer} data-reset-request>
-        <h2 className={styles.title}>Reset Password</h2>
-        {successMessage && (
-          <SuccessToastMessage>{successMessage}</SuccessToastMessage>
-        )}
-        <ErrorToastMessage>{errorMessage}</ErrorToastMessage>
-        <Formik
-          initialValues={{ email: '' }}
-          validationSchema={RequestResetSchema}
-          onSubmit={handleSubmit}
-        >
-          {({ isSubmitting }) => (
-            <Form className={styles.form} noValidate>
-              <div className={styles.fieldGroup}>
-                <label htmlFor="email" className={styles.label}>
-                  Enter your email address
-                </label>
-                <Field
-                  type="email"
-                  name="email"
-                  id="email"
-                  placeholder="email@gmail.com"
-                  className={styles.input}
-                  aria-invalid="false"
-                  autoComplete="email"
-                />
-                <ErrorMessage
-                  name="email"
-                  component="div"
-                  className={styles.error}
-                />
-              </div>
-              <button
-                type="submit"
-                disabled={isSubmitting || isLoading}
-                className={`${styles.submitButton} brown-btn`}
-              >
-                {isLoading || isSubmitting ? 'Sending...' : 'Send Reset Link'}
-              </button>
-              <p className={styles.redirectText}>
+    <div className={styles.resetContainer} data-reset-request>
+      <h2 className={styles.title}>Reset Password</h2>
+      {successMessage && (
+        <SuccessToastMessage>{successMessage}</SuccessToastMessage>
+      )}
+      <ErrorToastMessage>{errorMessage}</ErrorToastMessage>
+      <Formik
+        initialValues={{ email: '' }}
+        validationSchema={RequestResetSchema}
+        onSubmit={handleSubmit}
+      >
+        {({ isSubmitting }) => (
+          <Form className={styles.form} noValidate>
+            <div className={styles.fieldGroup}>
+              <label htmlFor="email" className={styles.label}>
+                Enter your email address
+              </label>
+              <Field
+                type="email"
+                name="email"
+                id="email"
+                placeholder="email@gmail.com"
+                className={styles.input}
+                aria-invalid="false"
+                autoComplete="email"
+              />
+              <ErrorMessage
+                name="email"
+                component="div"
+                className={styles.error}
+              />
+            </div>
+            <button
+              type="submit"
+              disabled={isSubmitting || isLoading}
+              className={`${styles.submitButton} brown-btn`}
+            >
+              {isLoading || isSubmitting ? 'Sending...' : 'Send Reset Link'}
+            </button>
+            <p className={styles.redirectText}>
+              {' '}
+              Remember your password?{' '}
+              <Link to="/auth/login" className={styles.link}>
                 {' '}
-                Remember your password?{' '}
-                <Link to="/auth/login" className={styles.link}>
-                  {' '}
-                  Login
-                </Link>
-              </p>
-            </Form>
-          )}
-        </Formik>
-      </div>
-    </section>
+                Login
+              </Link>
+            </p>
+          </Form>
+        )}
+      </Formik>
+    </div>
   );
 }
