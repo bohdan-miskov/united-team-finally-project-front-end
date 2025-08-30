@@ -122,6 +122,23 @@ export default function Filters({ recipeType = 'all' }) {
   };
 
   useEffect(() => {
+    if (!isOpen) return;
+
+    const handleEsc = e => {
+      if (e.key === 'Escape') setIsOpen(false);
+    };
+
+    window.addEventListener('keydown', handleEsc);
+
+    document.body.style.overflow = 'hidden';
+
+    return () => {
+      window.removeEventListener('keydown', handleEsc);
+      document.body.style.overflow = '';
+    };
+  }, [isOpen, setIsOpen]);
+
+  useEffect(() => {
     dispatch(resetAllSearchParams());
     dispatch(getCategories());
     dispatch(getIngredients());
@@ -237,8 +254,10 @@ export default function Filters({ recipeType = 'all' }) {
           </button>
         </div>
 
-        {isOpen && (
-          <div className={styles.modalOverlay}>
+        {
+          <div
+            className={`${styles.modalOverlay} ${isOpen ? styles.isOpen : ''}`}
+          >
             <div className={styles.modalContent} ref={modalRef}>
               <div className={styles.modalHeader}>
                 <span className={styles.modalTitle}>Filters</span>
@@ -324,7 +343,7 @@ export default function Filters({ recipeType = 'all' }) {
               </button>
             </div>
           </div>
-        )}
+        }
       </div>
     </>
   );

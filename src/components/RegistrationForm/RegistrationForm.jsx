@@ -12,7 +12,7 @@ import {
 } from '../../utils/passwordStrength.js';
 import styles from './registrationForm.module.css';
 import ErrorToastMessage from '../ErrorToastMessage/ErrorToastMessage';
-//import SuccessToastMessage from '../SuccessToastMessage/SuccessToastMessage';
+import SuccessToastMessage from '../SuccessToastMessage/SuccessToastMessage';
 import { ERROR_MESSAGES } from '../../constants/index.js';
 
 const RegisterSchema = Yup.object().shape({
@@ -76,8 +76,9 @@ export default function RegistrationForm() {
 
       resetForm();
 
-      setSuccessMessage('Register successful!');
-      console.log('Ok!');
+      setSuccessMessage(
+        'We’ve sent a confirmation link to your email. Please click it to activate your account.'
+      );
 
       setErrorMessage(null);
       navigate('/', { replace: true });
@@ -110,7 +111,9 @@ export default function RegistrationForm() {
       </p>
 
       {successMessage && (
-        <SuccessToastMessage>{successMessage}</SuccessToastMessage>
+        <SuccessToastMessage duration={8000}>
+          {successMessage}
+        </SuccessToastMessage>
       )}
       {errorMessage && <ErrorToastMessage>{errorMessage}</ErrorToastMessage>}
 

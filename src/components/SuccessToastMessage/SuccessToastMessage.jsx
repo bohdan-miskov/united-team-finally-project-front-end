@@ -17,16 +17,16 @@ const toastIconThemeOptions = {
   secondary: '#fff',
 };
 
-export default function SuccessToastMessage({ children }) {
+export default function SuccessToastMessage({ children, duration = 4000 }) {
   useEffect(() => {
     if (!children) return;
 
     toast.success(String(children), {
-      duration: 4000,
+      duration,
       style: toastStyleOptions,
       iconTheme: toastIconThemeOptions,
     });
-  }, [children]);
+  }, [children, duration]);
 
   return null;
 }
