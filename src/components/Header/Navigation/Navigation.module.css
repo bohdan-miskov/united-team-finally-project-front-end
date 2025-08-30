@@ -1,4 +1,6 @@
 /* БАЗА: мобільний */
+/* коли висота екрану дуже маленька */
+
 .navGroup {
   width: 100%;
   display: flex;
@@ -7,6 +9,12 @@
   gap: 32px;
   font-size: 16px;
   font-weight: 600;
+}
+
+@media (max-height: 359px) {
+  .navGroup {
+    gap: 20px;
+  }
 }
 
 /* Лінки */

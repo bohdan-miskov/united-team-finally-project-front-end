@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useState, useCallback } from 'react';
 import { selectIsLoggedIn } from '../../redux/auth/selectors';
 import { selectUserProfile } from '../../redux/user/selectors';
-import Modal from '../AuthenticateModal/AuthenticateModal';
+import AuthenticateModal from '../AuthenticateModal/AuthenticateModal';
 import { ERROR_MESSAGES } from '../../constants';
 import ErrorToastMessage from '../ErrorToastMessage/ErrorToastMessage';
 
@@ -151,9 +151,14 @@ export default function RecipeDetails({ recipe }) {
               </li>
             </ul>
           </div>
-          {authModalOpen && <Modal closeAuthModal={closeAuthModal}></Modal>}
         </div>
       </section>
+      <AuthenticateModal
+        isOpen={authModalOpen}
+        onClose={() => closeAuthModal()}
+        title="Error while saving"
+        content="To save this recipe, you need to authorize first"
+      />
       {errorMessage && <ErrorToastMessage>{errorMessage}</ErrorToastMessage>}
     </>
   );
