@@ -2,8 +2,8 @@ import axios from 'axios';
 import { refreshUser } from '../redux/auth/operations';
 
 const api = axios.create({
-  baseURL: 'https://united-team-finally-project-backend.onrender.com',
-  //baseURL: 'http://localhost:8080',
+  //baseURL: 'https://united-team-finally-project-backend.onrender.com',
+  baseURL: 'http://localhost:8080',
   withCredentials: true,
 });
 
@@ -51,13 +51,14 @@ api.interceptors.response.use(
       return Promise.reject(error);
     }
 
-    originalRequest._retry = true;
+    //originalRequest._retry = true;
 
     if (isRefreshing) {
       return new Promise((resolve, reject) => {
         failedQueue.push({
-          resolve: token => {
-            originalRequest.headers['Authorization'] = `Bearer ${token}`;
+          resolve: accessToken => {
+            originalRequest.headers['Authorization'] = `Bearer ${accessToken}`;
+            originalRequest._retry = true;
             resolve(api(originalRequest));
           },
           reject: err => reject(err),
@@ -71,10 +72,11 @@ api.interceptors.response.use(
       const resultAction = await store.dispatch(refreshUser());
 
       if (refreshUser.fulfilled.match(resultAction)) {
-        const newToken = resultAction.payload.token;
+        const newToken = resultAction.payload.accessToken;
         setAuthHeader(newToken); // оновлюємо токен в axios
 
         processQueue(null, newToken);
+        originalRequest._retry = true;
         return api(originalRequest);
       } else {
         processQueue(error, null);
