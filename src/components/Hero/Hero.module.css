@@ -30,7 +30,7 @@
 }
 
 .content h1 {
-  font-size: 40px;
+  line-height: 1.2;
   margin-bottom: 24px;
   word-wrap: break-word;
 }
@@ -52,7 +52,6 @@
   }
   .content h1 {
     font-size: 48px;
-    line-height: 1.1;
     max-width: 493px;
   }
 }
