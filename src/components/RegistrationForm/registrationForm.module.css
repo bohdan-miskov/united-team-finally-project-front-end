@@ -255,6 +255,10 @@
   opacity: 0.3;
 }
 
+.googleWrapper {
+  margin-bottom: 20px;
+}
+
 .redirectText {
   text-align: center;
   font-size: 14px;
