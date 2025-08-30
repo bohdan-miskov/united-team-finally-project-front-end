@@ -51,14 +51,14 @@ api.interceptors.response.use(
       return Promise.reject(error);
     }
 
-    originalRequest._retry = true;
-
     if (isRefreshing) {
       return new Promise((resolve, reject) => {
         failedQueue.push({
-          resolve: token => {
-            originalRequest.headers['Authorization'] = `Bearer ${token}`;
-            resolve(api(originalRequest));
+          resolve: accessToken => {
+            const requestCopy = { ...originalRequest };
+            requestCopy._retry = true;
+            requestCopy.headers['Authorization'] = `Bearer ${accessToken}`;
+            resolve(api(requestCopy));
           },
           reject: err => reject(err),
         });
@@ -71,11 +71,13 @@ api.interceptors.response.use(
       const resultAction = await store.dispatch(refreshUser());
 
       if (refreshUser.fulfilled.match(resultAction)) {
-        const newToken = resultAction.payload.token;
+        const newToken = resultAction.payload.accessToken;
         setAuthHeader(newToken); // оновлюємо токен в axios
 
+        originalRequest._retry = true;
+        originalRequest.headers['Authorization'] = `Bearer ${newToken}`;
         processQueue(null, newToken);
-        return api(originalRequest);
+        return api({ ...originalRequest });
       } else {
         processQueue(error, null);
         clearAuthHeader();

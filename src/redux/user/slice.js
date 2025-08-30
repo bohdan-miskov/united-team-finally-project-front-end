@@ -5,6 +5,7 @@ import {
   addRecipeToFavorite,
   deleteRecipeFromFavorite,
 } from '../recipes/operations';
+import { logOutUser } from '../auth/operations';
 
 const initialState = {
   profile: null,
@@ -30,7 +31,6 @@ const userSlice = createSlice({
         setRejected(state, action);
       })
       .addCase(addRecipeToFavorite.fulfilled, (state, action) => {
-        console.log('🚀 ~  action:', action);
         if (!state.profile) return;
 
         const recipeId = action.payload._id;
@@ -45,6 +45,11 @@ const userSlice = createSlice({
         state.profile.favourites = state.profile.favourites.filter(
           fav => fav !== action.payload
         );
+      })
+      .addCase(logOutUser.fulfilled, state => {
+        state.profile = null;
+        state.isLoading = false;
+        state.error = null;
       });
   },
 });
