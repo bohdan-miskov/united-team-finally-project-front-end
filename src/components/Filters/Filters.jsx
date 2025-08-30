@@ -21,11 +21,11 @@ import {
 } from '../../redux/filters/selectors';
 import { getCategories } from '../../redux/categories/operations';
 import { getIngredients } from '../../redux/ingredients/operations';
-//import { selectAllRecipesTotalItems } from '../../redux/recipes/selectors';
 
 export default function Filters() {
   const dispatch = useDispatch();
   const [isOpen, setIsOpen] = useState(false);
+  const [sortCategory, setSortCategory] = useState(null); // <-- локальний стейт для сортування
   const modalRef = useRef(null);
 
   const categories = useSelector(selectCategories);
@@ -35,7 +35,6 @@ export default function Filters() {
 
   const selectedCategories = useSelector(selectSearchCategories);
   const selectedIngredients = useSelector(selectSearchIngredients);
-  //const totalItems = useSelector(selectAllRecipesTotalItems);
 
   const customStyles = {
     control: (base, state) => ({
@@ -69,12 +68,25 @@ export default function Filters() {
     }),
   };
 
+  const sortOptions = [
+    { value: 'title', label: 'Title' },
+    { value: 'time', label: 'Time' },
+    { value: 'cals', label: 'Calories' },
+    { value: 'popularity', label: 'Popularity' },
+    { value: 'createdAt', label: 'Created At' },
+  ];
+
   const handleCategoriesChange = selected => {
     dispatch(changeSearchCategories(selected?.map(c => c.value) || []));
   };
 
   const handleIngredientsChange = selected => {
     dispatch(changeSearchIngredients(selected?.map(i => i.value) || []));
+  };
+
+  const handleSortChange = selected => {
+    setSortCategory(selected ? selected.value : null);
+    // dispatch(changeSort(...))
   };
 
   const handleReset = () => {
@@ -101,16 +113,14 @@ export default function Filters() {
   return (
     <>
       <div className={styles.filtersSection}>
-        {/* <p className={styles.count}>
-          <span>{totalItems}</span>
-          <span> recipes</span>
-        </p> */}
         <div className={styles.filtersWrapper}>
           <div className={styles.desktopFilters}>
             <div className={styles.rightSide}>
               <button onClick={handleReset} className={styles.reset}>
                 Reset filters
               </button>
+
+              {/* Categories */}
               <Select
                 isMulti
                 isClearable={false}
@@ -128,6 +138,8 @@ export default function Filters() {
                 classNamePrefix="customSelect"
                 styles={customStyles}
               />
+
+              {/* Ingredients */}
               <Select
                 isMulti
                 isClearable={false}
@@ -145,8 +157,24 @@ export default function Filters() {
                 classNamePrefix="customSelect"
                 styles={customStyles}
               />
+
+              {/* Sort */}
+              <Select
+                isClearable
+                options={sortOptions}
+                value={
+                  sortCategory
+                    ? sortOptions.find(o => o.value === sortCategory)
+                    : null
+                }
+                onChange={handleSortChange}
+                placeholder="Sort by"
+                classNamePrefix="customSelect"
+                styles={customStyles}
+              />
             </div>
           </div>
+
           <button
             className={styles.filtersToggle}
             onClick={() => setIsOpen(true)}
@@ -173,6 +201,7 @@ export default function Filters() {
                 </button>
               </div>
               <div className={styles.modalBody}>
+                {/* Categories */}
                 <Select
                   isMulti
                   isClearable={false}
@@ -190,6 +219,8 @@ export default function Filters() {
                   classNamePrefix="customSelect"
                   styles={customStyles}
                 />
+
+                {/* Ingredients */}
                 <Select
                   isMulti
                   isClearable={false}
@@ -204,6 +235,21 @@ export default function Filters() {
                   }))}
                   onChange={handleIngredientsChange}
                   placeholder="Ingredient"
+                  classNamePrefix="customSelect"
+                  styles={customStyles}
+                />
+
+                {/* Sort */}
+                <Select
+                  isClearable
+                  options={sortOptions}
+                  value={
+                    sortCategory
+                      ? sortOptions.find(o => o.value === sortCategory)
+                      : null
+                  }
+                  onChange={handleSortChange}
+                  placeholder="Sort by"
                   classNamePrefix="customSelect"
                   styles={customStyles}
                 />
