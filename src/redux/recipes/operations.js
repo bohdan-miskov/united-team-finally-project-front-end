@@ -4,8 +4,6 @@ import {
   selectSearchQuery,
 } from '../filters/selectors';
 import api from '../../services/axiosConfig';
-import { recipesExample } from '../tempObjects/recipes';
-import { recipeDetailsExample } from '../tempObjects/recipeDetails';
 import { wrapAsyncThunk } from '../../services/wrapAsyncThunk';
 
 const perPage = 12;
@@ -28,18 +26,6 @@ export const getAllRecipes = wrapAsyncThunk(
       params: params,
     });
     return response.data.data;
-
-    // console.log(
-    //   newPage,
-    //   thunkApi.e,
-    //   query,
-    //   category,
-    //   ingredients,
-    //   api.e,
-    //   perPage
-    // );
-    // await new Promise((resolve) => setTimeout(resolve, 2000));
-    // return recipesExample;
   }
 );
 
@@ -48,9 +34,14 @@ export const createRecipe = wrapAsyncThunk(
   async payload => {
     const response = await api.post('/recipes', payload);
     return response.data.data;
-    // console.log(payload);
-    // await new Promise(resolve => setTimeout(resolve, 2000));
-    // return recipeDetailsExample;
+  }
+);
+
+export const updateRecipe = wrapAsyncThunk(
+  'recipes/updateRecipe',
+  async ({ id, payload }) => {
+    const response = await api.patch(`/recipes/own/${id}`, payload);
+    return response.data.data;
   }
 );
 
@@ -59,8 +50,6 @@ export const deleteRecipe = wrapAsyncThunk(
   async recipeId => {
     await api.delete(`/recipes/${recipeId}`);
     return recipeId;
-    // await new Promise(resolve => setTimeout(resolve, 2000));
-    // return recipeId;
   }
 );
 
@@ -71,9 +60,6 @@ export const getFavoriteRecipes = wrapAsyncThunk(
       params: { page: newPage, perPage },
     });
     return response.data.data;
-    // console.log(newPage);
-    // await new Promise(resolve => setTimeout(resolve, 2000));
-    // return recipesExample;
   }
 );
 
@@ -82,9 +68,6 @@ export const addRecipeToFavorite = wrapAsyncThunk(
   async recipeId => {
     const response = await api.post(`/recipes/favourites/${recipeId}`);
     return response.data.data;
-    // console.log(recipeId);
-    // await new Promise(resolve => setTimeout(resolve, 2000));
-    // return recipeDetailsExample;
   }
 );
 
@@ -93,8 +76,6 @@ export const deleteRecipeFromFavorite = wrapAsyncThunk(
   async recipeId => {
     await api.delete(`/recipes/favourites/${recipeId}`);
     return recipeId;
-    // await new Promise(resolve => setTimeout(resolve, 2000));
-    // return recipeId;
   }
 );
 
@@ -103,7 +84,4 @@ export const getOwnRecipes = wrapAsyncThunk('recipes/getOwn', async newPage => {
     params: { page: newPage, perPage },
   });
   return response.data.data;
-  // console.log(newPage);
-  // await new Promise(resolve => setTimeout(resolve, 2000));
-  // return recipesExample;
 });

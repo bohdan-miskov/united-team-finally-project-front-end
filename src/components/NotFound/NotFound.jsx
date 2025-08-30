@@ -4,6 +4,7 @@ import Image from '../../assets/img/not-found/plate-mob.webp';
 import Image2 from '../../assets/img/not-found/plate-mob@2x.webp';
 import ImageTablet from '../../assets/img/not-found/plate-tab.webp';
 import ImageTablet2 from '../../assets/img/not-found/plate-tab@2x.webp';
+import { Link } from 'react-router-dom';
 
 export default function NotFound() {
   const isMobile = useMediaQuery({ maxWidth: 767 });
@@ -31,12 +32,17 @@ export default function NotFound() {
         )}
         <h1 className={css.h1}>404</h1>
         <p className={css.h3}>Recipe not found</p>
-        <button type="button" className={`brown-btn ${css.button}`}>
+        <Link
+          to="/"
+          type="button"
+          className={`brown-btn ${css.button}`}
+          // onClick={() => navigate('/')}
+        >
           <svg className={css.icon} width={24} height={24}>
             <use href="/icons.svg#icon-left-short-arrow"></use>
           </svg>
           Back To Home
-        </button>
+        </Link>
       </div>
     </section>
   );
