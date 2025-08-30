@@ -4,6 +4,8 @@ const initialState = {
   searchQuery: '',
   categories: [],
   ingredients: [],
+  sortBy: 'updatedAt',
+  sortOrder: 'asc',
 };
 
 const filtersSlice = createSlice({
@@ -19,9 +21,20 @@ const filtersSlice = createSlice({
     changeSearchIngredients(state, action) {
       state.ingredients = action.payload;
     },
+    changeSortParams(state, action) {
+      state.sortBy = action.payload?.sortBy;
+      state.sortOrder = action.payload?.sortOrder;
+    },
     clearFilters(state) {
       state.categories = [];
       state.ingredients = [];
+    },
+    resetAllSearchParams(state) {
+      state.categories = [];
+      state.ingredients = [];
+      state.searchQuery = '';
+      state.sortBy = 'updatedAt';
+      state.sortOrder = 'asc';
     },
   },
 });
@@ -32,5 +45,7 @@ export const {
   changeSearchQuery,
   changeSearchCategories,
   changeSearchIngredients,
+  changeSortParams,
   clearFilters,
+  resetAllSearchParams,
 } = filtersSlice.actions;

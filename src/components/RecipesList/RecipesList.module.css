@@ -12,12 +12,6 @@
   max-width: 100%;
 }
 
-.recipeCounter {
-  color: var(--black);
-  font-size: 18px;
-  font-weight: 600;
-}
-
 @media (min-width: 768px) {
   .list {
     max-width: 768px;

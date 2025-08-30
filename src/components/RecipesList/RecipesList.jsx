@@ -14,9 +14,6 @@ import {
   selectAllRecipesItems,
   selectOwnRecipesItems,
   selectFavoriteRecipesItems,
-  selectAllRecipesTotalItems,
-  selectOwnRecipesTotalItems,
-  selectFavoriteRecipesTotalItems,
   selectAllRecipesIsLoading,
   selectOwnRecipesIsLoading,
   selectFavoriteRecipesIsLoading,
@@ -53,19 +50,6 @@ export default function RecipesList({ recipeType }) {
         return selectAllRecipesItems(state);
       default:
         return [];
-    }
-  });
-
-  const total = useSelector(state => {
-    switch (recipeType) {
-      case 'own':
-        return selectOwnRecipesTotalItems(state);
-      case 'favorites':
-        return selectFavoriteRecipesTotalItems(state);
-      case 'all':
-        return selectAllRecipesTotalItems(state);
-      default:
-        return 0;
     }
   });
 
@@ -157,8 +141,8 @@ export default function RecipesList({ recipeType }) {
 
   return (
     <>
-      <p className={styles.recipeCounter}>{total || 0} recipes</p>
-
+      {/* <p className={styles.recipeCounter}>{total || 0} recipes</p> */}
+      {isLoading && !error && page === 1 && <Loader />}
       <ul className={styles.list}>
         {items?.map((recipe, idx) => (
           <li className={styles.item} key={`${recipe._id}-${idx}`}>
@@ -171,7 +155,7 @@ export default function RecipesList({ recipeType }) {
         ))}
       </ul>
 
-      {isLoading && !error && <Loader />}
+      {isLoading && !error && page > 1 && <Loader />}
 
       {isEmpty && emptyMessages[recipeType] && (
         <p>{emptyMessages[recipeType]}</p>
