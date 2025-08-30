@@ -18,6 +18,10 @@ const AddRecipePage = lazy(() =>
 const ProfilePage = lazy(() => import('../pages/ProfilePage/ProfilePage'));
 const AuthPage = lazy(() => import('../pages/AuthPage/AuthPage'));
 
+const LoginForm = lazy(() => import('../components/LoginForm/LoginForm'));
+const RegistrationForm = lazy(() =>
+  import('../components/RegistrationForm/RegistrationForm')
+);
 const RequestResetForm = lazy(() =>
   import('../components/RequestResetForm/RequestResetForm')
 );
@@ -68,17 +72,18 @@ function App() {
             element={<PrivateRoute component={<ProfilePage />} />}
           />
           <Route
-            path="/auth/:authType"
+            path="/auth"
             element={<RestrictedRoute component={<AuthPage />} />}
-          />
-          <Route
-            path="/auth/request-reset"
-            element={<RestrictedRoute component={<RequestResetForm />} />}
-          />
-          <Route
-            path="/auth/reset-password"
-            element={<RestrictedRoute component={<ResetPasswordForm />} />}
-          />
+          >
+            <Route path="register" element={<RegistrationForm />} />
+            <Route path="login" element={<LoginForm />} />
+            <Route path="request-reset" element={<RequestResetForm />} />
+            <Route
+              path="reset-password/:token"
+              element={<ResetPasswordForm />}
+            />
+            <Route path="confirm-email/:token" element={null} />
+          </Route>
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </Suspense>
