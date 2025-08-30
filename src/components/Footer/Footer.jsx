@@ -1,16 +1,14 @@
-import { Link, NavLink, useLocation } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useState, useCallback } from 'react';
 
 import { selectIsLoggedIn } from '../../redux/auth/selectors';
 import css from './Footer.module.css';
 import Logo from '../../assets/img/logo.svg';
-import Modal from '../AuthenticateModal/AuthenticateModal';
+import AuthenticateModal from '../AuthenticateModal/AuthenticateModal';
 
 const Footer = () => {
   const isLoggedIn = useSelector(selectIsLoggedIn);
-
-  const location = useLocation();
 
   const [authModalOpen, setAuthModalOpen] = useState(false);
 
@@ -61,7 +59,12 @@ const Footer = () => {
           </nav>
         </div>
 
-        {authModalOpen && <Modal closeAuthModal={closeAuthModal}></Modal>}
+        <AuthenticateModal
+          isOpen={authModalOpen}
+          onClose={() => closeAuthModal()}
+          title="Authorization required"
+          content="You need to log in or register to view your account"
+        />
       </div>
     </footer>
   );

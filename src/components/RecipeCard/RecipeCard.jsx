@@ -1,15 +1,19 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import styles from './RecipeCard.module.css';
 import {
   addRecipeToFavorite,
   deleteRecipeFromFavorite,
 } from '../../redux/recipes/operations';
 import { selectUserProfile } from '../../redux/user/selectors';
+import { selectIsLoggedIn } from '../../redux/auth/selectors';
+import { useMediaQuery } from 'react-responsive';
 
-export default function RecipeCard({ recipe, recipeType }) {
-  const navigate = useNavigate();
+export default function RecipeCard({ recipe, recipeType, openModal }) {
   const dispatch = useDispatch();
+  const isLoggedIn = useSelector(selectIsLoggedIn);
+  const isMobile = useMediaQuery({ maxWidth: 767 });
+  const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 1439 });
 
   const favItems = useSelector(selectUserProfile)?.favourites;
 
@@ -26,7 +30,6 @@ export default function RecipeCard({ recipe, recipeType }) {
 
   const type = (recipeType || '').trim().toLowerCase();
   const isAll = type === 'all';
-  const isOwn = type === 'own';
   const isFavorites = type === 'favorites';
 
   const isSaved =
@@ -44,15 +47,21 @@ export default function RecipeCard({ recipe, recipeType }) {
 
   return (
     <div className={styles.card}>
-      {imgSrc ? (
-        <img src={imgSrc} alt={title} className={styles.image} />
-      ) : (
-        <div className={styles.defaultImg}>
+      <div className={styles.defaultImg}>
+        {imgSrc ? (
+          <img
+            src={imgSrc}
+            alt={title}
+            className={styles.image}
+            width={isMobile ? 337 : isTablet ? 315 : 264}
+            height={isMobile ? 230 : isTablet ? 230 : 178}
+          />
+        ) : (
           <svg className={styles.iconPhoto} width={48} height={48}>
             <use href={'/icons.svg#icon-photo'} />
           </svg>
-        </div>
-      )}
+        )}
+      </div>
 
       <div className={styles.header}>
         <h3 className={styles.title}>{title}</h3>
@@ -70,17 +79,19 @@ export default function RecipeCard({ recipe, recipeType }) {
       </div>
 
       <div className={styles.btnContainer}>
-        <button
-          className={`${styles.learnMoreBtn} outline-btn`}
-          onClick={() => navigate(`/recipes/${_id}`)}
+        <Link
+          className={`${styles.learnMoreBtn} dark-outline-btn`}
+          to={`/recipes/${_id}`}
         >
           Learn more
-        </button>
+        </Link>
 
         {(isAll || isFavorites) && (
           <button
             type="button"
-            onClick={handleBookmark}
+            onClick={() => {
+              !isLoggedIn ? openModal() : handleBookmark();
+            }}
             aria-label={isSaved ? 'Remove from saved' : 'Save recipe'}
             className={`${styles.bookmarkBtn} ${
               isAll ? (isSaved ? 'brown-btn' : 'dark-outline-btn') : 'brown-btn'

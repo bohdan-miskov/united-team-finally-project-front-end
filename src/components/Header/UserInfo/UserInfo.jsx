@@ -30,15 +30,14 @@ export default function UserInfo({ userName = 'User', onLogout, className }) {
         </svg>
       </button>
 
-      {showModal && (
-        <ConfirmLogoutModal
-          onClose={() => setShowModal(false)}
-          onConfirm={() => {
-            onLogout?.();
-            setShowModal(false);
-          }}
-        />
-      )}
+      <ConfirmLogoutModal
+        isOpen={showModal}
+        onClose={() => setShowModal(false)}
+        onConfirm={() => {
+          onLogout?.();
+          setShowModal(false);
+        }}
+      />
     </div>
   );
 }
