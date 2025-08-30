@@ -104,3 +104,16 @@ export const resetPassword = wrapAsyncThunk(
     }
   }
 );
+
+export const logInWithGoogle = wrapAsyncThunk(
+  'auth/googleLogIn',
+  async token => {
+    const response = await api.post(
+      '/auth/google',
+      { token },
+      { skipRefresh: true }
+    );
+    setAuthHeader(response.data.data.accessToken);
+    return response.data.data;
+  }
+);
