@@ -28,6 +28,8 @@ import {
   selectSearchCategories,
   selectSearchIngredients,
   selectSearchQuery,
+  selectSortBy,
+  selectSortOrder,
 } from '../../redux/filters/selectors.js';
 import { useDebounce } from 'use-debounce';
 import Loader from '../Loader/Loader.jsx';
@@ -96,18 +98,18 @@ export default function RecipesList({ recipeType }) {
   const [debouncedSearchQuery] = useDebounce(searchQuery, 500);
   const selectedCategories = useSelector(selectSearchCategories);
   const selectedIngredients = useSelector(selectSearchIngredients);
+  const sortBy = useSelector(selectSortBy);
+  const sortOrder = useSelector(selectSortOrder);
 
   useEffect(() => {
-    if (recipeType === 'all') {
-      setPage(1);
-    }
+    setPage(1);
   }, [
     debouncedSearchQuery,
     selectedCategories,
     selectedIngredients,
-    recipeType,
+    sortBy,
+    sortOrder,
   ]);
-
   useEffect(() => {
     if (recipeType === 'all') {
       dispatch(getAllRecipes(page));
@@ -125,6 +127,8 @@ export default function RecipesList({ recipeType }) {
     debouncedSearchQuery,
     selectedCategories,
     selectedIngredients,
+    sortBy,
+    sortOrder,
   ]);
 
   const handleLoadMore = () => {

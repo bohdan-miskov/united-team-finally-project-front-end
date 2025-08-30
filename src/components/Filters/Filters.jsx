@@ -5,7 +5,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   changeSearchCategories,
   changeSearchIngredients,
+  changeSortParams,
   clearFilters,
+  clearSortParams,
   resetAllSearchParams,
 } from '../../redux/filters/slice';
 import {
@@ -19,6 +21,8 @@ import {
 import {
   selectSearchCategories,
   selectSearchIngredients,
+  selectSortBy,
+  selectSortOrder,
 } from '../../redux/filters/selectors';
 import { getCategories } from '../../redux/categories/operations';
 import { getIngredients } from '../../redux/ingredients/operations';
@@ -28,11 +32,11 @@ import {
   selectOwnRecipesTotalItems,
 } from '../../redux/recipes/selectors';
 
-
 export default function Filters({ recipeType = 'all' }) {
   const dispatch = useDispatch();
   const [isOpen, setIsOpen] = useState(false);
-  const [sortCategory, setSortCategory] = useState(null); // <-- локальний стейт для сортування
+  const sortBy = useSelector(selectSortBy);
+  const sortOrder = useSelector(selectSortOrder);
   const modalRef = useRef(null);
 
   const categories = useSelector(selectCategories);
@@ -56,7 +60,7 @@ export default function Filters({ recipeType = 'all' }) {
     }
   });
 
-  const customStyles = {
+  const customStylesDesc = {
     control: base => ({
       ...base,
       width: '179px',
@@ -87,13 +91,22 @@ export default function Filters({ recipeType = 'all' }) {
       display: 'none',
     }),
   };
+  const customStylesMob = {
+    ...customStylesDesc,
+    control: (base, state) => ({
+      ...customStylesDesc.control(base, state),
+      width: '100%',
+    }),
+  };
 
   const sortOptions = [
-    { value: 'title', label: 'Title' },
-    { value: 'time', label: 'Time' },
-    { value: 'cals', label: 'Calories' },
-    { value: 'popularity', label: 'Popularity' },
-    { value: 'createdAt', label: 'Created At' },
+    { value: ['title', 'asc'], label: 'Title (A → Z)' },
+    { value: ['title', 'desc'], label: 'Title (Z → A)' },
+    { value: ['time', 'asc'], label: 'Time (Low → High)' },
+    { value: ['cals', 'asc'], label: 'Calories (Low → High)' },
+    { value: ['popularity', 'desc'], label: 'Popularity (High → Low)' },
+    { value: ['createdAt', 'desc'], label: 'Created At (Newest First)' },
+    { value: ['createdAt', 'asc'], label: 'Created At (Oldest First)' },
   ];
 
   const handleCategoriesChange = selected => {
@@ -102,11 +115,6 @@ export default function Filters({ recipeType = 'all' }) {
 
   const handleIngredientsChange = selected => {
     dispatch(changeSearchIngredients(selected?.map(i => i.value) || []));
-  };
-
-  const handleSortChange = selected => {
-    setSortCategory(selected ? selected.value : null);
-    // dispatch(changeSort(...))
   };
 
   const handleReset = () => {
@@ -159,7 +167,7 @@ export default function Filters({ recipeType = 'all' }) {
                 onChange={handleCategoriesChange}
                 placeholder="Category"
                 classNamePrefix="customSelect"
-                styles={customStyles}
+                styles={customStylesDesc}
               />
 
               {/* Ingredients */}
@@ -178,7 +186,7 @@ export default function Filters({ recipeType = 'all' }) {
                 onChange={handleIngredientsChange}
                 placeholder="Ingredient"
                 classNamePrefix="customSelect"
-                styles={customStyles}
+                styles={customStylesDesc}
               />
 
               {/* Sort */}
@@ -186,14 +194,34 @@ export default function Filters({ recipeType = 'all' }) {
                 isClearable
                 options={sortOptions}
                 value={
-                  sortCategory
-                    ? sortOptions.find(o => o.value === sortCategory)
+                  sortBy && sortOrder
+                    ? sortOptions.find(
+                        o => o.value[0] === sortBy && o.value[1] === sortOrder
+                      )
                     : null
                 }
-                onChange={handleSortChange}
+                onChange={option => {
+                  if (!option) {
+                    dispatch(clearSortParams());
+                    return;
+                  }
+                  const [field, order] = option.value;
+                  dispatch(
+                    changeSortParams({
+                      sortBy: field,
+                      sortOrder: order,
+                    })
+                  );
+                }}
                 placeholder="Sort by"
                 classNamePrefix="customSelect"
-                styles={customStyles}
+                styles={{
+                  ...customStylesDesc,
+                  control: (base, state) => ({
+                    ...customStylesDesc.control(base, state),
+                    width: '250px',
+                  }),
+                }}
               />
             </div>
           </div>
@@ -240,7 +268,7 @@ export default function Filters({ recipeType = 'all' }) {
                   onChange={handleCategoriesChange}
                   placeholder="Category"
                   classNamePrefix="customSelect"
-                  styles={customStyles}
+                  styles={customStylesMob}
                 />
 
                 {/* Ingredients */}
@@ -259,7 +287,7 @@ export default function Filters({ recipeType = 'all' }) {
                   onChange={handleIngredientsChange}
                   placeholder="Ingredient"
                   classNamePrefix="customSelect"
-                  styles={customStyles}
+                  styles={customStylesMob}
                 />
 
                 {/* Sort */}
@@ -267,14 +295,28 @@ export default function Filters({ recipeType = 'all' }) {
                   isClearable
                   options={sortOptions}
                   value={
-                    sortCategory
-                      ? sortOptions.find(o => o.value === sortCategory)
+                    sortBy && sortOrder
+                      ? sortOptions.find(
+                          o => o.value[0] === sortBy && o.value[1] === sortOrder
+                        )
                       : null
                   }
-                  onChange={handleSortChange}
+                  onChange={option => {
+                    if (!option) {
+                      dispatch(clearSortParams());
+                      return;
+                    }
+                    const [field, order] = option.value;
+                    dispatch(
+                      changeSortParams({
+                        sortBy: field,
+                        sortOrder: order,
+                      })
+                    );
+                  }}
                   placeholder="Sort by"
                   classNamePrefix="customSelect"
-                  styles={customStyles}
+                  styles={customStylesMob}
                 />
               </div>
               <button onClick={handleReset} className={styles.reset}>

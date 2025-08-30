@@ -46,7 +46,7 @@
   border-radius: 16px;
   padding: 16px;
   width: 90%;
-  max-width: 420px;
+  max-width: 361px;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
@@ -129,6 +129,9 @@
 @media (min-width: 768px) {
   .count {
     font-size: 20px;
+  }
+  .modalContent {
+    max-width: 420px;
   }
 }
 
