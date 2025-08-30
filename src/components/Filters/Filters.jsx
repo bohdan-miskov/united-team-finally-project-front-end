@@ -6,6 +6,7 @@ import {
   changeSearchCategories,
   changeSearchIngredients,
   clearFilters,
+  resetAllSearchParams,
 } from '../../redux/filters/slice';
 import {
   selectCategories,
@@ -21,9 +22,14 @@ import {
 } from '../../redux/filters/selectors';
 import { getCategories } from '../../redux/categories/operations';
 import { getIngredients } from '../../redux/ingredients/operations';
+import {
+  selectAllRecipesTotalItems,
+  selectFavoriteRecipesTotalItems,
+  selectOwnRecipesTotalItems,
+} from '../../redux/recipes/selectors';
 //import { selectAllRecipesTotalItems } from '../../redux/recipes/selectors';
 
-export default function Filters() {
+export default function Filters({ recipeType = 'all' }) {
   const dispatch = useDispatch();
   const [isOpen, setIsOpen] = useState(false);
   const modalRef = useRef(null);
@@ -35,10 +41,22 @@ export default function Filters() {
 
   const selectedCategories = useSelector(selectSearchCategories);
   const selectedIngredients = useSelector(selectSearchIngredients);
-  //const totalItems = useSelector(selectAllRecipesTotalItems);
+
+  const totalItems = useSelector(state => {
+    switch (recipeType) {
+      case 'own':
+        return selectOwnRecipesTotalItems(state);
+      case 'favorites':
+        return selectFavoriteRecipesTotalItems(state);
+      case 'all':
+        return selectAllRecipesTotalItems(state);
+      default:
+        return 0;
+    }
+  });
 
   const customStyles = {
-    control: (base, state) => ({
+    control: base => ({
       ...base,
       width: '179px',
       minHeight: '33px',
@@ -82,6 +100,7 @@ export default function Filters() {
   };
 
   useEffect(() => {
+    dispatch(resetAllSearchParams());
     dispatch(getCategories());
     dispatch(getIngredients());
   }, [dispatch]);
@@ -101,10 +120,7 @@ export default function Filters() {
   return (
     <>
       <div className={styles.filtersSection}>
-        {/* <p className={styles.count}>
-          <span>{totalItems}</span>
-          <span> recipes</span>
-        </p> */}
+        <p className={styles.recipeCounter}>{`${totalItems} recipes`}</p>
         <div className={styles.filtersWrapper}>
           <div className={styles.desktopFilters}>
             <div className={styles.rightSide}>

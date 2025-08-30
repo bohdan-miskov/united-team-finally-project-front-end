@@ -6,12 +6,27 @@
   padding: 91px 0 91px 0;
 }
 
+.authPageSection:has([data-reset-request]) {
+  padding: 82px 0 82px 0;
+}
+
+.authPageSection:has([data-reset-password]) {
+  padding: 82px 0 82px 0;
+}
+
 @media only screen and (min-width: 768px) {
   .authPageSection:has([data-register]) {
     padding: 152px 0 152px 0;
   }
   .authPageSection:has([data-login]) {
     padding: 262px 0 262px 0;
+  }
+  .authPageSection:has([data-reset-request]) {
+    padding: 222px 0 222px 0;
+  }
+
+  .authPageSection:has([data-reset-password]) {
+    padding: 222px 0 222px 0;
   }
 }
 
@@ -21,5 +36,12 @@
   }
   .authPageSection:has([data-login]) {
     padding: 176px 0 156px 0;
+  }
+  .authPageSection:has([data-reset-request]) {
+    padding: 152px 0 152px 0;
+  }
+
+  .authPageSection:has([data-reset-password]) {
+    padding: 152px 0 152px 0;
   }
 }

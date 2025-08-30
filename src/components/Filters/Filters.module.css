@@ -6,11 +6,9 @@
   margin-bottom: 16px;
 }
 
-.count {
-  font-weight: 600;
+.recipeCounter {
   font-size: 18px;
-  display: inline-flex;
-  gap: 4px;
+  font-weight: 600;
 }
 
 .filtersToggle {
