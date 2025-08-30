@@ -1,0 +1,73 @@
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--black-60);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 250ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.overlay--after-open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.overlay--before-close {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.modal {
+  background: var(--light-beige);
+  border-radius: 32px;
+  padding: 56px 24px 32px;
+  max-width: 362px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 9px 17px rgba(0, 0, 0, 0.02), 0 42px 46px rgba(0, 0, 0, 0.04),
+    0 105px 125px rgba(0, 0, 0, 0.05), 0 208px 286px rgba(0, 0, 0, 0.07);
+  transform: translateY(-30px);
+  opacity: 0.5;
+  transition: all 250ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.modal--after-open {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.modal--before-close {
+  transform: translateY(-30px);
+  opacity: 0.5;
+}
+
+.closeBtn {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.closeIcon {
+  stroke-width: 1px;
+  stroke: var(--black);
+}
+
+@media only screen and (min-width: 768px) {
+  .modal {
+    max-width: 420px;
+    padding: 56px 32px 32px;
+  }
+  .closeBtn {
+    right: 32px;
+  }
+}

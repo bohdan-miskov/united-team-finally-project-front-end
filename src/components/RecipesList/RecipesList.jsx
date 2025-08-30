@@ -34,10 +34,14 @@ import {
 } from '../../redux/filters/selectors.js';
 import { useDebounce } from 'use-debounce';
 import Loader from '../Loader/Loader.jsx';
+import AuthenticateModal from '../AuthenticateModal/AuthenticateModal.jsx';
 
 export default function RecipesList({ recipeType }) {
   const dispatch = useDispatch();
   const [page, setPage] = useState(1);
+  const [authModalIsOpen, setAuthModalOpen] = useState(false);
+  const openAuthModal = () => setAuthModalOpen(true);
+  const closeAuthModal = () => setAuthModalOpen(false);
 
   const items = useSelector(state => {
     switch (recipeType) {
@@ -158,7 +162,11 @@ export default function RecipesList({ recipeType }) {
       <ul className={styles.list}>
         {items?.map((recipe, idx) => (
           <li className={styles.item} key={`${recipe._id}-${idx}`}>
-            <RecipeCard recipe={recipe} recipeType={recipeType} />
+            <RecipeCard
+              recipe={recipe}
+              recipeType={recipeType}
+              openModal={openAuthModal}
+            />
           </li>
         ))}
       </ul>
@@ -173,6 +181,12 @@ export default function RecipesList({ recipeType }) {
         onLoadMore={handleLoadMore}
         hasMore={hasNextPage}
         loading={isLoading}
+      />
+      <AuthenticateModal
+        isOpen={authModalIsOpen}
+        onClose={() => closeAuthModal()}
+        title="Error while saving"
+        content="To save this recipe, you need to authorize first"
       />
     </>
   );
