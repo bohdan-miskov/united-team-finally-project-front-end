@@ -17,14 +17,7 @@ export default function RecipeCard({ recipe, recipeType, openModal }) {
 
   const favItems = useSelector(selectUserProfile)?.favourites;
 
-  const {
-    _id,
-    title,
-    description,
-    time,
-    calories = '~ N/A',
-    thumb,
-  } = recipe || {};
+  const { _id, title, description, time, cals = '~ N/A', thumb } = recipe || {};
 
   const imgSrc = thumb;
 
@@ -75,7 +68,7 @@ export default function RecipeCard({ recipe, recipeType, openModal }) {
 
       <div className={styles.descriptionContainer}>
         <p>{description}</p>
-        <p>{calories}</p>
+        <p>{`~${cals} cals`}</p>
       </div>
 
       <div className={styles.btnContainer}>
