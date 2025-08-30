@@ -1,5 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { logInUser, logOutUser, refreshUser, registerUser } from './operations';
+import {
+  logInUser,
+  logOutUser,
+  refreshUser,
+  registerUser,
+  requestPasswordReset,
+  resetPassword,
+} from './operations';
 import { setPending, setRejected } from '../helpers/statusHandlers';
 
 const initialState = {
@@ -54,18 +61,38 @@ const authSlice = createSlice({
         setRejected(state, action);
       })
       .addCase(refreshUser.pending, state => {
-        state.isRefreshing = true;
+        //state.isRefreshing = true;
         state.error = null;
       })
       .addCase(refreshUser.fulfilled, state => {
         state.isAuthenticated = true;
         state.isLoggedIn = true;
-        state.isRefreshing = false;
+        //state.isRefreshing = false;
       })
       .addCase(refreshUser.rejected, (state, action) => {
-        state.isRefreshing = false;
+        //state.isRefreshing = false;
         state.isAuthenticated = false;
         state.isLoggedIn = false;
+      })
+      .addCase(requestPasswordReset.pending, state => {
+        setPending(state);
+      })
+      .addCase(requestPasswordReset.fulfilled, (state, action) => {
+        state.isLoading = false;
+        // state.message = action.payload.message;
+      })
+      .addCase(requestPasswordReset.rejected, (state, action) => {
+        setRejected(state, action);
+      })
+      .addCase(resetPassword.pending, state => {
+        setPending(state);
+      })
+      .addCase(resetPassword.fulfilled, (state, action) => {
+        state.isLoading = false;
+        // state.message = action.payload.message;
+      })
+      .addCase(resetPassword.rejected, (state, action) => {
+        setRejected(state, action);
       });
   },
 });

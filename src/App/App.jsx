@@ -1,16 +1,12 @@
-import { lazy, Suspense, useEffect } from 'react';
+import { lazy, Suspense, useEffect, useState } from 'react';
 import Layout from '../components/Layout/Layout';
 import { Toaster } from 'react-hot-toast';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import PrivateRoute from '../components/PrivateRoute';
 import RestrictedRoute from '../components/RestrictedRoute';
 import Refreshing from '../components/Refreshing/Refreshing';
-import ProfileOwn from '../components/ProfileOwn/ProfileOwn';
-import ProfileFavorites from '../components/ProfileFavorites/ProfileFavorites';
-import { useDispatch, useSelector } from 'react-redux';
-import { selectIsRefreshing } from '../redux/auth/selectors';
+import { useDispatch } from 'react-redux';
 import { refreshUser } from '../redux/auth/operations';
-import Loader from '../components/Loader/Loader';
 
 const MainPage = lazy(() => import('../pages/MainPage/MainPage'));
 const RecipeViewPage = lazy(() =>
@@ -22,17 +18,32 @@ const AddRecipePage = lazy(() =>
 const ProfilePage = lazy(() => import('../pages/ProfilePage/ProfilePage'));
 const AuthPage = lazy(() => import('../pages/AuthPage/AuthPage'));
 
+const RequestResetForm = lazy(() =>
+  import('../components/RequestResetForm/RequestResetForm')
+);
+const ResetPasswordForm = lazy(() =>
+  import('../components/ResetPasswordForm/ResetPasswordForm')
+);
+
 function App() {
   const dispatch = useDispatch();
+  const [isStartRefreshing, setIsStartRefreshing] = useState(false);
 
   useEffect(() => {
-    dispatch(refreshUser());
+    async function startRefreshing() {
+      try {
+        setIsStartRefreshing(true);
+        await dispatch(refreshUser()).unwrap();
+      } finally {
+        setIsStartRefreshing(false);
+      }
+    }
+    startRefreshing();
   }, [dispatch]);
-  const isRefreshing = useSelector(selectIsRefreshing);
-  return isRefreshing ? (
+
+  return isStartRefreshing ? (
     <>
       <Refreshing />
-      <Loader />
     </>
   ) : (
     <Layout>
@@ -59,6 +70,14 @@ function App() {
           <Route
             path="/auth/:authType"
             element={<RestrictedRoute component={<AuthPage />} />}
+          />
+          <Route
+            path="/auth/request-reset"
+            element={<RestrictedRoute component={<RequestResetForm />} />}
+          />
+          <Route
+            path="/auth/reset-password"
+            element={<RestrictedRoute component={<ResetPasswordForm />} />}
           />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
