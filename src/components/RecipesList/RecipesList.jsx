@@ -1,7 +1,6 @@
 import { useEffect, useState, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import RecipeCard from '../RecipeCard/RecipeCard.jsx';
-// import LoadMoreBtn from '../LoadMoreBtn/LoadMoreBtn.jsx';
 import Pagination from '../Pagination/Pagination.jsx';
 import styles from './RecipesList.module.css';
 
@@ -39,7 +38,7 @@ import AuthenticateModal from '../AuthenticateModal/AuthenticateModal.jsx';
 export default function RecipesList({ recipeType }) {
   const dispatch = useDispatch();
   const [page, setPage] = useState(1);
-  const [maxPageSeen, setMaxPageSeen] = useState(1); 
+  const [maxPageSeen, setMaxPageSeen] = useState(1);
   const [knownTotal, setKnownTotal] = useState(null);
 
   const [authModalIsOpen, setAuthModalOpen] = useState(false);
@@ -147,15 +146,11 @@ export default function RecipesList({ recipeType }) {
   }, [page, hasNextPage, isLoading]);
 
   const totalPages = useMemo(() => {
-    const MIN = 6;  
+    const MIN = 6;
     const base = knownTotal ?? maxPageSeen;
     const maybe = page + (hasNextPage ? 1 : 0);
     return Math.max(base, maybe, MIN);
   }, [knownTotal, maxPageSeen, page, hasNextPage]);
-
-  // const handleLoadMore = () => {
-  //   setPage(prev => prev + 1);
-  // };
 
   const isEmpty = !isLoading && (!items || items.length === 0);
 
@@ -170,12 +165,8 @@ export default function RecipesList({ recipeType }) {
     setPage(p);
   };
 
-  const goPrev = () => goToPage(page - 1);
-  const goNext = () => goToPage(page + 1);
-
   return (
     <>
-      {/* <p className={styles.recipeCounter}>{total || 0} recipes</p> */}
       {isLoading && !error && page === 1 && <Loader />}
       <ul className={styles.list}>
         {items?.map((recipe, idx) => (
@@ -195,17 +186,7 @@ export default function RecipesList({ recipeType }) {
         <p>{emptyMessages[recipeType]}</p>
       )}
 
-      {/* <LoadMoreBtn
-        onLoadMore={handleLoadMore}
-        hasMore={hasNextPage}
-        loading={isLoading}
-      /> */}
-
-      <Pagination
-        page={page}
-        totalPages={totalPages} 
-        onPageChange={goToPage}
-      />
+      <Pagination page={page} totalPages={totalPages} onPageChange={goToPage} />
       <AuthenticateModal
         isOpen={authModalIsOpen}
         onClose={() => closeAuthModal()}
