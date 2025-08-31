@@ -28,6 +28,9 @@ const RequestResetForm = lazy(() =>
 const ResetPasswordForm = lazy(() =>
   import('../components/ResetPasswordForm/ResetPasswordForm')
 );
+const EditRecipePage = lazy(() =>
+  import('../pages/EditRecipePage/EditRecipePage')
+);
 
 function App() {
   const dispatch = useDispatch();
@@ -85,6 +88,7 @@ function App() {
             <Route path="confirm-email/:token" element={null} />
           </Route>
           <Route path="*" element={<Navigate to="/" replace />} />
+          <Route path="/edit-recipe/:id" element={<EditRecipePage />} />
         </Routes>
       </Suspense>
       <Toaster position="top-center" reverseOrder={false} />
