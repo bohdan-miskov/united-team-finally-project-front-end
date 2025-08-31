@@ -11,6 +11,9 @@ export default function MobileMenu({
 }) {
   useEffect(() => {
     if (!isOpen) return;
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
     const handleEsc = e => e.key === 'Escape' && setMenuOpen(false);
     window.addEventListener('keydown', handleEsc);
     return () => window.removeEventListener('keydown', handleEsc);
