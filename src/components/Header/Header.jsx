@@ -10,10 +10,12 @@ import BurgerMenu from './BurgerMenu/BurgerMenu';
 import Navigation from './Navigation/Navigation';
 
 import css from './Header.module.css';
-import { selectUserProfile } from '../../redux/user/selectors';
+import { selectUserError, selectUserProfile } from '../../redux/user/selectors';
 import { getUserInfo } from '../../redux/user/operations';
 import MobileMenu from './MobileMenu/MobileMenu';
 import { useMediaQuery } from 'react-responsive';
+import { ERROR_MESSAGES } from '../../constants';
+import ErrorToastMessage from '../ErrorToastMessage/ErrorToastMessage';
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -21,8 +23,14 @@ export default function Header() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
+  const error = useSelector(selectUserError);
 
   const isLoggedIn = useSelector(selectIsLoggedIn);
+
+  const errorMessages = {
+    ...ERROR_MESSAGES,
+    404: 'User is not found. Please try again later.',
+  };
 
   useEffect(() => {
     isLoggedIn && dispatch(getUserInfo());
@@ -52,45 +60,56 @@ export default function Header() {
   }, [dispatch, navigate]);
 
   return (
-    <header className={`${css.header} ${menuOpen ? css.menuOpen : ''}`}>
-      <div className="container">
-        <div className={css.container}>
-          <Link className={css.logoBlock} to="/" aria-label="Go to home">
-            <img
-              src={Logo}
-              alt="Our logo"
-              className={css.logo}
-              width={32}
-              height={30}
+    <>
+      <header className={`${css.header} ${menuOpen ? css.menuOpen : ''}`}>
+        <div className="container">
+          <div className={css.container}>
+            <Link className={css.logoBlock} to="/" aria-label="Go to home">
+              <img
+                src={Logo}
+                alt="Our logo"
+                className={css.logo}
+                width={32}
+                height={30}
+              />
+              <span className={css.logoText}>Tasteorama</span>
+            </Link>
+
+            <BurgerMenu
+              isOpen={menuOpen}
+              onToggle={() => setMenuOpen(v => !v)}
             />
-            <span className={css.logoText}>Tasteorama</span>
-          </Link>
 
-          <BurgerMenu isOpen={menuOpen} onToggle={() => setMenuOpen(v => !v)} />
+            <nav className={css.desktopNav} aria-label="Primary">
+              <Navigation
+                isLoggedIn={isLoggedIn}
+                closeMenu={() => {}}
+                userName={userName ?? 'Guest'}
+                onLogout={handleLogout}
+                isMobile={false}
+              />
+            </nav>
+          </div>
 
-          <nav className={css.desktopNav} aria-label="Primary">
-            <Navigation
+          {isMobile && (
+            <MobileMenu
               isLoggedIn={isLoggedIn}
-              closeMenu={() => {}}
+              closeMenu={() => setMenuOpen(false)}
               userName={userName ?? 'Guest'}
               onLogout={handleLogout}
-              isMobile={false}
+              isMobile={true}
+              isOpen={menuOpen}
+              setMenuOpen={setMenuOpen}
             />
-          </nav>
+          )}
         </div>
-
-        {isMobile && (
-          <MobileMenu
-            isLoggedIn={isLoggedIn}
-            closeMenu={() => setMenuOpen(false)}
-            userName={userName ?? 'Guest'}
-            onLogout={handleLogout}
-            isMobile={true}
-            isOpen={menuOpen}
-            setMenuOpen={setMenuOpen}
-          />
-        )}
-      </div>
-    </header>
+      </header>
+      {error && (
+        <ErrorToastMessage>
+          {errorMessages[error.status] ??
+            'Failed to load user. Please retry in a moment'}
+        </ErrorToastMessage>
+      )}
+    </>
   );
 }

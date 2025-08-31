@@ -34,6 +34,8 @@ import {
 import { useDebounce } from 'use-debounce';
 import Loader from '../Loader/Loader.jsx';
 import AuthenticateModal from '../AuthenticateModal/AuthenticateModal.jsx';
+import ErrorToastMessage from '../ErrorToastMessage/ErrorToastMessage.jsx';
+import { ERROR_MESSAGES } from '../../constants/index.js';
 
 export default function RecipesList({ recipeType }) {
   const dispatch = useDispatch();
@@ -42,6 +44,11 @@ export default function RecipesList({ recipeType }) {
   const [authModalIsOpen, setAuthModalOpen] = useState(false);
   const openAuthModal = () => setAuthModalOpen(true);
   const closeAuthModal = () => setAuthModalOpen(false);
+
+  const errorMessages = {
+    ...ERROR_MESSAGES,
+    404: 'Recipes are not found. Please try again later.',
+  };
 
   const recipesListRef = useRef();
 
@@ -172,8 +179,6 @@ export default function RecipesList({ recipeType }) {
         ))}
       </ul>
 
-      {/* {isLoading && !error && page > 1 && <Loader />} */}
-
       {isEmpty && emptyMessages[recipeType] && (
         <p>{emptyMessages[recipeType]}</p>
       )}
@@ -185,6 +190,12 @@ export default function RecipesList({ recipeType }) {
         title="Error while saving"
         content="To save this recipe, you need to authorize first"
       />
+      {error && (
+        <ErrorToastMessage>
+          {errorMessages[error.status] ??
+            'Failed to load ingredients. Please retry in a moment'}
+        </ErrorToastMessage>
+      )}
     </>
   );
 }
