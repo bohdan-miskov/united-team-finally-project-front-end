@@ -68,6 +68,15 @@ textarea {
 button {
   border-radius: 8px;
   padding: 4px 8px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+button:is(:hover, :focus, :focus-visible) {
+  transform: scale(0.98);
+  box-shadow: 0 0 12px rgb(93, 64, 55);
+}
+
+a {
   transition: 300ms ease-in;
 }
 
@@ -155,4 +164,18 @@ textarea {
 
 .transparent-btn:disabled {
   opacity: 0.2;
+}
+
+.red-btn {
+  background-color: var(--red);
+  transition-property: background-color, box-shadow, opacity, color;
+}
+
+.red-btn:is(:hover, :focus, :focus-visible) {
+  background-color: #a10f0f;
+}
+
+.red-btn:active {
+  background-color: #c80000;
+  box-shadow: 0 0 0 6px rgba(200, 0, 0, 0.2), 0 0 0 2px #fff;
 }

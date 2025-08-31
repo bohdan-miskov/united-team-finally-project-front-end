@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import {
+  confirmUser,
   logInUser,
   logOutUser,
   refreshUser,
@@ -27,14 +28,10 @@ const authSlice = createSlice({
         setPending(state);
       })
       .addCase(registerUser.fulfilled, state => {
-        state.isLoggedIn = true;
         state.isLoading = false;
-        state.isAuthenticated = true;
       })
       .addCase(registerUser.rejected, (state, action) => {
         setRejected(state, action);
-        state.isLoggedIn = false;
-        state.isAuthenticated = false;
       })
       .addCase(logInUser.pending, state => {
         setPending(state);
@@ -69,7 +66,7 @@ const authSlice = createSlice({
         state.isLoggedIn = true;
         //state.isRefreshing = false;
       })
-      .addCase(refreshUser.rejected, (state, action) => {
+      .addCase(refreshUser.rejected, state => {
         //state.isRefreshing = false;
         state.isAuthenticated = false;
         state.isLoggedIn = false;
@@ -92,6 +89,17 @@ const authSlice = createSlice({
         // state.message = action.payload.message;
       })
       .addCase(resetPassword.rejected, (state, action) => {
+        setRejected(state, action);
+      })
+      .addCase(confirmUser.pending, state => {
+        setPending(state);
+      })
+      .addCase(confirmUser.fulfilled, state => {
+        state.isLoggedIn = true;
+        state.isLoading = false;
+        state.isAuthenticated = true;
+      })
+      .addCase(confirmUser.rejected, (state, action) => {
         setRejected(state, action);
       });
   },

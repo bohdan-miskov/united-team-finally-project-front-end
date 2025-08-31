@@ -28,6 +28,9 @@ const RequestResetForm = lazy(() =>
 const ResetPasswordForm = lazy(() =>
   import('../components/ResetPasswordForm/ResetPasswordForm')
 );
+const EditRecipePage = lazy(() =>
+  import('../pages/EditRecipePage/EditRecipePage')
+);
 
 function App() {
   const dispatch = useDispatch();
@@ -58,6 +61,10 @@ function App() {
           <Route
             path="/add-recipe"
             element={<PrivateRoute component={<AddRecipePage />} />}
+          />
+          <Route
+            path="/edit-recipe/:id"
+            element={<PrivateRoute component={<EditRecipePage />} />}
           />
           <Route
             path="/profile"

@@ -13,7 +13,7 @@ const filtersSlice = createSlice({
   initialState,
   reducers: {
     changeSearchQuery(state, action) {
-      state.searchQuery = action.payload?.trim().toLowerCase();
+      state.searchQuery = action.payload?.trim();
     },
     changeSearchCategories(state, action) {
       state.categories = action.payload;

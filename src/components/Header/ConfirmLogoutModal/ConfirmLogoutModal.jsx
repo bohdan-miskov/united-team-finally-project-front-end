@@ -15,7 +15,11 @@ export default function ConfirmLogoutModal({ isOpen, onClose, onConfirm }) {
           >
             Cancel
           </button>
-          <button type="button" className={css.logoutBtn} onClick={onConfirm}>
+          <button
+            type="button"
+            className={`${css.logoutBtn} red-btn`}
+            onClick={onConfirm}
+          >
             Log out
           </button>
         </div>

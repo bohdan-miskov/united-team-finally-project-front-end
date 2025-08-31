@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import RecipeCard from '../RecipeCard/RecipeCard.jsx';
-import LoadMoreBtn from '../LoadMoreBtn/LoadMoreBtn.jsx';
+import Pagination from '../Pagination/Pagination.jsx';
 import styles from './RecipesList.module.css';
 
 import {
@@ -17,12 +17,12 @@ import {
   selectAllRecipesIsLoading,
   selectOwnRecipesIsLoading,
   selectFavoriteRecipesIsLoading,
-  selectOwnRecipesHasNextPage,
-  selectAllRecipesHasNextPage,
-  selectFavoriteRecipesHasNextPage,
   selectOwnRecipesError,
   selectAllRecipesError,
   selectFavoriteRecipesError,
+  selectOwnRecipesTotalPages,
+  selectFavoriteRecipesTotalPages,
+  selectAllRecipesTotalPages,
 } from '../../redux/recipes/selectors';
 import {
   selectSearchCategories,
@@ -38,9 +38,12 @@ import AuthenticateModal from '../AuthenticateModal/AuthenticateModal.jsx';
 export default function RecipesList({ recipeType }) {
   const dispatch = useDispatch();
   const [page, setPage] = useState(1);
+
   const [authModalIsOpen, setAuthModalOpen] = useState(false);
   const openAuthModal = () => setAuthModalOpen(true);
   const closeAuthModal = () => setAuthModalOpen(false);
+
+  const recipesListRef = useRef();
 
   const items = useSelector(state => {
     switch (recipeType) {
@@ -81,21 +84,21 @@ export default function RecipesList({ recipeType }) {
     }
   });
 
-  const hasNextPage = useSelector(state => {
+  const totalPages = useSelector(state => {
     switch (recipeType) {
       case 'own':
-        return selectOwnRecipesHasNextPage(state);
+        return selectOwnRecipesTotalPages(state);
       case 'favorites':
-        return selectFavoriteRecipesHasNextPage(state);
+        return selectFavoriteRecipesTotalPages(state);
       case 'all':
-        return selectAllRecipesHasNextPage(state);
+        return selectAllRecipesTotalPages(state);
       default:
         return false;
     }
   });
 
   const searchQuery = useSelector(selectSearchQuery);
-  const [debouncedSearchQuery] = useDebounce(searchQuery, 500);
+  const [debouncedSearchQuery] = useDebounce(searchQuery, 600);
   const selectedCategories = useSelector(selectSearchCategories);
   const selectedIngredients = useSelector(selectSearchIngredients);
   const sortBy = useSelector(selectSortBy);
@@ -120,6 +123,16 @@ export default function RecipesList({ recipeType }) {
     if (recipeType === 'favorites') {
       dispatch(getFavoriteRecipes(page));
     }
+
+    if (recipesListRef.current) {
+      const newTop = recipesListRef.current.offsetTop - 140;
+      if (newTop < window.scrollY) {
+        window.scrollTo({
+          top: newTop,
+          behavior: 'smooth',
+        });
+      }
+    }
   }, [
     dispatch,
     recipeType,
@@ -131,10 +144,6 @@ export default function RecipesList({ recipeType }) {
     sortOrder,
   ]);
 
-  const handleLoadMore = () => {
-    setPage(prev => prev + 1);
-  };
-
   const isEmpty = !isLoading && (!items || items.length === 0);
 
   const emptyMessages = {
@@ -143,11 +152,15 @@ export default function RecipesList({ recipeType }) {
     all: 'No recipes found',
   };
 
+  const goToPage = p => {
+    if (p < 1 || p > totalPages || p === page) return;
+    setPage(p);
+  };
+
   return (
     <>
-      {/* <p className={styles.recipeCounter}>{total || 0} recipes</p> */}
-      {isLoading && !error && page === 1 && <Loader />}
-      <ul className={styles.list}>
+      {isLoading && !error && <Loader />}
+      <ul className={styles.list} ref={recipesListRef}>
         {items?.map((recipe, idx) => (
           <li className={styles.item} key={`${recipe._id}-${idx}`}>
             <RecipeCard
@@ -159,17 +172,13 @@ export default function RecipesList({ recipeType }) {
         ))}
       </ul>
 
-      {isLoading && !error && page > 1 && <Loader />}
+      {/* {isLoading && !error && page > 1 && <Loader />} */}
 
       {isEmpty && emptyMessages[recipeType] && (
         <p>{emptyMessages[recipeType]}</p>
       )}
 
-      <LoadMoreBtn
-        onLoadMore={handleLoadMore}
-        hasMore={hasNextPage}
-        loading={isLoading}
-      />
+      <Pagination page={page} totalPages={totalPages} onPageChange={goToPage} />
       <AuthenticateModal
         isOpen={authModalIsOpen}
         onClose={() => closeAuthModal()}

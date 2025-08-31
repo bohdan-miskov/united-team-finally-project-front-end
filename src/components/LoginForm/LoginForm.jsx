@@ -128,6 +128,7 @@ export default function LoginForm() {
                       ? 'password-error'
                       : undefined
                   }
+                  autoComplete="current-password"
                 />
                 <button
                   type="button"

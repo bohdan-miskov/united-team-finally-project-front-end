@@ -1,0 +1,46 @@
+.container {
+  margin-top: 24px;
+}
+
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  list-style: none;
+}
+
+.itemPrev {
+  margin-inline-end: 18px;
+}
+
+.itemNext {
+  margin-inline-start: 18px;
+}
+
+.pageBtn {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: 10px;
+}
+
+.pageBtn:not(:is(.active, .arrow)) {
+  border: none;
+  background: transparent;
+  color: var(--black);
+}
+
+.arrow {
+  border-radius: 10px;
+  padding: 0;
+}
+
+.paginArrow {
+  fill: transparent;
+  stroke-width: 2px;
+  stroke: currentColor;
+}

@@ -133,6 +133,7 @@ export default function ResetPasswordForm() {
                         ? 'password-error'
                         : undefined
                     }
+                    autoComplete="new-password"
                   />
                   <button
                     type="button"
@@ -207,6 +208,7 @@ export default function ResetPasswordForm() {
                         ? 'confirmPassword-error'
                         : undefined
                     }
+                    autoComplete="new-password"
                   />
                   <button
                     type="button"
