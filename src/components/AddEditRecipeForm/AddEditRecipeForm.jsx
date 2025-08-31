@@ -31,7 +31,7 @@ const validationSchema = Yup.object({
   time: Yup.number().min(1).max(360).required('Required'),
   calories: Yup.number().min(1).max(1000).required('Required'),
   category: Yup.string().required('Required'),
-  instructions: Yup.string().required('Required'),
+  instructions: Yup.string().max(1200).required('Required'),
   //image: Yup.mixed(),
 });
 
