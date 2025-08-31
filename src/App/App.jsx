@@ -64,7 +64,7 @@ function App() {
           />
           <Route
             path="/edit-recipe/:id"
-            element={<PrivateRoute component={null} />}
+            element={<PrivateRoute component={<EditRecipePage />} />}
           />
           <Route
             path="/profile"
@@ -92,7 +92,6 @@ function App() {
             <Route path="confirm-email/:token" element={null} />
           </Route>
           <Route path="*" element={<Navigate to="/" replace />} />
-          <Route path="/edit-recipe/:id" element={<EditRecipePage />} />
         </Routes>
       </Suspense>
       <Toaster position="top-center" reverseOrder={false} />
