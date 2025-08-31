@@ -122,6 +122,23 @@ export default function Filters({ recipeType = 'all' }) {
   };
 
   useEffect(() => {
+    if (!isOpen) return;
+
+    const handleEsc = e => {
+      if (e.key === 'Escape') setIsOpen(false);
+    };
+
+    window.addEventListener('keydown', handleEsc);
+
+    document.body.style.overflow = 'hidden';
+
+    return () => {
+      window.removeEventListener('keydown', handleEsc);
+      document.body.style.overflow = '';
+    };
+  }, [isOpen, setIsOpen]);
+
+  useEffect(() => {
     dispatch(resetAllSearchParams());
     dispatch(getCategories());
     dispatch(getIngredients());
@@ -141,117 +158,19 @@ export default function Filters({ recipeType = 'all' }) {
 
   return (
     <>
-      <div className={styles.filtersSection}>
-        <p className={styles.recipeCounter}>{`${totalItems} recipes`}</p>
+      <section className={styles.filtersSection}>
+        <h3 className="visually-hidden">Filters</h3>
 
-        <div className={styles.filtersWrapper}>
-          <div className={styles.desktopFilters}>
-            <div className={styles.rightSide}>
-              <button onClick={handleReset} className={styles.reset}>
-                Reset filters
-              </button>
+        <div className={styles.filtersContainer}>
+          <p className={styles.recipeCounter}>{`${totalItems} recipes`}</p>
 
-              {/* Categories */}
-              <Select
-                isMulti
-                isClearable={false}
-                isLoading={isLoadingCategories}
-                options={categories.map(c => ({
-                  value: c,
-                  label: c,
-                }))}
-                value={selectedCategories.map(c => ({
-                  value: c,
-                  label: c,
-                }))}
-                onChange={handleCategoriesChange}
-                placeholder="Category"
-                classNamePrefix="customSelect"
-                styles={customStylesDesc}
-              />
-
-              {/* Ingredients */}
-              <Select
-                isMulti
-                isClearable={false}
-                isLoading={isLoadingIngredients}
-                options={ingredients.map(i => ({
-                  value: i._id,
-                  label: i.name,
-                }))}
-                value={selectedIngredients.map(id => ({
-                  value: id,
-                  label: ingredients.find(i => i._id === id)?.name || id,
-                }))}
-                onChange={handleIngredientsChange}
-                placeholder="Ingredient"
-                classNamePrefix="customSelect"
-                styles={customStylesDesc}
-              />
-
-              {/* Sort */}
-              <Select
-                isClearable
-                options={sortOptions}
-                value={
-                  sortBy && sortOrder
-                    ? sortOptions.find(
-                        o => o.value[0] === sortBy && o.value[1] === sortOrder
-                      )
-                    : null
-                }
-                onChange={option => {
-                  if (!option) {
-                    dispatch(clearSortParams());
-                    return;
-                  }
-                  const [field, order] = option.value;
-                  dispatch(
-                    changeSortParams({
-                      sortBy: field,
-                      sortOrder: order,
-                    })
-                  );
-                }}
-                placeholder="Sort by"
-                classNamePrefix="customSelect"
-                styles={{
-                  ...customStylesDesc,
-                  control: (base, state) => ({
-                    ...customStylesDesc.control(base, state),
-                    width: '250px',
-                  }),
-                }}
-              />
-            </div>
-          </div>
-
-          <button
-            className={styles.filtersToggle}
-            onClick={() => setIsOpen(true)}
-          >
-            Filters
-            <svg className={styles.icon} width="16" height="16">
-              <use href="/icons.svg#icon-filter"></use>
-            </svg>
-          </button>
-        </div>
-
-        {isOpen && (
-          <div className={styles.modalOverlay}>
-            <div className={styles.modalContent} ref={modalRef}>
-              <div className={styles.modalHeader}>
-                <span className={styles.modalTitle}>Filters</span>
-                <button
-                  className={styles.closeBtn}
-                  onClick={() => setIsOpen(false)}
-                >
-                  <svg width="24" height="24">
-                    <use href="/icons.svg#icon-close-circle"></use>
-                  </svg>
+          <div className={styles.filtersWrapper}>
+            <div className={styles.desktopFilters}>
+              <div className={styles.rightSide}>
+                <button onClick={handleReset} className={styles.reset}>
+                  Reset filters
                 </button>
-              </div>
-              <div className={styles.modalBody}>
+
                 {/* Categories */}
                 <Select
                   isMulti
@@ -268,7 +187,7 @@ export default function Filters({ recipeType = 'all' }) {
                   onChange={handleCategoriesChange}
                   placeholder="Category"
                   classNamePrefix="customSelect"
-                  styles={customStylesMob}
+                  styles={customStylesDesc}
                 />
 
                 {/* Ingredients */}
@@ -287,7 +206,7 @@ export default function Filters({ recipeType = 'all' }) {
                   onChange={handleIngredientsChange}
                   placeholder="Ingredient"
                   classNamePrefix="customSelect"
-                  styles={customStylesMob}
+                  styles={customStylesDesc}
                 />
 
                 {/* Sort */}
@@ -316,16 +235,123 @@ export default function Filters({ recipeType = 'all' }) {
                   }}
                   placeholder="Sort by"
                   classNamePrefix="customSelect"
-                  styles={customStylesMob}
+                  styles={{
+                    ...customStylesDesc,
+                    control: (base, state) => ({
+                      ...customStylesDesc.control(base, state),
+                      width: '250px',
+                    }),
+                  }}
                 />
               </div>
-              <button onClick={handleReset} className={styles.reset}>
-                Reset filters
-              </button>
             </div>
+
+            <button
+              className={styles.filtersToggle}
+              onClick={() => setIsOpen(true)}
+            >
+              Filters
+              <svg className={styles.icon} width="16" height="16">
+                <use href="/icons.svg#icon-filter"></use>
+              </svg>
+            </button>
           </div>
-        )}
-      </div>
+
+          {
+            <div
+              className={`${styles.modalOverlay} ${
+                isOpen ? styles.isOpen : ''
+              }`}
+            >
+              <div className={styles.modalContent} ref={modalRef}>
+                <div className={styles.modalHeader}>
+                  <span className={styles.modalTitle}>Filters</span>
+                  <button
+                    className={styles.closeBtn}
+                    onClick={() => setIsOpen(false)}
+                  >
+                    <svg width="24" height="24">
+                      <use href="/icons.svg#icon-close-circle"></use>
+                    </svg>
+                  </button>
+                </div>
+                <div className={styles.modalBody}>
+                  {/* Categories */}
+                  <Select
+                    isMulti
+                    isClearable={false}
+                    isLoading={isLoadingCategories}
+                    options={categories.map(c => ({
+                      value: c,
+                      label: c,
+                    }))}
+                    value={selectedCategories.map(c => ({
+                      value: c,
+                      label: c,
+                    }))}
+                    onChange={handleCategoriesChange}
+                    placeholder="Category"
+                    classNamePrefix="customSelect"
+                    styles={customStylesMob}
+                  />
+
+                  {/* Ingredients */}
+                  <Select
+                    isMulti
+                    isClearable={false}
+                    isLoading={isLoadingIngredients}
+                    options={ingredients.map(i => ({
+                      value: i._id,
+                      label: i.name,
+                    }))}
+                    value={selectedIngredients.map(id => ({
+                      value: id,
+                      label: ingredients.find(i => i._id === id)?.name || id,
+                    }))}
+                    onChange={handleIngredientsChange}
+                    placeholder="Ingredient"
+                    classNamePrefix="customSelect"
+                    styles={customStylesMob}
+                  />
+
+                  {/* Sort */}
+                  <Select
+                    isClearable
+                    options={sortOptions}
+                    value={
+                      sortBy && sortOrder
+                        ? sortOptions.find(
+                            o =>
+                              o.value[0] === sortBy && o.value[1] === sortOrder
+                          )
+                        : null
+                    }
+                    onChange={option => {
+                      if (!option) {
+                        dispatch(clearSortParams());
+                        return;
+                      }
+                      const [field, order] = option.value;
+                      dispatch(
+                        changeSortParams({
+                          sortBy: field,
+                          sortOrder: order,
+                        })
+                      );
+                    }}
+                    placeholder="Sort by"
+                    classNamePrefix="customSelect"
+                    styles={customStylesMob}
+                  />
+                </div>
+                <button onClick={handleReset} className={styles.reset}>
+                  Reset filters
+                </button>
+              </div>
+            </div>
+          }
+        </div>
+      </section>
     </>
   );
 }
