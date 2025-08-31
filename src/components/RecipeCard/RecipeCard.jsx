@@ -67,7 +67,7 @@ export default function RecipeCard({ recipe, recipeType, openModal }) {
       </div>
 
       <div className={styles.descriptionContainer}>
-        <p>{description}</p>
+        <p className={styles.descriptionText}>{description}</p>
         <p>{`~${cals} cals`}</p>
       </div>
 
