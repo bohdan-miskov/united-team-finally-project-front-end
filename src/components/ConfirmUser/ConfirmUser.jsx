@@ -1,5 +1,3 @@
-import { ClipLoader } from 'react-spinners';
-import styles from './Refreshing.module.css';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
@@ -10,6 +8,7 @@ import {
 } from '../../redux/auth/selectors';
 import ErrorToastMessage from '../ErrorToastMessage/ErrorToastMessage';
 import { ERROR_MESSAGES } from '../../constants';
+import FullScreenLoader from '../FullScreenLoader/FullScreenLoader';
 
 export default function ConfirmUser() {
   const dispatch = useDispatch();
@@ -27,16 +26,7 @@ export default function ConfirmUser() {
   return (
     <>
       {isLoading && (
-        <div className={styles.overlay}>
-          <div className="container">
-            <div className={styles.container}>
-              <ClipLoader color="#2563eb" size={50} />
-              <p className={styles.text}>
-                We’re confirming your account. Please wait a moment...
-              </p>
-            </div>
-          </div>
-        </div>
+        <FullScreenLoader text="We’re confirming your account. Please wait a moment..." />
       )}
       {error && (
         <ErrorToastMessage>
