@@ -59,6 +59,8 @@
 /* Desktop */
 @media (min-width: 1440px) {
   .heroContainer {
+    padding-left: 108px;
+    padding-right: 108px;
     background-image: linear-gradient(
         to right,
         rgba(0, 0, 0, 0.9),
