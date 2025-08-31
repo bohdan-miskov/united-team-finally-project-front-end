@@ -9,21 +9,24 @@ import { BrowserRouter } from 'react-router-dom';
 import { PersistGate } from 'redux-persist/integration/react';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 
-// const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID;
+const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID;
 
 // clientId={GOOGLE_CLIENT_ID} додати до GoogleOAuthProvider
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <GoogleOAuthProvider
-      onScriptLoadError={() => console.error('Google script failed to load')}
-    >
-      <Provider store={store}>
-        <PersistGate persistor={persistor}>
-          <BrowserRouter>
+    <Provider store={store}>
+      <PersistGate persistor={persistor}>
+        <BrowserRouter>
+          <GoogleOAuthProvider
+            clientId={GOOGLE_CLIENT_ID}
+            onScriptLoadError={() =>
+              console.error('Google script failed to load')
+            }
+          >
             <App />
-          </BrowserRouter>
-        </PersistGate>
-      </Provider>
-    </GoogleOAuthProvider>
+          </GoogleOAuthProvider>
+        </BrowserRouter>
+      </PersistGate>
+    </Provider>
   </StrictMode>
 );

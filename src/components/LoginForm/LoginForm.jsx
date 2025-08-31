@@ -56,9 +56,9 @@ export default function LoginForm() {
 
   const handleGoogleSuccess = async credentialResponse => {
     try {
-      const token = credentialResponse.credential;
+      const credential = credentialResponse.credential;
 
-      await dispatch(logInWithGoogle(token)).unwrap();
+      await dispatch(logInWithGoogle(credential)).unwrap();
       navigate('/', { replace: true });
     } catch (error) {
       console.error('Google login error:', error);
@@ -182,6 +182,7 @@ export default function LoginForm() {
                 theme="filled_blue"
                 text="signin_with"
                 width="100%"
+                useOneTap={false}
               />
             </div>
             <p className={styles.redirectText}>

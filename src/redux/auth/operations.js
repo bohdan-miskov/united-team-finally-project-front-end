@@ -77,15 +77,35 @@ export const resetPassword = wrapAsyncThunk(
   }
 );
 
+// export const logInWithGoogle = wrapAsyncThunk(
+//   'auth/googleLogIn',
+//   async token => {
+//     const response = await api.post(
+//       '/auth/google',
+//       { token },
+//       { skipRefresh: true }
+//     );
+//     setAuthHeader(response.data.data.accessToken);
+//     return response.data.data;
+//   }
+// );
+
 export const logInWithGoogle = wrapAsyncThunk(
   'auth/googleLogIn',
-  async token => {
+  async credential => {
     const response = await api.post(
       '/auth/google',
-      { token },
+      { credential }, // ✅ змінив з { token }
       { skipRefresh: true }
     );
-    setAuthHeader(response.data.data.accessToken);
-    return response.data.data;
+    const payload = response.data;
+
+    console.log('✅ Google API raw response:', response.data);
+    if (!payload?.accessToken) {
+      throw new Error('Access token missing in response');
+    }
+
+    setAuthHeader(payload.accessToken);
+    return payload;
   }
 );
