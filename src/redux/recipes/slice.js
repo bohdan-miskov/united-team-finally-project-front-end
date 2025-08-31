@@ -88,7 +88,7 @@ const recipesSlice = createSlice({
         // state.own.totalItems += 1;
       })
       .addCase(createRecipe.rejected, (state, action) => {
-        setRejected(state.all, action);
+        //setRejected(state.all, action);
       })
       .addCase(updateRecipe.pending, state => {
         setPending(state.all);
@@ -97,7 +97,7 @@ const recipesSlice = createSlice({
         state.all.isLoading = false;
       })
       .addCase(updateRecipe.rejected, (state, action) => {
-        setRejected(state.all, action);
+        //setRejected(state.all, action);
       })
       .addCase(deleteRecipe.pending, state => {
         setPending(state.own);
@@ -110,7 +110,7 @@ const recipesSlice = createSlice({
         state.own.totalItems -= 1;
       })
       .addCase(deleteRecipe.rejected, (state, action) => {
-        setRejected(state.own, action);
+        //setRejected(state.own, action);
       })
       .addCase(getFavoriteRecipes.pending, state => {
         setPending(state.favorite);
@@ -142,7 +142,7 @@ const recipesSlice = createSlice({
         // state.favorite.totalItems += 1;
       })
       .addCase(addRecipeToFavorite.rejected, (state, action) => {
-        setRejected(state.favorite, action);
+        //setRejected(state.favorite, action);
       })
       .addCase(deleteRecipeFromFavorite.pending, state => {
         setPending(state.favorite);
@@ -155,7 +155,7 @@ const recipesSlice = createSlice({
         state.favorite.totalItems -= 1;
       })
       .addCase(deleteRecipeFromFavorite.rejected, (state, action) => {
-        setRejected(state.favorite, action);
+        //setRejected(state.favorite, action);
       })
       .addCase(getOwnRecipes.pending, state => {
         setPending(state.own);
