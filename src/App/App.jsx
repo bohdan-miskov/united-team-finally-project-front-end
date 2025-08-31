@@ -8,6 +8,7 @@ import Refreshing from '../components/Refreshing/Refreshing';
 import { useDispatch, useSelector } from 'react-redux';
 import { refreshUser } from '../redux/auth/operations';
 import { selectIsAuthenticated } from '../redux/auth/selectors';
+import ConfirmUser from '../components/ConfirmUser/ConfirmUser';
 
 const MainPage = lazy(() => import('../pages/MainPage/MainPage'));
 const RecipeViewPage = lazy(() =>
@@ -94,7 +95,7 @@ function App() {
               path="reset-password/:token"
               element={<ResetPasswordForm />}
             />
-            <Route path="confirm-email/:token" element={null} />
+            <Route path="confirm-email/:token" element={<ConfirmUser />} />
           </Route>
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
