@@ -14,6 +14,7 @@
 
 .container {
   width: 100%;
+  height: 46px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -30,7 +31,7 @@
   font-family: 'Montserrat', sans-serif;
   font-weight: 600;
   font-size: 18px;
-  line-height: 100%;
+  line-height: 1.2;
   letter-spacing: -0.03em;
   color: #fff;
 }
@@ -73,7 +74,6 @@
 
   .logoText {
     font-size: 18px;
-    line-height: 100%;
   }
 
   .desktopNav {
