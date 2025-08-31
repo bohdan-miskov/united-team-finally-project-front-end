@@ -1,11 +1,16 @@
+import { getPaginationWindow } from '../../utils/getPaginationWindow';
 import styles from './Pagination.module.css';
 
 const WINDOW = 6;
 
 export default function Pagination({ page, totalPages, onPageChange }) {
-  const start = Math.max(1, Math.min(page - 2, totalPages - WINDOW + 1));
-  const count = Math.min(WINDOW, totalPages || WINDOW);
-  const pages = Array.from({ length: count }, (_, i) => start + i);
+  if (totalPages <= 1) return null;
+
+  const { startPage, lastPage } = getPaginationWindow(page, totalPages, 6);
+  const pages = Array.from(
+    { length: lastPage - startPage + 1 },
+    (_, i) => startPage + i
+  );
 
   return (
     <div aria-label="Pagination" className={styles.container}>
