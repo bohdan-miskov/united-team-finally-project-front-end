@@ -68,7 +68,12 @@ textarea {
 button {
   border-radius: 8px;
   padding: 4px 8px;
-  transition: 300ms ease-in;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+button:is(:hover, :focus, :focus-visible) {
+  transform: scale(0.98);
+  box-shadow: 0 0 12px rgb(93, 64, 55);
 }
 
 a {
