@@ -9,6 +9,8 @@ import {
 import { selectUserProfile } from '../../redux/user/selectors';
 import { selectIsLoggedIn } from '../../redux/auth/selectors';
 import { useMediaQuery } from 'react-responsive';
+import { useState } from 'react';
+import ConfirmDeleteModal from './ConfirmDeleteModal/ConfirmDeleteModal';
 
 export default function RecipeCard({ recipe, recipeType, openModal }) {
   const dispatch = useDispatch();
@@ -16,11 +18,12 @@ export default function RecipeCard({ recipe, recipeType, openModal }) {
   const isMobile = useMediaQuery({ maxWidth: 767 });
   const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 1439 });
   const navigate = useNavigate();
+  const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [deleteTarget, setDeleteTarget] = useState(null);
 
   const favItems = useSelector(selectUserProfile)?.favourites;
 
   const { _id, title, description, time, cals = '~ N/A', thumb } = recipe || {};
-
   const imgSrc = thumb;
 
   const type = (recipeType || '').trim().toLowerCase();
@@ -32,9 +35,9 @@ export default function RecipeCard({ recipe, recipeType, openModal }) {
 
   const handleBookmark = () => {
     if (!_id) return;
-
     if (isSaved) {
-      dispatch(deleteRecipeFromFavorite(_id));
+      setDeleteTarget('favourite');
+      setDeleteModalOpen(true);
     } else {
       dispatch(addRecipeToFavorite(_id));
     }
@@ -42,14 +45,19 @@ export default function RecipeCard({ recipe, recipeType, openModal }) {
 
   const handleEditRecipe = () => {
     if (!_id) return;
-
     navigate(`/edit-recipe/${_id}`);
   };
 
   const handleDeleteRecipe = () => {
     if (!_id) return;
-
     dispatch(deleteRecipe(_id));
+    setDeleteModalOpen(false);
+  };
+
+  const handleRemoveFromFavourites = () => {
+    if (!_id) return;
+    dispatch(deleteRecipeFromFavorite(_id));
+    setDeleteModalOpen(false);
   };
 
   return (
@@ -112,11 +120,9 @@ export default function RecipeCard({ recipe, recipeType, openModal }) {
           <>
             <button
               type="button"
-              onClick={() => {
-                handleEditRecipe();
-              }}
+              onClick={handleEditRecipe}
               aria-label={'Edit recipe'}
-              className={`${styles.bookmarkBtn} ${'dark-outline-btn'}`}
+              className={`${styles.bookmarkBtn} dark-outline-btn`}
             >
               <svg className={styles.iconBtn}>
                 <use href={'/icons.svg#icon-edit'} />
@@ -126,10 +132,11 @@ export default function RecipeCard({ recipe, recipeType, openModal }) {
             <button
               type="button"
               onClick={() => {
-                handleDeleteRecipe();
+                setDeleteTarget('recipe');
+                setDeleteModalOpen(true);
               }}
               aria-label={'Remove recipe'}
-              className={`${styles.bookmarkBtn} ${'red-btn'}`}
+              className={`${styles.bookmarkBtn} red-btn`}
             >
               <svg className={styles.iconBtn}>
                 <use href={'/icons.svg#icon-delete'} />
@@ -138,6 +145,18 @@ export default function RecipeCard({ recipe, recipeType, openModal }) {
           </>
         )}
       </div>
+
+      <ConfirmDeleteModal
+        isOpen={isDeleteModalOpen}
+        onClose={() => setDeleteModalOpen(false)}
+        onConfirm={() => {
+          if (deleteTarget === 'recipe') {
+            handleDeleteRecipe();
+          } else if (deleteTarget === 'favourite') {
+            handleRemoveFromFavourites();
+          }
+        }}
+      />
     </div>
   );
 }

@@ -1,0 +1,53 @@
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+}
+
+.title {
+  font-size: 32px;
+  font-weight: 600;
+}
+
+.text {
+  font-size: 16px;
+  color: var(--dark-gray);
+}
+
+.actions {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-direction: column;
+  width: 100%;
+}
+
+.actions button {
+  width: 100%;
+}
+
+.cancelBtn {
+  border-radius: 8px;
+  padding: 16px;
+  font-size: 18px;
+}
+
+.deleteBtn {
+  border-radius: 8px;
+  padding: 16px;
+  font-size: 18px;
+}
+
+@media screen and (min-width: 768px) {
+  .actions {
+    flex-direction: row;
+    gap: 28px;
+  }
+
+  .cancelBtn,
+  .deleteBtn {
+    padding: 12px 24px;
+    font-size: 16px;
+  }
+}
