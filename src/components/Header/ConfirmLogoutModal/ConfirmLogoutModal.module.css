@@ -31,17 +31,7 @@
 .logoutBtn {
   border-radius: 8px;
   padding: 16px;
-  background-color: var(--red);
   font-size: 18px;
-}
-
-.logoutBtn:hover {
-  background-color: #a10f0f;
-}
-
-.logoutBtn:focus-visible {
-  background-color: #c80000;
-  box-shadow: 0 0 0 6px rgba(200, 0, 0, 0.2), 0 0 0 2px #fff;
 }
 
 @media screen and (min-width: 768px) {

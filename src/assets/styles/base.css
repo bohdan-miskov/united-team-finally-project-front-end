@@ -71,6 +71,10 @@ button {
   transition: 300ms ease-in;
 }
 
+a {
+  transition: 300ms ease-in;
+}
+
 textarea {
   resize: none;
 }
@@ -155,4 +159,18 @@ textarea {
 
 .transparent-btn:disabled {
   opacity: 0.2;
+}
+
+.red-btn {
+  background-color: var(--red);
+  transition-property: background-color, box-shadow, opacity, color;
+}
+
+.red-btn:is(:hover, :focus, :focus-visible) {
+  background-color: #a10f0f;
+}
+
+.red-btn:active {
+  background-color: #c80000;
+  box-shadow: 0 0 0 6px rgba(200, 0, 0, 0.2), 0 0 0 2px #fff;
 }

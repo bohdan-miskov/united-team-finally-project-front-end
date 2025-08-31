@@ -18,6 +18,7 @@ import { ERROR_MESSAGES } from '../../constants/index.js';
 const RegisterSchema = Yup.object().shape({
   name: Yup.string()
     .max(16, 'Name must be at most 16 characters')
+    .matches(/^[A-Za-z]+$/, 'Only English letters are allowed')
     .required('Name is required'),
   email: Yup.string()
     .email('Invalid email address')

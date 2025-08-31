@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import RecipeCard from '../RecipeCard/RecipeCard.jsx';
 import Pagination from '../Pagination/Pagination.jsx';
@@ -42,6 +42,8 @@ export default function RecipesList({ recipeType }) {
   const [authModalIsOpen, setAuthModalOpen] = useState(false);
   const openAuthModal = () => setAuthModalOpen(true);
   const closeAuthModal = () => setAuthModalOpen(false);
+
+  const recipesListRef = useRef();
 
   const items = useSelector(state => {
     switch (recipeType) {
@@ -121,6 +123,16 @@ export default function RecipesList({ recipeType }) {
     if (recipeType === 'favorites') {
       dispatch(getFavoriteRecipes(page));
     }
+
+    if (recipesListRef.current) {
+      const newTop = recipesListRef.current.offsetTop - 140;
+      if (newTop < window.scrollY) {
+        window.scrollTo({
+          top: newTop,
+          behavior: 'smooth',
+        });
+      }
+    }
   }, [
     dispatch,
     recipeType,
@@ -147,8 +159,8 @@ export default function RecipesList({ recipeType }) {
 
   return (
     <>
-      {isLoading && !error && page === 1 && <Loader />}
-      <ul className={styles.list}>
+      {isLoading && !error && <Loader />}
+      <ul className={styles.list} ref={recipesListRef}>
         {items?.map((recipe, idx) => (
           <li className={styles.item} key={`${recipe._id}-${idx}`}>
             <RecipeCard
@@ -160,7 +172,7 @@ export default function RecipesList({ recipeType }) {
         ))}
       </ul>
 
-      {isLoading && !error && page > 1 && <Loader />}
+      {/* {isLoading && !error && page > 1 && <Loader />} */}
 
       {isEmpty && emptyMessages[recipeType] && (
         <p>{emptyMessages[recipeType]}</p>

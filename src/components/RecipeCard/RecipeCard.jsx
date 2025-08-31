@@ -1,8 +1,9 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styles from './RecipeCard.module.css';
 import {
   addRecipeToFavorite,
+  deleteRecipe,
   deleteRecipeFromFavorite,
 } from '../../redux/recipes/operations';
 import { selectUserProfile } from '../../redux/user/selectors';
@@ -14,6 +15,7 @@ export default function RecipeCard({ recipe, recipeType, openModal }) {
   const isLoggedIn = useSelector(selectIsLoggedIn);
   const isMobile = useMediaQuery({ maxWidth: 767 });
   const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 1439 });
+  const navigate = useNavigate();
 
   const favItems = useSelector(selectUserProfile)?.favourites;
 
@@ -36,6 +38,18 @@ export default function RecipeCard({ recipe, recipeType, openModal }) {
     } else {
       dispatch(addRecipeToFavorite(_id));
     }
+  };
+
+  const handleEditRecipe = () => {
+    if (!_id) return;
+
+    navigate(`/edit-recipe/${_id}`);
+  };
+
+  const handleDeleteRecipe = () => {
+    if (!_id) return;
+
+    dispatch(deleteRecipe(_id));
   };
 
   return (
@@ -79,7 +93,7 @@ export default function RecipeCard({ recipe, recipeType, openModal }) {
           Learn more
         </Link>
 
-        {(isAll || isFavorites) && (
+        {isAll || isFavorites ? (
           <button
             type="button"
             onClick={() => {
@@ -90,10 +104,38 @@ export default function RecipeCard({ recipe, recipeType, openModal }) {
               isAll ? (isSaved ? 'brown-btn' : 'dark-outline-btn') : 'brown-btn'
             }`}
           >
-            <svg className={styles.iconSave}>
+            <svg className={styles.iconBtn}>
               <use href={'/icons.svg#icon-save-to-list'} />
             </svg>
           </button>
+        ) : (
+          <>
+            <button
+              type="button"
+              onClick={() => {
+                handleEditRecipe();
+              }}
+              aria-label={'Edit recipe'}
+              className={`${styles.bookmarkBtn} ${'dark-outline-btn'}`}
+            >
+              <svg className={styles.iconBtn}>
+                <use href={'/icons.svg#icon-edit'} />
+              </svg>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => {
+                handleDeleteRecipe();
+              }}
+              aria-label={'Remove recipe'}
+              className={`${styles.bookmarkBtn} ${'red-btn'}`}
+            >
+              <svg className={styles.iconBtn}>
+                <use href={'/icons.svg#icon-delete'} />
+              </svg>
+            </button>
+          </>
         )}
       </div>
     </div>
