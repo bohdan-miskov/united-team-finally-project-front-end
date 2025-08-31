@@ -22,7 +22,8 @@ import {
   selectIngredientsIsLoading,
 } from '../../redux/ingredients/selectors';
 
-import { createRecipe } from '../../redux/recipes/operations';
+import { createRecipe, updateRecipe } from '../../redux/recipes/operations';
+import { getRecipeDetails } from '../../redux/recipeDetails/operations';
 import ErrorToastMessage from '../ErrorToastMessage/ErrorToastMessage';
 import { ERROR_MESSAGES } from '../../constants';
 
@@ -36,7 +37,7 @@ const validationSchema = Yup.object({
   //image: Yup.mixed(),
 });
 
-export default function AddRecipeForm() {
+export default function AddRecipeForm({ id }) {
   const [selectedIngredients, setSelectedIngredients] = useState([]);
   const [preview, setPreview] = useState(null);
   const [ingredientError, setIngredientError] = useState(null);
@@ -52,10 +53,53 @@ export default function AddRecipeForm() {
 
   const navigate = useNavigate();
 
+  const [initialValues, setInitialValues] = useState({
+    title: '',
+    description: '',
+    time: '',
+    calories: '',
+    category: '',
+    instructions: '',
+    ingredient: null,
+    amount: '',
+    image: null,
+    ingredients: [],
+  });
+
   useEffect(() => {
     dispatch(getCategories());
     dispatch(getIngredients());
-  }, [dispatch]);
+    if (id) {
+      dispatch(getRecipeDetails(id))
+        .unwrap()
+        .then(recipe => {
+          setInitialValues({
+            title: recipe.title,
+            description: recipe.description,
+            time: recipe.time,
+            calories: recipe.cals,
+            category: recipe.category,
+            instructions: recipe.instructions,
+            ingredient: null,
+            amount: '',
+            image: null,
+            ingredients: recipe.ingredients.map(i => ({
+              id: i.id,
+              name: i.name,
+              amount: i.amount,
+            })),
+          });
+          setSelectedIngredients(
+            recipe.ingredients.map(i => ({
+              id: i.id,
+              name: i.name,
+              amount: i.amount,
+            }))
+          );
+          if (recipe.thumb) setPreview(recipe.thumb);
+        });
+    }
+  }, [dispatch, id]);
 
   const categoryOptions = categories.map(c => ({
     value: c,
@@ -147,13 +191,18 @@ export default function AddRecipeForm() {
 
     setErrorMessage(null);
     try {
-      const res = await dispatch(createRecipe(formData)).unwrap();
+      //const res = await dispatch(createRecipe(formData)).unwrap();
+
+      let res;
+      if (id) {
+        res = await dispatch(updateRecipe({ id, payload: formData })).unwrap();
+      } else {
+        res = await dispatch(createRecipe(formData)).unwrap();
+      }
 
       if (res && res._id) {
         resetForm();
         navigate(`/recipes/${res._id}`);
-      } else {
-        setErrorMessage('Failed to create recipe. Please try again later.');
       }
     } catch (err) {
       setErrorMessage(
@@ -166,18 +215,8 @@ export default function AddRecipeForm() {
   return (
     <>
       <Formik
-        initialValues={{
-          title: '',
-          description: '',
-          time: '',
-          calories: '',
-          category: '',
-          instructions: '',
-          ingredient: null,
-          amount: '',
-          image: null,
-          ingredients: [],
-        }}
+        enableReinitialize
+        initialValues={initialValues}
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
       >
@@ -411,7 +450,7 @@ export default function AddRecipeForm() {
                   </li>
 
                   {selectedIngredients.map((item, i) => (
-                    <li key={item.id}>
+                    <li key={`${item.id}-${i}`}>
                       <span className={css.spanItemsName}>{item.name}</span>
                       <span className={css.spanItemsAmount}>{item.amount}</span>
                       <button
@@ -448,7 +487,7 @@ export default function AddRecipeForm() {
                   type="submit"
                   disabled={isSubmitting}
                 >
-                  Publish Recipe
+                  {id ? 'Update Recipe' : 'Publish Recipe'}
                 </button>
               </section>
             </div>
