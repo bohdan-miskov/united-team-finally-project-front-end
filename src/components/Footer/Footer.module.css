@@ -12,11 +12,12 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
-  gap: 24px;
+  gap: 32px;
 }
 
 .logoBlock {
   display: inline-flex;
+  padding: 8px 13px;
   align-items: center;
   gap: 4px;
   cursor: pointer;
@@ -35,7 +36,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 44px;
+  gap: 40px;
   font-size: 16px;
   font-weight: 600;
 }
@@ -44,6 +45,7 @@
   color: #fff;
   text-decoration: none;
   cursor: pointer;
+  line-height: 1.5;
   font-size: 16px;
   transition: color 0.2s ease, opacity 0.2s ease;
 }
@@ -62,6 +64,7 @@ button.link {
   border: none;
   padding: 0;
   font: inherit;
+  line-height: 1.5;
   color: inherit;
 }
 
