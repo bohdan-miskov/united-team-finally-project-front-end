@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import {
   logInUser,
+  logInWithGoogle,
   logOutUser,
   refreshUser,
   registerUser,
@@ -93,6 +94,19 @@ const authSlice = createSlice({
       })
       .addCase(resetPassword.rejected, (state, action) => {
         setRejected(state, action);
+      })
+      .addCase(logInWithGoogle.pending, state => {
+        setPending(state);
+      })
+      .addCase(logInWithGoogle.fulfilled, state => {
+        state.isLoggedIn = true;
+        state.isAuthenticated = true;
+        state.isLoading = false;
+      })
+      .addCase(logInWithGoogle.rejected, (state, action) => {
+        setRejected(state, action);
+        state.isLoggedIn = false;
+        state.isAuthenticated = false;
       });
   },
 });

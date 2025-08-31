@@ -14,8 +14,9 @@ import styles from './registrationForm.module.css';
 import ErrorToastMessage from '../ErrorToastMessage/ErrorToastMessage';
 //import SuccessToastMessage from '../SuccessToastMessage/SuccessToastMessage';
 import { ERROR_MESSAGES } from '../../constants/index.js';
-import { GoogleLogin } from '@react-oauth/google';
-import { logInWithGoogle } from '../../redux/auth/operations';
+import GoogleLoginButton from '../GoogleLoginButton/GoogleLoginButton.jsx';
+// import { GoogleLogin } from '@react-oauth/google';
+// import { logInWithGoogle } from '../../redux/auth/operations';
 
 const RegisterSchema = Yup.object().shape({
   name: Yup.string()
@@ -92,21 +93,21 @@ export default function RegistrationForm() {
     }
   };
 
-  const handleGoogleSuccess = async credentialResponse => {
-    try {
-      const token = credentialResponse.credential;
+  // const handleGoogleSuccess = async credentialResponse => {
+  //   try {
+  //     const token = credentialResponse.credential;
 
-      await dispatch(logInWithGoogle(token)).unwrap();
-      navigate('/', { replace: true });
-    } catch (error) {
-      console.error('Google login error:', error);
-      setErrorMessage('Google authorization failed');
-    }
-  };
+  //     await dispatch(logInWithGoogle(token)).unwrap();
+  //     navigate('/', { replace: true });
+  //   } catch (error) {
+  //     console.error('Google login error:', error);
+  //     setErrorMessage('Google authorization failed');
+  //   }
+  // };
 
-  const handleGoogleFailure = () => {
-    setErrorMessage('Google sign-in failed. Try again.');
-  };
+  // const handleGoogleFailure = () => {
+  //   setErrorMessage('Google sign-in failed. Try again.');
+  // };
 
   useEffect(() => {
     if (successMessage) {
@@ -368,15 +369,8 @@ export default function RegistrationForm() {
               </button>
 
               <div className={styles.googleWrapper}>
-                <GoogleLogin
-                  onSuccess={handleGoogleSuccess}
-                  onError={handleGoogleFailure}
-                  shape="rectangular"
-                  theme="filled_blue"
-                  text="signup_with"
-                  width="100%"
-                  ui_locales="en"
-                />
+                <GoogleLoginButton redirectTo="/" />
+                {/* <GoogleButton /> */}
               </div>
 
               <p className={styles.redirectText}>
