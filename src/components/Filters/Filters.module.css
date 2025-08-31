@@ -1,4 +1,7 @@
 .filtersSection {
+  padding: 0;
+}
+.filtersContainer {
   display: flex;
   justify-content: space-between;
   align-items: center;
