@@ -4,8 +4,6 @@ import * as Yup from 'yup';
 import css from './AddRecipeForm.module.css';
 import { useNavigate } from 'react-router-dom';
 
-//ANCHOR - import { toast } from 'react-toastify';
-
 import Select from 'react-select';
 
 /*redux*/
@@ -84,16 +82,16 @@ export default function AddRecipeForm({ id }) {
             amount: '',
             image: null,
             ingredients: recipe.ingredients.map(i => ({
-              id: i.id,
+              id: i._id,
               name: i.name,
-              amount: i.amount,
+              amount: i.measure,
             })),
           });
           setSelectedIngredients(
             recipe.ingredients.map(i => ({
               id: i.id,
               name: i.name,
-              amount: i.amount,
+              amount: i.measure,
             }))
           );
           if (recipe.thumb) setPreview(recipe.thumb);
