@@ -115,7 +115,7 @@ export default function RecipeDetails({ recipe }) {
               </div>
               <button
                 type="button"
-                className={`brown-btn ${css.button}`}
+                className={`${css.button} brown-btn`}
                 onClick={() => {
                   !isLoggedIn ? openAuthModal() : handleBookmark();
                 }}
@@ -140,7 +140,9 @@ export default function RecipeDetails({ recipe }) {
                 <ul className={css.ingredientsList}>
                   {recipe.ingredients.map((ingredient, idx) => {
                     return (
-                      <li key={ingredient._id || idx}>• {ingredient.name}</li>
+                      <li key={ingredient._id || idx}>
+                        • {ingredient.name} — {ingredient.measure}
+                      </li>
                     );
                   })}
                 </ul>

@@ -8,6 +8,12 @@
   padding: 12px;
   background-color: var(--light-beige);
   border-radius: 16px;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card:is(:hover, :focus, :focus-visible) {
+  transform: scale(1.03);
+  box-shadow: 0 0 12px rgba(136, 14, 14, 0.6);
 }
 
 @media (min-width: 768px) {
