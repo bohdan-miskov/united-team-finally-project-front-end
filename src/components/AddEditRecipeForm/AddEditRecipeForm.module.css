@@ -111,9 +111,6 @@ select {
   gap: 16px;
 }
 
-.selectCategory {
-}
-
 .ingredientsSection {
   padding: 0;
   /* min-height: 299px; */

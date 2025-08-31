@@ -2,7 +2,12 @@ import { useState } from 'react';
 import css from './UserInfo.module.css';
 import ConfirmLogoutModal from '../ConfirmLogoutModal/ConfirmLogoutModal';
 
-export default function UserInfo({ userName = 'User', onLogout, className }) {
+export default function UserInfo({
+  userName = 'Guest',
+  onLogout,
+  className,
+  closeMenu,
+}) {
   const [showModal, setShowModal] = useState(false);
   const initial = userName?.trim()?.[0]?.toUpperCase() || '?';
 
@@ -15,7 +20,10 @@ export default function UserInfo({ userName = 'User', onLogout, className }) {
       <button
         type="button"
         className={css.logoutBtn}
-        onClick={() => setShowModal(true)}
+        onClick={() => {
+          closeMenu();
+          setShowModal(true);
+        }}
         aria-label="Logout"
         title="Logout"
       >

@@ -6,10 +6,7 @@ import { useEffect, useState } from 'react';
 import ErrorToastMessage from '../ErrorToastMessage/ErrorToastMessage';
 import SuccessToastMessage from '../SuccessToastMessage/SuccessToastMessage';
 import { requestPasswordReset } from '../../redux/auth/operations';
-import {
-  selectAuthError,
-  selectAuthIsLoading,
-} from '../../redux/auth/selectors';
+import { selectAuthIsLoading } from '../../redux/auth/selectors';
 import styles from './RequestResetForm.module.css';
 
 const RequestResetSchema = Yup.object().shape({
@@ -23,7 +20,6 @@ export default function RequestResetForm() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const isLoading = useSelector(selectAuthIsLoading);
-  const error = useSelector(selectAuthError);
   const [successMessage, setSuccessMessage] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
 

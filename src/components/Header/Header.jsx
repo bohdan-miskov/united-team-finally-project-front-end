@@ -61,7 +61,10 @@ export default function Header() {
 
   return (
     <>
-      <header className={`${css.header} ${menuOpen ? css.menuOpen : ''}`}>
+      <header
+        className={`${css.header} ${menuOpen ? css.menuOpen : ''}`}
+        id="header"
+      >
         <div className="container">
           <div className={css.container}>
             <Link className={css.logoBlock} to="/" aria-label="Go to home">
@@ -99,6 +102,7 @@ export default function Header() {
               onLogout={handleLogout}
               isMobile={true}
               isOpen={menuOpen}
+              handleLogout={() => dispatch(logOutUser())}
               setMenuOpen={setMenuOpen}
             />
           )}

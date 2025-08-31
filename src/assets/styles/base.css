@@ -25,6 +25,10 @@ body {
   background-color: var(--white);
 }
 
+body.ReactModal__Body--open {
+  overflow: hidden;
+}
+
 section {
   padding: 48px 0;
 }

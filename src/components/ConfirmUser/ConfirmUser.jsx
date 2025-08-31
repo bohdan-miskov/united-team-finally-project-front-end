@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { confirmUser } from '../../redux/auth/operations';
 import {
   selectAuthError,
@@ -12,6 +12,7 @@ import FullScreenLoader from '../FullScreenLoader/FullScreenLoader';
 
 export default function ConfirmUser() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { token } = useParams();
   const isLoading = useSelector(selectAuthIsLoading);
   const error = useSelector(selectAuthError);
@@ -21,8 +22,18 @@ export default function ConfirmUser() {
     404: 'Sorry, your account was not found. Please register again.',
   };
   useEffect(() => {
-    dispatch(confirmUser(token));
-  }, [dispatch, token]);
+    const confirm = async () => {
+      try {
+        const res = await dispatch(confirmUser(token)).unwrap();
+        if (res) {
+          navigate('/');
+        }
+      } catch {
+        console.log();
+      }
+    };
+    confirm();
+  }, [dispatch, token, navigate]);
   return (
     <>
       {isLoading && (
