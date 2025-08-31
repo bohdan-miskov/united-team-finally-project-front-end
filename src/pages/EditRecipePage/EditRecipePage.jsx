@@ -1,8 +1,14 @@
 import { useParams } from 'react-router-dom';
-import AddRecipeForm from '../../components/AddRecipeForm/AddRecipeForm';
+import css from './EditRecipePage.module.css';
+import AddEditRecipeForm from '../../components/AddEditRecipeForm/AddEditRecipeForm';
 
 export default function EditRecipePage() {
-  const { id } = useParams();
-  console.log('EditRecipePage id:', id); // отримуємо id з URL
-  return <AddRecipeForm id={id} />;
+  const { id } = useParams(); // отримуємо id з URL
+  return (
+    <section className={css.editFormSection}>
+      <div className="container">
+        <h1 className={css.title}>Edit Recipe</h1> <AddEditRecipeForm id={id} />
+      </div>
+    </section>
+  );
 }

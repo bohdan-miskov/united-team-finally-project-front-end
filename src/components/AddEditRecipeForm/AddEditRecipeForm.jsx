@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import css from './AddRecipeForm.module.css';
+import css from './AddEditRecipeForm.module.css';
 import { useNavigate } from 'react-router-dom';
 
 import Select from 'react-select';
@@ -35,7 +35,7 @@ const validationSchema = Yup.object({
   //image: Yup.mixed(),
 });
 
-export default function AddRecipeForm({ id }) {
+export default function AddEditRecipeForm({ id }) {
   const [selectedIngredients, setSelectedIngredients] = useState([]);
   const [preview, setPreview] = useState(null);
   const [ingredientError, setIngredientError] = useState(null);
