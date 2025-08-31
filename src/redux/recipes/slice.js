@@ -61,10 +61,11 @@ const recipesSlice = createSlice({
       })
       .addCase(getAllRecipes.fulfilled, (state, action) => {
         state.all.isLoading = false;
-        state.all.items =
-          action.payload.page === 1
-            ? action.payload.items
-            : [...state.all.items, ...action.payload.items];
+        // state.all.items =
+        //   action.payload.page === 1
+        //     ? action.payload.items
+        //     : [...state.all.items, ...action.payload.items];
+        state.all.items = action.payload.items;
         state.all.hasPreviousPage = action.payload.hasPreviousPage;
         state.all.hasNextPage = action.payload.hasNextPage;
         state.all.page = action.payload.page;
@@ -116,10 +117,11 @@ const recipesSlice = createSlice({
       })
       .addCase(getFavoriteRecipes.fulfilled, (state, action) => {
         state.favorite.isLoading = false;
-        state.favorite.items =
-          action.payload.page === 1
-            ? action.payload.items
-            : [...state.favorite.items, ...action.payload.items];
+        // state.favorite.items =
+        //   action.payload.page === 1
+        //     ? action.payload.items
+        //     : [...state.favorite.items, ...action.payload.items];
+        state.favorite.items = action.payload.items;
         state.favorite.hasPreviousPage = action.payload.hasPreviousPage;
         state.favorite.hasNextPage = action.payload.hasNextPage;
         state.favorite.page = action.payload.page;
@@ -160,10 +162,11 @@ const recipesSlice = createSlice({
       })
       .addCase(getOwnRecipes.fulfilled, (state, action) => {
         state.own.isLoading = false;
-        state.own.items =
-          action.payload.page === 1
-            ? action.payload.items
-            : [...state.own.items, ...action.payload.items];
+        state.own.items = action.payload.items;
+        // state.own.items =
+        //   action.payload.page === 1
+        //     ? action.payload.items
+        //     : [...state.own.items, ...action.payload.items];
         state.own.hasPreviousPage = action.payload.hasPreviousPage;
         state.own.hasNextPage = action.payload.hasNextPage;
         state.own.page = action.payload.page;
