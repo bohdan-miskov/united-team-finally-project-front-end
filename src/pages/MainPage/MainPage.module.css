@@ -1,8 +1,10 @@
 .title {
+  line-height: 1.2;
   font-weight: 600;
   font-size: 32px;
   margin-bottom: 16px;
 }
+
 @media only screen and (min-width: 768px) {
   .title {
     font-size: 40px;
