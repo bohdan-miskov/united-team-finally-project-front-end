@@ -25,23 +25,22 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-}
-
-.pageBtn .item {
-  border:none;
-  background:transparent;
-}
-
-.active, .arrow {
-  background: var(--light-brown);
-  border-color: transparent;
-  color: var(--white);
   border-radius: 10px;
+}
+
+.pageBtn:not(:is(.active, .arrow)) {
+  border: none;
+  background: transparent;
+  color: var(--black);
+}
+
+.arrow {
+  border-radius: 10px;
+  padding: 0;
 }
 
 .paginArrow {
   fill: transparent;
-  width: 24px;
-  height: 24px;
+  stroke-width: 2px;
   stroke: currentColor;
 }
