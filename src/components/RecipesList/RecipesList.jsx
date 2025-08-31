@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import RecipeCard from '../RecipeCard/RecipeCard.jsx';
 import Pagination from '../Pagination/Pagination.jsx';
@@ -17,12 +17,12 @@ import {
   selectAllRecipesIsLoading,
   selectOwnRecipesIsLoading,
   selectFavoriteRecipesIsLoading,
-  selectOwnRecipesHasNextPage,
-  selectAllRecipesHasNextPage,
-  selectFavoriteRecipesHasNextPage,
   selectOwnRecipesError,
   selectAllRecipesError,
   selectFavoriteRecipesError,
+  selectOwnRecipesTotalPages,
+  selectFavoriteRecipesTotalPages,
+  selectAllRecipesTotalPages,
 } from '../../redux/recipes/selectors';
 import {
   selectSearchCategories,
@@ -38,8 +38,6 @@ import AuthenticateModal from '../AuthenticateModal/AuthenticateModal.jsx';
 export default function RecipesList({ recipeType }) {
   const dispatch = useDispatch();
   const [page, setPage] = useState(1);
-  const [maxPageSeen, setMaxPageSeen] = useState(1);
-  const [knownTotal, setKnownTotal] = useState(null);
 
   const [authModalIsOpen, setAuthModalOpen] = useState(false);
   const openAuthModal = () => setAuthModalOpen(true);
@@ -84,14 +82,14 @@ export default function RecipesList({ recipeType }) {
     }
   });
 
-  const hasNextPage = useSelector(state => {
+  const totalPages = useSelector(state => {
     switch (recipeType) {
       case 'own':
-        return selectOwnRecipesHasNextPage(state);
+        return selectOwnRecipesTotalPages(state);
       case 'favorites':
-        return selectFavoriteRecipesHasNextPage(state);
+        return selectFavoriteRecipesTotalPages(state);
       case 'all':
-        return selectAllRecipesHasNextPage(state);
+        return selectAllRecipesTotalPages(state);
       default:
         return false;
     }
@@ -106,8 +104,6 @@ export default function RecipesList({ recipeType }) {
 
   useEffect(() => {
     setPage(1);
-    setMaxPageSeen(1);
-    setKnownTotal(null);
   }, [
     debouncedSearchQuery,
     selectedCategories,
@@ -136,22 +132,6 @@ export default function RecipesList({ recipeType }) {
     sortOrder,
   ]);
 
-  useEffect(() => {
-    setMaxPageSeen(prev => Math.max(prev, page));
-    if (!isLoading) {
-      if (hasNextPage === false) {
-        setKnownTotal(prev => (prev ? Math.max(prev, page) : page));
-      }
-    }
-  }, [page, hasNextPage, isLoading]);
-
-  const totalPages = useMemo(() => {
-    const MIN = 6;
-    const base = knownTotal ?? maxPageSeen;
-    const maybe = page + (hasNextPage ? 1 : 0);
-    return Math.max(base, maybe, MIN);
-  }, [knownTotal, maxPageSeen, page, hasNextPage]);
-
   const isEmpty = !isLoading && (!items || items.length === 0);
 
   const emptyMessages = {
@@ -161,7 +141,7 @@ export default function RecipesList({ recipeType }) {
   };
 
   const goToPage = p => {
-    if (p < 1 || p === page || (knownTotal && p > knownTotal)) return;
+    if (p < 1 || p > totalPages || p === page) return;
     setPage(p);
   };
 
