@@ -11,7 +11,7 @@ import { wrapAsyncThunk } from '../../services/wrapAsyncThunk';
 const perPage = 12;
 
 const createSearchParams = (state, newPage) => {
-  const searchQuery = selectSearchQuery(state);
+  const searchQuery = selectSearchQuery(state).toLowerCase();
   const categories = selectSearchCategories(state);
   const ingredients = selectSearchIngredients(state);
   const sortBy = selectSortBy(state);

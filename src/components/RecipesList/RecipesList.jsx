@@ -95,7 +95,7 @@ export default function RecipesList({ recipeType }) {
   });
 
   const searchQuery = useSelector(selectSearchQuery);
-  const [debouncedSearchQuery] = useDebounce(searchQuery, 500);
+  const [debouncedSearchQuery] = useDebounce(searchQuery, 600);
   const selectedCategories = useSelector(selectSearchCategories);
   const selectedIngredients = useSelector(selectSearchIngredients);
   const sortBy = useSelector(selectSortBy);

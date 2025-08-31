@@ -56,6 +56,16 @@
   justify-content: space-between;
 }
 
+.title {
+  height: 58px;
+  overflow: hidden;
+  line-height: 1.2;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  text-overflow: ellipsis;
+}
+
 .timeBadge {
   box-sizing: border-box;
   display: flex;
@@ -84,6 +94,15 @@
   display: flex;
   flex-direction: column;
   gap: 8px;
+}
+
+.descriptionText {
+  height: 50px;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* кількість рядків */
+  -webkit-box-orient: vertical;
+  text-overflow: ellipsis;
 }
 
 .btnContainer {
