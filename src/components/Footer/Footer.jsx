@@ -1,4 +1,4 @@
-import { Link, NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useState, useCallback } from 'react';
 
@@ -6,6 +6,7 @@ import { selectIsLoggedIn } from '../../redux/auth/selectors';
 import css from './Footer.module.css';
 import Logo from '../../assets/img/logo.svg';
 import AuthenticateModal from '../AuthenticateModal/AuthenticateModal';
+import { HashLink, NavHashLink } from 'react-router-hash-link';
 
 const Footer = () => {
   const isLoggedIn = useSelector(selectIsLoggedIn);
@@ -21,7 +22,12 @@ const Footer = () => {
     <footer className={css.footer}>
       <div className="container">
         <div className={css.container}>
-          <Link className={css.logoBlock} aria-label="Go to home">
+          <HashLink
+            smooth
+            className={css.logoBlock}
+            to="/#header"
+            aria-label="Go to home"
+          >
             <img
               src={Logo}
               alt="Our logo"
@@ -30,16 +36,16 @@ const Footer = () => {
               height={30}
             />
             <span className={css.logoText}>Tasteorama</span>
-          </Link>
+          </HashLink>
 
           <p className={css.copyright}>
             © {year} Tasteorama. All rights reserved.
           </p>
 
           <nav className={css.nav} aria-label="Footer navigation">
-            <NavLink to="/" className={css.link}>
+            <NavHashLink smooth to="/#header" className={css.link}>
               Recipes
-            </NavLink>
+            </NavHashLink>
 
             {isLoggedIn ? (
               <NavLink to="/profile" className={css.link}>

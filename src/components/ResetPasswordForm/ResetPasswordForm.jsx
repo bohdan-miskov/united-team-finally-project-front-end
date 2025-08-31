@@ -6,10 +6,7 @@ import { useEffect, useState } from 'react';
 import ErrorToastMessage from '../ErrorToastMessage/ErrorToastMessage';
 import SuccessToastMessage from '../SuccessToastMessage/SuccessToastMessage';
 import { resetPassword } from '../../redux/auth/operations';
-import {
-  selectAuthError,
-  selectAuthIsLoading,
-} from '../../redux/auth/selectors';
+import { selectAuthIsLoading } from '../../redux/auth/selectors';
 import {
   calculatePasswordStrength,
   getPasswordStrengthColor,
@@ -32,7 +29,6 @@ export default function ResetPasswordForm() {
   const navigate = useNavigate();
   const { token } = useParams();
   const isLoading = useSelector(selectAuthIsLoading);
-  const error = useSelector(selectAuthError);
   const [errorMessage, setErrorMessage] = useState(null);
   const [successMessage, setSuccessMessage] = useState(null);
   const [showPassword, setShowPassword] = useState(false);

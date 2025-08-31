@@ -3,7 +3,6 @@ import api, {
   setAuthHeader,
 } from '../../services/axiosConfig';
 import { wrapAsyncThunk } from '../../services/wrapAsyncThunk';
-import { selectIsAuthenticated } from './selectors';
 
 export const registerUser = wrapAsyncThunk('auth/register', async user => {
   const response = await api.post('/auth/register', user, {
@@ -25,18 +24,11 @@ export const logOutUser = wrapAsyncThunk('auth/logOut', async () => {
   clearAuthHeader();
 });
 
-export const refreshUser = wrapAsyncThunk(
-  'auth/refresh',
-  async (_, thunkApi) => {
-    const isAuthenticated = selectIsAuthenticated(thunkApi.getState());
-    if (!isAuthenticated) {
-      return thunkApi.rejectWithValue('Is not Authenticated user');
-    }
-    const response = await api.post('/auth/refresh', {}, { skipRefresh: true });
-    setAuthHeader(response.data.data.accessToken);
-    return response.data.data;
-  }
-);
+export const refreshUser = wrapAsyncThunk('auth/refresh', async () => {
+  const response = await api.post('/auth/refresh', {}, { skipRefresh: true });
+  setAuthHeader(response.data.data.accessToken);
+  return response.data.data;
+});
 export const requestPasswordReset = wrapAsyncThunk(
   'auth/requestPasswordReset',
   async email => {
