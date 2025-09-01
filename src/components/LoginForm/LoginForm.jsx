@@ -9,7 +9,6 @@ import { logInUser } from '../../redux/auth/operations';
 import styles from './loginForm.module.css';
 //import SuccessToastMessage from '../SuccessToastMessage/SuccessToastMessage';
 import { ERROR_MESSAGES } from '../../constants';
-import { GoogleLogin } from '@react-oauth/google';
 import GoogleLoginButton from '../GoogleLoginButton/GoogleLoginButton';
 
 const LoginSchema = Yup.object().shape({
