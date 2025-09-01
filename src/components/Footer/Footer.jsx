@@ -43,14 +43,14 @@ const Footer = () => {
           </p>
 
           <nav className={css.nav} aria-label="Footer navigation">
-            <NavHashLink smooth to="/#header" className={css.link}>
+            <HashLink smooth to="/#header" className={css.link}>
               Recipes
-            </NavHashLink>
+            </HashLink>
 
             {isLoggedIn ? (
-              <NavLink to="/profile" className={css.link}>
+              <HashLink to="/profile" className={css.link}>
                 Account
-              </NavLink>
+              </HashLink>
             ) : (
               !location.pathname.includes('/auth') && (
                 <button
