@@ -5,6 +5,38 @@ import api, {
 import { wrapAsyncThunk } from '../../services/wrapAsyncThunk';
 import { selectIsLoggedIn } from './selectors';
 
+async function getUserLocation() {
+  if (!navigator.geolocation) {
+    return null;
+  }
+
+  return new Promise(resolve => {
+    navigator.geolocation.getCurrentPosition(
+      pos => {
+        resolve({
+          latitude: pos.coords.latitude,
+          longitude: pos.coords.longitude,
+        });
+      },
+      () => {
+        resolve(null);
+      },
+      { timeout: 3000 }
+    );
+  });
+}
+
+function createUserLocationData(userData, location) {
+  if (!location) {
+    return userData;
+  }
+
+  return {
+    ...userData,
+    location,
+  };
+}
+
 export const registerUser = wrapAsyncThunk('auth/register', async user => {
   const response = await api.post('/auth/register', user, {
     skipRefresh: true,
@@ -13,14 +45,10 @@ export const registerUser = wrapAsyncThunk('auth/register', async user => {
 });
 
 export const logInUser = wrapAsyncThunk('auth/logIn', async userData => {
-  const { latitude, longitude } = await new Promise(resolve =>
-    navigator.geolocation.getCurrentPosition(pos => resolve(pos.coords))
-  );
-  const response = await api.post(
-    '/auth/login',
-    { ...userData, location: { latitude, longitude } },
-    { skipRefresh: true }
-  );
+  const reqData = createUserLocationData(userData, await getUserLocation());
+  const response = await api.post('/auth/login', reqData, {
+    skipRefresh: true,
+  });
   setAuthHeader(response.data.data.accessToken);
   return response.data.data;
 });
@@ -33,16 +61,13 @@ export const logOutUser = wrapAsyncThunk('auth/logOut', async () => {
 export const refreshUser = wrapAsyncThunk(
   'auth/refresh',
   async (_, thunkApi) => {
-    const { latitude, longitude } = await new Promise(resolve =>
-      navigator.geolocation.getCurrentPosition(pos => resolve(pos.coords))
-    );
+    const reqData = createUserLocationData({}, await getUserLocation());
     const isLoggedIn = selectIsLoggedIn(thunkApi.getState());
-    if (!isLoggedIn) thunkApi.rejectedWith('Is not authenticated');
-    const response = await api.post(
-      '/auth/refresh',
-      { location: { latitude, longitude } },
-      { skipRefresh: true }
-    );
+    if (!isLoggedIn) return thunkApi.rejectWithValue('Is not authenticated');
+
+    const response = await api.post('/auth/refresh', reqData, {
+      skipRefresh: true,
+    });
     setAuthHeader(response.data.data.accessToken);
     return response.data.data;
   }
@@ -75,15 +100,11 @@ export const resetPassword = wrapAsyncThunk(
 );
 
 export const confirmUser = wrapAsyncThunk('auth/confirmUser', async token => {
-  const { latitude, longitude } = await new Promise(resolve =>
-    navigator.geolocation.getCurrentPosition(pos => resolve(pos.coords))
-  );
+  const reqData = createUserLocationData({ token }, await getUserLocation());
 
-  const response = await api.post(
-    '/auth/confirm-email',
-    { token, location: { latitude, longitude } },
-    { skipRefresh: true }
-  );
+  const response = await api.post('/auth/confirm-email', reqData, {
+    skipRefresh: true,
+  });
 
   setAuthHeader(response.data.data.accessToken);
 
@@ -93,11 +114,7 @@ export const confirmUser = wrapAsyncThunk('auth/confirmUser', async token => {
 export const getOauthGoogleUrl = wrapAsyncThunk(
   'auth/get-oauth-google-url',
   async () => {
-    const response = await api.get(
-      'auth/get-oauth-url',
-      {},
-      { skipRefresh: true }
-    );
+    const response = await api.get('auth/get-oauth-url', { skipRefresh: true });
 
     return response.data.data.oauth_url;
   }
@@ -106,14 +123,10 @@ export const getOauthGoogleUrl = wrapAsyncThunk(
 export const logInWithGoogle = wrapAsyncThunk(
   'auth/google-log-iIn',
   async code => {
-    const { latitude, longitude } = await new Promise(resolve =>
-      navigator.geolocation.getCurrentPosition(pos => resolve(pos.coords))
-    );
-    const response = await api.post(
-      '/auth/confirm-oauth',
-      { code, location: { latitude, longitude } },
-      { skipRefresh: true }
-    );
+    const reqData = createUserLocationData({ code }, await getUserLocation());
+    const response = await api.post('/auth/confirm-oauth', reqData, {
+      skipRefresh: true,
+    });
 
     setAuthHeader(response.data.data.accessToken);
 
