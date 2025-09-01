@@ -25,17 +25,23 @@
 
 .name {
   white-space: nowrap;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  text-overflow: ellipsis;
+  max-width: 130px;
 }
 
-@media only screen and (min-width: 768px) and (max-width: 1439px) {
+@media only screen and (min-width: 768px) {
   .name {
-    white-space: wrap;
     max-width: 80px;
-    overflow: hidden;
-    display: -webkit-box;
-    -webkit-line-clamp: 1;
-    -webkit-box-orient: vertical;
-    text-overflow: ellipsis;
+  }
+}
+
+@media only screen and (min-width: 1440px) {
+  .name {
+    max-width: 200px;
   }
 }
 

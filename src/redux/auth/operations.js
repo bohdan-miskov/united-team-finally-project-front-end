@@ -33,9 +33,16 @@ export const logOutUser = wrapAsyncThunk('auth/logOut', async () => {
 export const refreshUser = wrapAsyncThunk(
   'auth/refresh',
   async (_, thunkApi) => {
+    const { latitude, longitude } = await new Promise(resolve =>
+      navigator.geolocation.getCurrentPosition(pos => resolve(pos.coords))
+    );
     const isLoggedIn = selectIsLoggedIn(thunkApi.getState());
     if (!isLoggedIn) thunkApi.rejectedWith('Is not authenticated');
-    const response = await api.post('/auth/refresh', {}, { skipRefresh: true });
+    const response = await api.post(
+      '/auth/refresh',
+      { location: { latitude, longitude } },
+      { skipRefresh: true }
+    );
     setAuthHeader(response.data.data.accessToken);
     return response.data.data;
   }
