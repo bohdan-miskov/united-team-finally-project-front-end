@@ -49,8 +49,6 @@ export const requestPasswordReset = wrapAsyncThunk(
       { skipRefresh: true }
     );
     return response.data.data;
-    // await new Promise(resolve => setTimeout(resolve, 2000));
-    // return { message: 'Reset link sent' };
   }
 );
 
@@ -66,8 +64,6 @@ export const resetPassword = wrapAsyncThunk(
       { skipRefresh: true }
     );
     return response.data;
-    // await new Promise(resolve => setTimeout(resolve, 2000));
-    // return { message: 'Password reset successful' };
   }
 );
 
@@ -86,3 +82,31 @@ export const confirmUser = wrapAsyncThunk('auth/confirmUser', async token => {
 
   return response.data.data;
 });
+
+export const getOauthGoogleUrl = wrapAsyncThunk(
+  'auth/get-oauth-google-url',
+  async () => {
+    const response = await api.get(
+      'auth/get-oauth-url',
+      {},
+      { skipRefresh: true }
+    );
+
+    return response.data.data.oauth_url;
+  }
+);
+
+export const logInWithGoogle = wrapAsyncThunk(
+  'auth/google-log-iIn',
+  async code => {
+    const response = await api.post(
+      '/auth/confirm-oauth',
+      { code },
+      { skipRefresh: true }
+    );
+
+    setAuthHeader(response.data.data.accessToken);
+
+    return response.data.data;
+  }
+);

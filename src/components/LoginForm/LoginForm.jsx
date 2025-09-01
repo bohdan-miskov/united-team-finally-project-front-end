@@ -5,10 +5,11 @@ import { selectAuthIsLoading } from '../../redux/auth/selectors';
 import { useNavigate, Link } from 'react-router-dom';
 import { useState } from 'react';
 import ErrorToastMessage from '../ErrorToastMessage/ErrorToastMessage';
-import { logInUser } from '../../redux/auth/operations';
+import { logInUser, logInWithGoogle } from '../../redux/auth/operations';
 import styles from './loginForm.module.css';
 //import SuccessToastMessage from '../SuccessToastMessage/SuccessToastMessage';
 import { ERROR_MESSAGES } from '../../constants';
+import { GoogleLogin } from '@react-oauth/google';
 
 const LoginSchema = Yup.object().shape({
   email: Yup.string()
@@ -52,6 +53,22 @@ export default function LoginForm() {
     } finally {
       setSubmitting(false);
     }
+  };
+
+  const handleGoogleSuccess = async credentialResponse => {
+    try {
+      const credential = credentialResponse.credential;
+
+      await dispatch(logInWithGoogle(credential)).unwrap();
+      navigate('/', { replace: true });
+    } catch (error) {
+      console.error('Google login error:', error);
+      setErrorMessage('Google authorization failed');
+    }
+  };
+
+  const handleGoogleFailure = () => {
+    setErrorMessage('Google sign-in failed. Try again.');
   };
 
   return (
@@ -159,6 +176,17 @@ export default function LoginForm() {
             >
               {isLoading || isSubmitting ? 'Logging in...' : 'Login'}
             </button>
+            <div className={styles.googleWrapper}>
+              <GoogleLogin
+                onSuccess={handleGoogleSuccess}
+                onError={handleGoogleFailure}
+                shape="rectangular"
+                theme="filled_blue"
+                text="signin_with"
+                width="100%"
+                useOneTap={false}
+              />
+            </div>
             <p className={styles.redirectText}>
               <Link to="/auth/request-reset" className={styles.link}>
                 Forgot password?

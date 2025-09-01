@@ -14,6 +14,9 @@ import styles from './registrationForm.module.css';
 import ErrorToastMessage from '../ErrorToastMessage/ErrorToastMessage';
 import SuccessToastMessage from '../SuccessToastMessage/SuccessToastMessage';
 import { ERROR_MESSAGES } from '../../constants/index.js';
+import GoogleLoginButton from '../GoogleLoginButton/GoogleLoginButton.jsx';
+// import { GoogleLogin } from '@react-oauth/google';
+// import { logInWithGoogle } from '../../redux/auth/operations';
 
 const RegisterSchema = Yup.object().shape({
   name: Yup.string()
@@ -92,6 +95,22 @@ export default function RegistrationForm() {
       setSubmitting(false);
     }
   };
+
+  // const handleGoogleSuccess = async credentialResponse => {
+  //   try {
+  //     const token = credentialResponse.credential;
+
+  //     await dispatch(logInWithGoogle(token)).unwrap();
+  //     navigate('/', { replace: true });
+  //   } catch (error) {
+  //     console.error('Google login error:', error);
+  //     setErrorMessage('Google authorization failed');
+  //   }
+  // };
+
+  // const handleGoogleFailure = () => {
+  //   setErrorMessage('Google sign-in failed. Try again.');
+  // };
 
   useEffect(() => {
     if (successMessage) {
@@ -353,6 +372,10 @@ export default function RegistrationForm() {
               >
                 {isLoading || isSubmitting ? 'Creating...' : 'Create account'}
               </button>
+
+              <div className={styles.googleWrapper}>
+                <GoogleLoginButton />
+              </div>
 
               <p className={styles.redirectText}>
                 Already have an account?{' '}
