@@ -1,17 +1,36 @@
 .form {
   display: flex;
   flex-direction: column;
-  gap: 40px;
-  max-width: 393px;
+  gap: 24px;
   margin: 0 auto;
   max-width: 100%;
 }
 
 /* Заголовки секцій */
-.sectionTitle {
-  font-weight: 600;
+.sectionTitleUpload {
+  margin-bottom: 4px;
   font-size: 24px;
+  font-weight: 600;
+}
+
+.sectionTitleGeneral {
   margin-bottom: 16px;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.sectionTitleIngredient {
+  margin-bottom: 32px;
+  font-size: 24px;
+  font-weight: 600;
+
+}
+
+.sectionTitleInstructions {
+  margin-bottom: 16px;
+  font-size: 24px;
+  font-weight: 600;
+
 }
 
 /* Маленькі лейбли */
@@ -28,6 +47,8 @@
   height: 416px;
   padding: 0;
 }
+
+
 
 .uploadItem {
   display: flex;
@@ -46,9 +67,19 @@
   position: relative;
 }
 
+.uploadIcon {
+  width: 82px;
+  height: 82px;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+}
+
 .imageUpload svg {
   stroke: var(--black-2);
   fill: none;
+  width: 52px;
+  height: 52px;
 }
 
 .imageUpload img {
@@ -209,12 +240,14 @@ select {
   width: 100%;
   height: 144px;
 }
+
 .ingredientsBtnContainer {
   display: flex;
   flex-direction: column;
   gap: 8px;
   /* justify-content: space-between; */
 }
+
 /* Кнопки */
 .button {
   width: 100%;
@@ -241,10 +274,40 @@ select {
 @media (min-width: 768px) {
   .form {
     width: 100%;
+    gap: 16px;
+  }
+
+  .rightGoup {
+    margin-bottom: 24px;
+  }
+
+  .sectionTitleUpload,
+  .sectionTitleGeneral,
+  .sectionTitleIngredient,
+  .sectionTitleInstructions {
+    font-size: 32px;
+    font-weight: 600;
+  }
+
+  .sectionTitleUpload {
+    margin-bottom: 4px;
+  }
+
+  .sectionTitleGeneral {
+    margin-bottom: 32px;
+  }
+
+
+  .sectionTitleUpload {
+    height: 70px;
+    display: flex;
+    align-items: center;
+    font-size: 32px;
   }
 
   .generalSection {
     min-height: 571px;
+    margin-top: 16px;
   }
 
   .descriptionItem {
@@ -265,6 +328,7 @@ select {
     flex-direction: row;
     /* justify-content: space-between; */
   }
+
   .ingredientsSection button {
     display: block;
     margin-left: auto;
@@ -277,7 +341,7 @@ select {
 
   .wrapp {
     gap: 24px;
-    margin-bottom: 40px;
+    /*margin-bottom: 40px;*/
   }
 
   .ingredientName {
@@ -339,10 +403,20 @@ select {
   .imageUpload {
     height: 374px;
   }
-  .imageUpload svg {
+
+  .uploadIcon {
     width: 163px;
     height: 136px;
   }
+
+  .imageUpload svg {
+    width: 99px;
+    height: 82px;
+
+  }
+
+
+
 
   .ingredientsSection button {
     border: 1px solid var(--light-brown);
@@ -369,6 +443,7 @@ select {
     width: 332px;
     height: 20px;
   }
+
   /* .ingredientsSection {
     min-height: 240px;
   } */
