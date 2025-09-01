@@ -9,6 +9,7 @@ import { logInUser } from '../../redux/auth/operations';
 import styles from './loginForm.module.css';
 //import SuccessToastMessage from '../SuccessToastMessage/SuccessToastMessage';
 import { ERROR_MESSAGES } from '../../constants';
+import GoogleLoginButton from '../GoogleLoginButton/GoogleLoginButton';
 
 const LoginSchema = Yup.object().shape({
   email: Yup.string()
@@ -159,6 +160,9 @@ export default function LoginForm() {
             >
               {isLoading || isSubmitting ? 'Logging in...' : 'Login'}
             </button>
+            <div className={styles.googleWrapper}>
+              <GoogleLoginButton />
+            </div>
             <p className={styles.redirectText}>
               <Link to="/auth/request-reset" className={styles.link}>
                 Forgot password?

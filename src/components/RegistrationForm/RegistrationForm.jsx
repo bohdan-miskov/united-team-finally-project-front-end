@@ -14,6 +14,7 @@ import styles from './registrationForm.module.css';
 import ErrorToastMessage from '../ErrorToastMessage/ErrorToastMessage';
 import SuccessToastMessage from '../SuccessToastMessage/SuccessToastMessage';
 import { ERROR_MESSAGES } from '../../constants/index.js';
+import GoogleLoginButton from '../GoogleLoginButton/GoogleLoginButton.jsx';
 
 const RegisterSchema = Yup.object().shape({
   name: Yup.string()
@@ -353,6 +354,10 @@ export default function RegistrationForm() {
               >
                 {isLoading || isSubmitting ? 'Creating...' : 'Create account'}
               </button>
+
+              <div className={styles.googleWrapper}>
+                <GoogleLoginButton />
+              </div>
 
               <p className={styles.redirectText}>
                 Already have an account?{' '}

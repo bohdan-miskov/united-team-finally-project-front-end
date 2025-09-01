@@ -1,7 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
 import {
   confirmUser,
+  getOauthGoogleUrl,
   logInUser,
+  logInWithGoogle,
   logOutUser,
   refreshUser,
   registerUser,
@@ -15,6 +17,7 @@ const initialState = {
   isRefreshing: false,
   isLoading: false,
   error: null,
+  oauthUrl: null,
 };
 
 const authSlice = createSlice({
@@ -94,6 +97,28 @@ const authSlice = createSlice({
       })
       .addCase(confirmUser.rejected, (state, action) => {
         setRejected(state, action);
+      })
+      .addCase(getOauthGoogleUrl.pending, state => {
+        setPending(state);
+      })
+      .addCase(getOauthGoogleUrl.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.oauthUrl = action.payload;
+      })
+      .addCase(getOauthGoogleUrl.rejected, (state, action) => {
+        setRejected(state, action);
+        state.oauthUrl = null;
+      })
+      .addCase(logInWithGoogle.pending, state => {
+        setPending(state);
+      })
+      .addCase(logInWithGoogle.fulfilled, state => {
+        state.isLoggedIn = true;
+        state.isLoading = false;
+      })
+      .addCase(logInWithGoogle.rejected, (state, action) => {
+        setRejected(state, action);
+        state.isLoggedIn = false;
       });
   },
 });
