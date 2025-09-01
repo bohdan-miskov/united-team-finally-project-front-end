@@ -36,6 +36,7 @@ import Loader from '../Loader/Loader.jsx';
 import AuthenticateModal from '../AuthenticateModal/AuthenticateModal.jsx';
 import ErrorToastMessage from '../ErrorToastMessage/ErrorToastMessage.jsx';
 import { ERROR_MESSAGES } from '../../constants/index.js';
+import NotFoundRecipes from '../NotFoundRecipes/NotFoundRecipes.jsx';
 
 export default function RecipesList({ recipeType }) {
   const dispatch = useDispatch();
@@ -179,9 +180,7 @@ export default function RecipesList({ recipeType }) {
         ))}
       </ul>
 
-      {isEmpty && emptyMessages[recipeType] && (
-        <p>{emptyMessages[recipeType]}</p>
-      )}
+      {isEmpty && emptyMessages[recipeType] && <NotFoundRecipes />}
 
       <Pagination page={page} totalPages={totalPages} onPageChange={goToPage} />
       <AuthenticateModal

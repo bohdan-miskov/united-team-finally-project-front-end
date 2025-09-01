@@ -29,6 +29,9 @@ const filtersSlice = createSlice({
       state.categories = [];
       state.ingredients = [];
     },
+    clearSearchQuery(state) {
+      state.searchQuery = '';
+    },
     clearSortParams(state) {
       state.sortBy = '';
       state.sortOrder = '';
@@ -51,6 +54,7 @@ export const {
   changeSearchIngredients,
   changeSortParams,
   clearFilters,
+  clearSearchQuery,
   clearSortParams,
   resetAllSearchParams,
 } = filtersSlice.actions;
