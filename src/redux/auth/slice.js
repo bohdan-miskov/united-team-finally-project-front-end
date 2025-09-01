@@ -13,7 +13,6 @@ import { setPending, setRejected } from '../helpers/statusHandlers';
 const initialState = {
   isLoggedIn: false,
   isRefreshing: false,
-  isAuthenticated: false,
   isLoading: false,
   error: null,
 };
@@ -39,12 +38,10 @@ const authSlice = createSlice({
       .addCase(logInUser.fulfilled, state => {
         state.isLoggedIn = true;
         state.isLoading = false;
-        state.isAuthenticated = true;
       })
       .addCase(logInUser.rejected, (state, action) => {
         setRejected(state, action);
         state.isLoggedIn = false;
-        state.isAuthenticated = false;
       })
       .addCase(logOutUser.pending, state => {
         setPending(state);
@@ -52,29 +49,26 @@ const authSlice = createSlice({
       .addCase(logOutUser.fulfilled, state => {
         state.isLoggedIn = false;
         state.isLoading = false;
-        state.isAuthenticated = false;
       })
       .addCase(logOutUser.rejected, (state, action) => {
         setRejected(state, action);
       })
       .addCase(refreshUser.pending, state => {
-        //state.isRefreshing = true;
+        state.isRefreshing = true;
         state.error = null;
       })
       .addCase(refreshUser.fulfilled, state => {
-        state.isAuthenticated = true;
         state.isLoggedIn = true;
-        //state.isRefreshing = false;
+        state.isRefreshing = false;
       })
       .addCase(refreshUser.rejected, state => {
-        //state.isRefreshing = false;
-        state.isAuthenticated = false;
+        state.isRefreshing = false;
         state.isLoggedIn = false;
       })
       .addCase(requestPasswordReset.pending, state => {
         setPending(state);
       })
-      .addCase(requestPasswordReset.fulfilled, (state, action) => {
+      .addCase(requestPasswordReset.fulfilled, state => {
         state.isLoading = false;
         // state.message = action.payload.message;
       })
@@ -84,7 +78,7 @@ const authSlice = createSlice({
       .addCase(resetPassword.pending, state => {
         setPending(state);
       })
-      .addCase(resetPassword.fulfilled, (state, action) => {
+      .addCase(resetPassword.fulfilled, state => {
         state.isLoading = false;
         // state.message = action.payload.message;
       })
@@ -97,7 +91,6 @@ const authSlice = createSlice({
       .addCase(confirmUser.fulfilled, state => {
         state.isLoggedIn = true;
         state.isLoading = false;
-        state.isAuthenticated = true;
       })
       .addCase(confirmUser.rejected, (state, action) => {
         setRejected(state, action);

@@ -39,11 +39,12 @@ export default function LoginForm() {
 
   const handleSubmit = async (values, { setSubmitting, resetForm }) => {
     try {
+      setErrorMessage(null);
       await dispatch(logInUser(values)).unwrap();
       resetForm();
 
       //setSuccessMessage('Login successful!');
-      setErrorMessage(null);
+
       navigate('/', { replace: true });
     } catch (error) {
       setErrorMessage(errors[error.status] ?? 'Connection error');

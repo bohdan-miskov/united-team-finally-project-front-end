@@ -44,6 +44,7 @@ export default function ResetPasswordForm() {
   };
 
   const handleSubmit = async (values, { setSubmitting, resetForm }) => {
+    console.log('good');
     if (!token) {
       setErrorMessage(
         'No reset token provided. Please request a new password reset.'
@@ -86,7 +87,7 @@ export default function ResetPasswordForm() {
       {successMessage && (
         <SuccessToastMessage>{successMessage}</SuccessToastMessage>
       )}
-      <ErrorToastMessage>{errorMessage}</ErrorToastMessage>
+      {errorMessage && <ErrorToastMessage>{errorMessage}</ErrorToastMessage>}
       <Formik
         initialValues={{ password: '', confirmPassword: '' }}
         validationSchema={ResetPasswordSchema}

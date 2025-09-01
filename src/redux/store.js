@@ -22,7 +22,7 @@ import persistStore from 'redux-persist/es/persistStore';
 const authPersistConfig = {
   key: 'auth',
   storage,
-  whitelist: ['isAuthenticated'],
+  whitelist: ['isLoggedIn'],
 };
 
 const persistAuthReducer = persistReducer(authPersistConfig, authReducer);

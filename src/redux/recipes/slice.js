@@ -112,7 +112,7 @@ const recipesSlice = createSlice({
       })
       .addCase(deleteRecipe.rejected, state => {
         //setRejected(state.own, action);
-        state.all.isLoading = false;
+        state.own.isLoading = false;
       })
       .addCase(getFavoriteRecipes.pending, state => {
         setPending(state.favorite);
