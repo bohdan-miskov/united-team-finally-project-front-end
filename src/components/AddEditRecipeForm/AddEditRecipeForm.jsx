@@ -223,7 +223,7 @@ export default function AddEditRecipeForm({ id }) {
             {/* Upload Photo*/}
             <div className={css.rightGoup}>
               <section className={css.uploadSection}>
-                <h2 className={css.sectionTitle}>Upload Photo</h2>
+                <h2 className={css.sectionTitleUpload}>Upload Photo</h2>
                 <div className={css.uploadItem}>
                   <label htmlFor="thumb" className={css.imageUpload}>
                     <input
@@ -231,15 +231,17 @@ export default function AddEditRecipeForm({ id }) {
                       name="image"
                       type="file"
                       accept="image/*"
-                      className={css.hiddenInput}
+                      className={`${css.hiddenInput} ${css.input}`}
                       onChange={e => handleImageChange(e, setFieldValue)}
                     />
                     {preview ? (
                       <img src={preview} alt="Preview" width="150" />
                     ) : (
-                      <svg width="82" height="82">
-                        <use href="/icons.svg#icon-photo"></use>
-                      </svg>
+                      <div className={css.uploadIcon}>
+                        <svg>
+                          <use href="/icons.svg#icon-photo"></use>
+                        </svg>
+                      </div>
                     )}
                   </label>
                 </div>
@@ -253,13 +255,14 @@ export default function AddEditRecipeForm({ id }) {
             {/* General Information */}
             <div className={css.leftGroup}>
               <section className={css.generalSection}>
-                <h2 className={css.sectionTitle}>General Information</h2>
+                <h2 className={css.sectionTitleGeneral}>General Information</h2>
                 <div className={css.generalItems}>
                   <div className={css.descriptionItem}>
                     <label className={css.smallTitle}>Recipe Title</label>
                     <Field
                       name="title"
                       type="text"
+                      className={css.input}
                       placeholder="Enter the name of your recipe"
                     />
                     <ErrorMessage
@@ -286,9 +289,14 @@ export default function AddEditRecipeForm({ id }) {
 
                   <div className={css.descriptionItem}>
                     <label className={css.smallTitle}>
-                      Cooking Time (minutes)
+                      Cooking Time in minutes
                     </label>
-                    <Field name="time" type="number" placeholder="10" />
+                    <Field
+                      name="time"
+                      type="number"
+                      className={css.input}
+                      placeholder="10"
+                    />
                     <ErrorMessage
                       name="time"
                       component="div"
@@ -303,7 +311,7 @@ export default function AddEditRecipeForm({ id }) {
                         name="calories"
                         type="number"
                         placeholder="150"
-                        className={css.inputC}
+                        className={css.input}
                       />
                       <ErrorMessage
                         name="calories"
@@ -367,7 +375,7 @@ export default function AddEditRecipeForm({ id }) {
 
               {/* Ingredients */}
               <section className={css.ingredientsSection}>
-                <h2 className={css.sectionTitle}>Ingredients</h2>
+                <h2 className={css.sectionTitleIngredient}>Ingredients</h2>
                 <div className={css.sectionsItems}>
                   <div className={css.ingredientName}>
                     <label className={css.smallTitle}>Name</label>
@@ -418,6 +426,7 @@ export default function AddEditRecipeForm({ id }) {
                     <Field
                       name="amount"
                       type="text"
+                      className={css.input}
                       placeholder="100g"
                       onBlur={() => setIngredientError(null)}
                     />
@@ -470,7 +479,9 @@ export default function AddEditRecipeForm({ id }) {
               </section>
               {/* Instructions */}
               <section className={css.instructionsSection}>
-                <label className={css.sectionTitle}>Instructions</label>
+                <label className={css.sectionTitleInstructions}>
+                  Instructions
+                </label>
                 <Field
                   as="textarea"
                   name="instructions"
