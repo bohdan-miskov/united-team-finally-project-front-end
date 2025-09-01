@@ -9,9 +9,10 @@ export default function NotFoundRecipes() {
       <p className={css.text}>We’re sorry! We were not able to find a match.</p>
       <button
         type="button"
-        onClick={() => {
+        onClick={e => {
           dispatch(clearFilters());
           dispatch(clearSearchQuery());
+          e.currentTarget.blur();
         }}
         className={`${css.btn} dark-outline-btn`}
       >

@@ -33,7 +33,7 @@ export default function RecipeCard({ recipe, recipeType, openModal }) {
   const isSaved =
     isFavorites || (Array.isArray(favItems) && favItems.some(r => r === _id));
 
-  const handleBookmark = () => {
+  const handleBookmark = e => {
     if (!_id) return;
     if (isSaved) {
       setDeleteTarget('favourite');
@@ -41,6 +41,7 @@ export default function RecipeCard({ recipe, recipeType, openModal }) {
     } else {
       dispatch(addRecipeToFavorite(_id));
     }
+    e.currentTarget.blur();
   };
 
   const handleEditRecipe = () => {
@@ -48,16 +49,18 @@ export default function RecipeCard({ recipe, recipeType, openModal }) {
     navigate(`/edit-recipe/${_id}`);
   };
 
-  const handleDeleteRecipe = () => {
+  const handleDeleteRecipe = e => {
     if (!_id) return;
     dispatch(deleteRecipe(_id));
     setDeleteModalOpen(false);
+    e.currentTarget.blur();
   };
 
-  const handleRemoveFromFavourites = () => {
+  const handleRemoveFromFavourites = e => {
     if (!_id) return;
     dispatch(deleteRecipeFromFavorite(_id));
     setDeleteModalOpen(false);
+    e.currentTarget.blur();
   };
 
   return (

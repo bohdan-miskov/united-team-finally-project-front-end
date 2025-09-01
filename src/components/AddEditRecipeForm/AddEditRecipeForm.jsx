@@ -431,7 +431,10 @@ export default function AddEditRecipeForm({ id }) {
                   <button
                     type="button"
                     className={`brown-btn ${css.button}`}
-                    onClick={() => handleAddIngredient(values, setFieldValue)}
+                    onClick={e => {
+                      handleAddIngredient(values, setFieldValue);
+                      e.currentTarget.blur();
+                    }}
                   >
                     Add new Ingredient
                   </button>

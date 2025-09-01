@@ -27,6 +27,18 @@
   white-space: nowrap;
 }
 
+@media only screen and (min-width: 768px) and (max-width: 1439px) {
+  .name {
+    white-space: wrap;
+    max-width: 80px;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    text-overflow: ellipsis;
+  }
+}
+
 .divider {
   width: 1px;
   height: 24px;

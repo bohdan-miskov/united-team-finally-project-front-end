@@ -18,7 +18,10 @@ export default function Pagination({ page, totalPages, onPageChange }) {
         <li>
           <button
             className={`${styles.pageBtn} brown-btn ${styles.arrow} ${styles.itemPrev}`}
-            onClick={() => onPageChange(page - 1)}
+            onClick={e => {
+              onPageChange(page - 1);
+              e.currentTarget.blur();
+            }}
             disabled={page <= 1}
           >
             <svg className={styles.paginArrow} width={24} height={24}>
@@ -33,7 +36,10 @@ export default function Pagination({ page, totalPages, onPageChange }) {
               className={`${styles.pageBtn} ${styles.item} ${
                 n === page ? `${styles.active} brown-btn` : 'outline-btn'
               }`}
-              onClick={() => onPageChange(n)}
+              onClick={e => {
+                onPageChange(n);
+                e.currentTarget.blur();
+              }}
             >
               {n}
             </button>
@@ -44,7 +50,10 @@ export default function Pagination({ page, totalPages, onPageChange }) {
           <button
             className={`${styles.pageBtn} brown-btn ${styles.arrow} ${styles.itemNext}`}
             disabled={page >= totalPages}
-            onClick={() => onPageChange(page + 1)}
+            onClick={e => {
+              onPageChange(page + 1);
+              e.currentTarget.blur();
+            }}
           >
             <svg className={styles.paginArrow} width={24} height={24}>
               <use href={'/icons.svg#icon-right-pagin-arrow'} />
