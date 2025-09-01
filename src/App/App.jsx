@@ -5,6 +5,7 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 import PrivateRoute from '../components/PrivateRoute';
 import RestrictedRoute from '../components/RestrictedRoute';
 import ConfirmUser from '../components/ConfirmUser/ConfirmUser';
+import GoogleRedirect from '../components/GoogleRedirect/GoogleRedirect';
 
 const MainPage = lazy(() => import('../pages/MainPage/MainPage'));
 const RecipeViewPage = lazy(() =>
@@ -69,6 +70,7 @@ function App() {
               element={<ResetPasswordForm />}
             />
             <Route path="confirm-email/:token" element={<ConfirmUser />} />
+            <Route path="google-redirect" element={<GoogleRedirect />} />
           </Route>
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>

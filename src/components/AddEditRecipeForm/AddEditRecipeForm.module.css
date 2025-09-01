@@ -1,17 +1,34 @@
 .form {
   display: flex;
   flex-direction: column;
-  gap: 40px;
-  max-width: 393px;
+  gap: 24px;
   margin: 0 auto;
   max-width: 100%;
 }
 
 /* Заголовки секцій */
-.sectionTitle {
-  font-weight: 600;
+.sectionTitleUpload {
+  margin-bottom: 4px;
   font-size: 24px;
+  font-weight: 600;
+}
+
+.sectionTitleGeneral {
   margin-bottom: 16px;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.sectionTitleIngredient {
+  margin-bottom: 32px;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.sectionTitleInstructions {
+  margin-bottom: 16px;
+  font-size: 24px;
+  font-weight: 600;
 }
 
 /* Маленькі лейбли */
@@ -46,9 +63,19 @@
   position: relative;
 }
 
+.uploadIcon {
+  width: 82px;
+  height: 82px;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+}
+
 .imageUpload svg {
   stroke: var(--black-2);
   fill: none;
+  width: 52px;
+  height: 52px;
 }
 
 .imageUpload img {
@@ -86,14 +113,18 @@
   font-size: 18px;
   color: var(--gray);
 }
-
+@media only screen and (max-width: 390px) {
+  .textGeneral {
+    font-size: 14px;
+  }
+}
 .hiddenInput {
   display: none;
 }
 
 /* Поля вводу */
-input,
-select {
+.input,
+.select {
   border: 1px solid var(--light-gray);
   border-radius: 8px;
   padding: 12px;
@@ -102,6 +133,13 @@ select {
   max-height: 48px;
   font-size: 18px;
   color: var(--gray);
+}
+
+@media only screen and (max-width: 390px) {
+  .input,
+  .select {
+    font-size: 14px;
+  }
 }
 
 /* Грід для Calories + Category */
@@ -166,6 +204,19 @@ select {
   width: 150px;
 }
 
+@media only screen and (max-width: 390px) {
+  .spanName,
+  .spanItemsName {
+    max-width: 175px;
+    width: 100%;
+  }
+  .spanAmount,
+  .spanItemsAmount {
+    max-width: 150px;
+    width: 100%;
+  }
+}
+
 /* Рядки таблиці */
 .selectedIngredients li {
   display: grid;
@@ -173,6 +224,12 @@ select {
   grid-template-columns: 1fr 1fr auto;
   align-items: center;
   border-bottom: 1px solid var(--light-gray-3);
+}
+
+@media only screen and (max-width: 390px) {
+  .selectedIngredients li {
+    grid-template-columns: 2fr 2fr 1fr;
+  }
 }
 
 /* Кнопка видалення */
@@ -209,12 +266,14 @@ select {
   width: 100%;
   height: 144px;
 }
+
 .ingredientsBtnContainer {
   display: flex;
   flex-direction: column;
   gap: 8px;
   /* justify-content: space-between; */
 }
+
 /* Кнопки */
 .button {
   width: 100%;
@@ -241,10 +300,39 @@ select {
 @media (min-width: 768px) {
   .form {
     width: 100%;
+    gap: 16px;
+  }
+
+  .rightGoup {
+    margin-bottom: 24px;
+  }
+
+  .sectionTitleUpload,
+  .sectionTitleGeneral,
+  .sectionTitleIngredient,
+  .sectionTitleInstructions {
+    font-size: 32px;
+    font-weight: 600;
+  }
+
+  .sectionTitleUpload {
+    margin-bottom: 4px;
+  }
+
+  .sectionTitleGeneral {
+    margin-bottom: 32px;
+  }
+
+  .sectionTitleUpload {
+    height: 70px;
+    display: flex;
+    align-items: center;
+    font-size: 32px;
   }
 
   .generalSection {
     min-height: 571px;
+    margin-top: 16px;
   }
 
   .descriptionItem {
@@ -265,6 +353,7 @@ select {
     flex-direction: row;
     /* justify-content: space-between; */
   }
+
   .ingredientsSection button {
     display: block;
     margin-left: auto;
@@ -277,7 +366,7 @@ select {
 
   .wrapp {
     gap: 24px;
-    margin-bottom: 40px;
+    /*margin-bottom: 40px;*/
   }
 
   .ingredientName {
@@ -339,9 +428,15 @@ select {
   .imageUpload {
     height: 374px;
   }
-  .imageUpload svg {
+
+  .uploadIcon {
     width: 163px;
     height: 136px;
+  }
+
+  .imageUpload svg {
+    width: 99px;
+    height: 82px;
   }
 
   .ingredientsSection button {
@@ -369,6 +464,7 @@ select {
     width: 332px;
     height: 20px;
   }
+
   /* .ingredientsSection {
     min-height: 240px;
   } */
