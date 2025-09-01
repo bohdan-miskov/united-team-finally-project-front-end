@@ -12,9 +12,14 @@ export const registerUser = wrapAsyncThunk('auth/register', async user => {
 });
 
 export const logInUser = wrapAsyncThunk('auth/logIn', async userData => {
-  const response = await api.post('/auth/login', userData, {
-    skipRefresh: true,
-  });
+  const { latitude, longitude } = await new Promise(resolve =>
+    navigator.geolocation.getCurrentPosition(pos => resolve(pos.coords))
+  );
+  const response = await api.post(
+    '/auth/login',
+    { ...userData, location: { latitude, longitude } },
+    { skipRefresh: true }
+  );
   setAuthHeader(response.data.data.accessToken);
   return response.data.data;
 });
@@ -61,13 +66,17 @@ export const resetPassword = wrapAsyncThunk(
 );
 
 export const confirmUser = wrapAsyncThunk('auth/confirmUser', async token => {
+  const { latitude, longitude } = await new Promise(resolve =>
+    navigator.geolocation.getCurrentPosition(pos => resolve(pos.coords))
+  );
+
   const response = await api.post(
     '/auth/confirm-email',
-    { token },
-    {
-      skipRefresh: true,
-    }
+    { token, location: { latitude, longitude } },
+    { skipRefresh: true }
   );
+
   setAuthHeader(response.data.data.accessToken);
+
   return response.data.data;
 });
