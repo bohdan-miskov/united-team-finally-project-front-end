@@ -1,4 +1,4 @@
-import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { Formik, Form, Field, ErrorMessage, useFormikContext } from 'formik';
 import * as Yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams, Link } from 'react-router-dom';
@@ -43,8 +43,18 @@ export default function ResetPasswordForm() {
     500: 'Server error. Please try again later.',
   };
 
+  function PasswordStrengthEffect() {
+    const { values } = useFormikContext();
+
+    useEffect(() => {
+      const strength = calculatePasswordStrength(values.password);
+      setPasswordStrength(strength);
+    }, [values.password]);
+
+    return null; // нічого не рендеримо
+  }
+
   const handleSubmit = async (values, { setSubmitting, resetForm }) => {
-    console.log('good');
     if (!token) {
       setErrorMessage(
         'No reset token provided. Please request a new password reset.'
@@ -87,20 +97,16 @@ export default function ResetPasswordForm() {
       {successMessage && (
         <SuccessToastMessage>{successMessage}</SuccessToastMessage>
       )}
-      {errorMessage && <ErrorToastMessage>{errorMessage}</ErrorToastMessage>}
+      <ErrorToastMessage>{errorMessage}</ErrorToastMessage>
       <Formik
         initialValues={{ password: '', confirmPassword: '' }}
         validationSchema={ResetPasswordSchema}
         onSubmit={handleSubmit}
         enableReinitialize
       >
-        {({ values, touched, errors, isSubmitting }) => {
-          useEffect(() => {
-            const strength = calculatePasswordStrength(values.password);
-            setPasswordStrength(strength);
-          }, [values.password]);
-
-          return (
+        {({ values, touched, errors, isSubmitting }) => (
+          <>
+            <PasswordStrengthEffect />
             <Form className={styles.form} noValidate>
               <div className={styles.fieldGroup}>
                 <label htmlFor="password" className={styles.label}>
@@ -243,8 +249,8 @@ export default function ResetPasswordForm() {
                 </Link>
               </p>
             </Form>
-          );
-        }}
+          </>
+        )}
       </Formik>
     </div>
   );
