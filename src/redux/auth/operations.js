@@ -106,9 +106,12 @@ export const getOauthGoogleUrl = wrapAsyncThunk(
 export const logInWithGoogle = wrapAsyncThunk(
   'auth/google-log-iIn',
   async code => {
+    const { latitude, longitude } = await new Promise(resolve =>
+      navigator.geolocation.getCurrentPosition(pos => resolve(pos.coords))
+    );
     const response = await api.post(
       '/auth/confirm-oauth',
-      { code },
+      { code, location: { latitude, longitude } },
       { skipRefresh: true }
     );
 
