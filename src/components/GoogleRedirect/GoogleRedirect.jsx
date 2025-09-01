@@ -10,7 +10,7 @@ import ErrorToastMessage from '../ErrorToastMessage/ErrorToastMessage';
 import { ERROR_MESSAGES } from '../../constants';
 import FullScreenLoader from '../FullScreenLoader/FullScreenLoader';
 
-export default function ConfirmUser() {
+export default function GoogleRedirect() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
