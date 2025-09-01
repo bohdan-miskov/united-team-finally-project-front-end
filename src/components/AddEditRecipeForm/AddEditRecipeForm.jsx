@@ -231,7 +231,7 @@ export default function AddEditRecipeForm({ id }) {
                       name="image"
                       type="file"
                       accept="image/*"
-                      className={css.hiddenInput}
+                      className={`${css.hiddenInput} ${css.input}`}
                       onChange={e => handleImageChange(e, setFieldValue)}
                     />
                     {preview ? (
@@ -262,6 +262,7 @@ export default function AddEditRecipeForm({ id }) {
                     <Field
                       name="title"
                       type="text"
+                      className={css.input}
                       placeholder="Enter the name of your recipe"
                     />
                     <ErrorMessage
@@ -290,7 +291,12 @@ export default function AddEditRecipeForm({ id }) {
                     <label className={css.smallTitle}>
                       Cooking Time in minutes
                     </label>
-                    <Field name="time" type="number" placeholder="10" />
+                    <Field
+                      name="time"
+                      type="number"
+                      className={css.input}
+                      placeholder="10"
+                    />
                     <ErrorMessage
                       name="time"
                       component="div"
@@ -305,7 +311,7 @@ export default function AddEditRecipeForm({ id }) {
                         name="calories"
                         type="number"
                         placeholder="150"
-                        className={css.inputC}
+                        className={css.input}
                       />
                       <ErrorMessage
                         name="calories"
@@ -420,6 +426,7 @@ export default function AddEditRecipeForm({ id }) {
                     <Field
                       name="amount"
                       type="text"
+                      className={css.input}
                       placeholder="100g"
                       onBlur={() => setIngredientError(null)}
                     />
