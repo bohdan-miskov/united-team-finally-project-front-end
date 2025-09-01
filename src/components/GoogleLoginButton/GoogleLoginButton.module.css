@@ -1,0 +1,48 @@
+.wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 16px;
+}
+
+.googleBtn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  background-color: #fdfaf7; /* молочно-бежевий */
+  color: #4a3b32; /* теплий коричневий для тексту */
+
+  font-weight: 500;
+  font-size: 16px;
+  padding: 12px 24px;
+  border: 1px solid #d4c4b5; /* теплий бежевий */
+  border-radius: 8px;
+  text-decoration: none;
+
+  transition: background-color 0.25s ease, box-shadow 0.25s ease,
+    transform 0.1s ease;
+  box-shadow: 0 2px 6px rgba(74, 59, 50, 0.1);
+}
+
+.googleBtn:hover {
+  background-color: #f5ede7; /* трохи темніший бежевий */
+  box-shadow: 0 4px 10px rgba(74, 59, 50, 0.15);
+  transform: translateY(-2px);
+}
+
+.googleBtn:active {
+  background-color: #ebdfd6;
+  box-shadow: 0 2px 6px rgba(74, 59, 50, 0.1);
+  transform: translateY(0);
+}
+
+.googleIcon {
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+}
+
+.btnText {
+  white-space: nowrap;
+  letter-spacing: 0.3px;
+}
