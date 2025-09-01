@@ -67,6 +67,8 @@ export default function RegistrationForm() {
 
   const handleSubmit = async (values, { setSubmitting, resetForm }) => {
     try {
+      setErrorMessage(null);
+
       await dispatch(
         registerUser({
           name: values.name,
@@ -81,7 +83,6 @@ export default function RegistrationForm() {
         'We’ve sent a confirmation link to your email. Please click it to activate your account.'
       );
 
-      setErrorMessage(null);
       navigate('/', { replace: true });
     } catch (error) {
       console.error('Registration error:', error);

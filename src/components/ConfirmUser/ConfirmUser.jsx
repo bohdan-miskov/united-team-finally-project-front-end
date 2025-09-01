@@ -24,12 +24,9 @@ export default function ConfirmUser() {
   useEffect(() => {
     const confirm = async () => {
       try {
-        const res = await dispatch(confirmUser(token)).unwrap();
-        if (res) {
-          navigate('/');
-        }
-      } catch {
-        console.log();
+        await dispatch(confirmUser(token)).unwrap();
+      } finally {
+        navigate('/');
       }
     };
     confirm();

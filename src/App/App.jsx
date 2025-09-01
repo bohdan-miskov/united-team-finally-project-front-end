@@ -1,13 +1,9 @@
-import { lazy, Suspense, useEffect, useState } from 'react';
+import { lazy, Suspense } from 'react';
 import Layout from '../components/Layout/Layout';
 import { Toaster } from 'react-hot-toast';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import PrivateRoute from '../components/PrivateRoute';
 import RestrictedRoute from '../components/RestrictedRoute';
-import Refreshing from '../components/Refreshing/Refreshing';
-import { useDispatch, useSelector } from 'react-redux';
-import { refreshUser } from '../redux/auth/operations';
-import { selectIsAuthenticated } from '../redux/auth/selectors';
 import ConfirmUser from '../components/ConfirmUser/ConfirmUser';
 
 const MainPage = lazy(() => import('../pages/MainPage/MainPage'));
@@ -35,30 +31,7 @@ const EditRecipePage = lazy(() =>
 );
 
 function App() {
-  const dispatch = useDispatch();
-  const [isStartRefreshing, setIsStartRefreshing] = useState(false);
-  const [hasRefreshed, setHasRefreshed] = useState(false);
-  const isAuthenticated = useSelector(selectIsAuthenticated);
-
-  useEffect(() => {
-    async function startRefreshing() {
-      if (!isAuthenticated || hasRefreshed) return;
-      try {
-        setIsStartRefreshing(true);
-        await dispatch(refreshUser()).unwrap();
-      } finally {
-        setIsStartRefreshing(false);
-        setHasRefreshed(true);
-      }
-    }
-    startRefreshing();
-  }, [dispatch, isAuthenticated, hasRefreshed]);
-
-  return isStartRefreshing ? (
-    <>
-      <Refreshing />
-    </>
-  ) : (
+  return (
     <Layout>
       <Suspense fallback={null}>
         <Routes>

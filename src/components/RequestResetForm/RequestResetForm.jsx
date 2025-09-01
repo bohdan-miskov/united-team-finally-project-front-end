@@ -32,10 +32,10 @@ export default function RequestResetForm() {
 
   const handleSubmit = async (values, { setSubmitting, resetForm }) => {
     try {
+      setErrorMessage(null);
       await dispatch(requestPasswordReset(values.email)).unwrap();
       resetForm();
       setSuccessMessage('Password reset link sent to your email!');
-      setErrorMessage(null);
     } catch (error) {
       setErrorMessage(
         errors[error.status] ?? 'An error occurred. Please try again.'
