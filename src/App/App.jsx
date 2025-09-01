@@ -69,6 +69,7 @@ function App() {
               element={<ResetPasswordForm />}
             />
             <Route path="confirm-email/:token" element={<ConfirmUser />} />
+            <Route path="google-redirect/:token" element={<GoogleRed />} />
           </Route>
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>

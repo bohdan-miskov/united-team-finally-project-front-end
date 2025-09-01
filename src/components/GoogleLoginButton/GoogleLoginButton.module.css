@@ -1,0 +1,25 @@
+/* GoogleButton.module.css */
+.googleBtn {
+  display: inline-flex;
+  align-items: center;
+  padding: 10px 16px;
+  border-radius: 4px;
+  border: 1px solid #dadce0;
+  background: #fff;
+  color: #3c4043;
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.googleBtn:hover {
+  background: #f7f8f8;
+}
+
+.googleIcon {
+  width: 18px;
+  height: 18px;
+  margin-right: 8px;
+}
