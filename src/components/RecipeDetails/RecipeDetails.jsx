@@ -125,14 +125,12 @@ export default function RecipeDetails({ recipe }) {
                       {recipe.cals} kcal per serving
                     </p>
                   </li>
-                  {recipe.popularity && (
-                    <li>
-                      <p>
-                        <strong>Popularity: </strong>
-                        {recipe.popularity}
-                      </p>
-                    </li>
-                  )}
+                  <li>
+                    <p>
+                      <strong>Popularity: </strong>
+                      {recipe.popularity ?? 0}
+                    </p>
+                  </li>
                 </ul>
               </div>
               <button
