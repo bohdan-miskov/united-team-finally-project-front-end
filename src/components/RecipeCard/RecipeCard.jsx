@@ -47,18 +47,16 @@ export default function RecipeCard({ recipe, recipeType, openModal }) {
     navigate(`/edit-recipe/${_id}`);
   };
 
-  const handleDeleteRecipe = e => {
+  const handleDeleteRecipe = () => {
     if (!_id) return;
     dispatch(deleteRecipe(_id));
     setDeleteModalOpen(false);
-    e.currentTarget.blur();
   };
 
-  const handleRemoveFromFavourites = e => {
+  const handleRemoveFromFavourites = () => {
     if (!_id) return;
     dispatch(deleteRecipeFromFavorite(_id));
     setDeleteModalOpen(false);
-    e.currentTarget.blur();
   };
 
   return (
@@ -107,8 +105,8 @@ export default function RecipeCard({ recipe, recipeType, openModal }) {
         {isAll || isFavorites ? (
           <button
             type="button"
-            onClick={() => {
-              !isLoggedIn ? openModal() : handleBookmark();
+            onClick={e => {
+              !isLoggedIn ? openModal() : handleBookmark(e);
             }}
             aria-label={isSaved ? 'Remove from saved' : 'Save recipe'}
             className={`${styles.bookmarkBtn} ${
@@ -134,8 +132,9 @@ export default function RecipeCard({ recipe, recipeType, openModal }) {
 
             <button
               type="button"
-              onClick={() => {
+              onClick={e => {
                 setDeleteModalOpen(true);
+                e.currentTarget.blur();
               }}
               aria-label={'Remove recipe'}
               className={`${styles.bookmarkBtn} red-btn`}
