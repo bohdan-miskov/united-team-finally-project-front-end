@@ -1,0 +1,180 @@
+input,
+textarea {
+  transition: 300ms ease-in;
+  transition-property: border, box-shadow;
+}
+
+button {
+  transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+a {
+  transition: 300ms ease-in;
+}
+
+:is(input, textarea)::placeholder {
+  color: var(--gray-3);
+}
+
+:is(input, textarea):focus {
+  border: 1.5px solid var(--light-brown);
+  box-shadow: 0 0 0 4px rgba(78, 70, 180, 0.2);
+}
+
+:is(.brown-btn, .outline-btn, .dark-outline-btn, .red-btn) {
+  position: relative;
+  overflow: hidden;
+}
+
+:is(.brown-btn, .outline-btn, .dark-outline-btn, .red-btn)::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  transform: rotate(25deg) translateX(-100%);
+  animation: shine 4s linear infinite;
+  pointer-events: none;
+}
+
+:is(.brown-btn, .outline-btn, .dark-outline-btn, .transparent-btn):is(
+    :hover,
+    :active
+  ) {
+  transform: scale(0.98);
+  box-shadow: 0 0 12px rgb(93, 64, 55);
+}
+
+.brown-btn {
+  background-color: var(--light-brown);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease,
+    opacity 0.3s ease;
+}
+
+.brown-btn::before {
+  background: linear-gradient(
+    110deg,
+    rgba(255, 255, 255, 0.01),
+    rgba(255, 255, 255, 0.15),
+    rgba(255, 255, 255, 0.01)
+  );
+}
+
+.brown-btn:is(:hover, :focus, :focus-visible) {
+  background-color: var(--brown);
+}
+
+.brown-btn:active {
+  box-shadow: 0 0 0 6px rgba(78, 70, 180, 0.12), 0 0 0 2px var(--white);
+}
+
+.brown-btn:disabled {
+  box-shadow: 0 0 0 6px rgba(78, 70, 180, 0.12), 0 0 0 2px var(--white);
+  opacity: 0.3;
+}
+
+.outline-btn {
+  border: 1px solid var(--light-gray);
+  background-color: transparent;
+  transition-property: background-color, box-shadow, opacity, color;
+}
+
+.outline-btn::before {
+  background: linear-gradient(
+    110deg,
+    rgba(21, 21, 21, 0.005),
+    rgba(21, 21, 21, 0.06),
+    rgba(21, 21, 21, 0.005)
+  );
+}
+
+.outline-btn:is(:hover, :focus, :focus-visible) {
+  background-color: var(--light-gray);
+  color: var(--black);
+}
+
+.outline-btn:active {
+  box-shadow: 0 0 0 6px rgba(78, 70, 180, 0.12), 0 0 0 2px var(--white);
+  background-color: var(--light-gray);
+}
+
+.outline-btn:disabled {
+  box-shadow: 0 0 0 6px rgba(78, 70, 180, 0.12), 0 0 0 2px var(--white);
+  background-color: var(--light-gray);
+  opacity: 0.3;
+}
+
+.dark-outline-btn {
+  border: 1px solid var(--black);
+  color: var(--black);
+  background-color: transparent;
+  transition-property: background-color, box-shadow, opacity;
+}
+
+.dark-outline-btn::before {
+  background: linear-gradient(
+    110deg,
+    rgba(21, 21, 21, 0.005),
+    rgba(21, 21, 21, 0.06),
+    rgba(21, 21, 21, 0.005)
+  );
+}
+
+.dark-outline-btn:is(:hover, :focus, :focus-visible) {
+  background-color: var(--light-gray);
+}
+
+.dark-outline-btn:active {
+  box-shadow: 0 0 0 6px rgba(78, 70, 180, 0.12), 0 0 0 2px var(--white);
+  background-color: var(--light-gray);
+}
+
+.dark-outline-btn:disabled {
+  box-shadow: 0 0 0 6px rgba(78, 70, 180, 0.12), 0 0 0 2px var(--white);
+  background-color: var(--light-gray);
+  opacity: 0.3;
+}
+
+.transparent-btn {
+  padding: 0px 0px 4px 0px;
+  background-color: transparent;
+  border-bottom: 1px solid transparent;
+  border-radius: 0;
+  transition-property: border-color, opacity;
+}
+
+.transparent-btn:is(:hover, :focus, :focus-visible) {
+  opacity: 0.5;
+}
+
+.transparent-btn:active {
+  border-color: var(--white);
+}
+
+.transparent-btn:disabled {
+  opacity: 0.2;
+}
+
+.red-btn {
+  background-color: var(--red);
+  transition-property: background-color, box-shadow, opacity, color;
+}
+
+.red-btn::before {
+  background: linear-gradient(
+    110deg,
+    rgba(255, 255, 255, 0.01),
+    rgba(255, 200, 200, 0.38),
+    rgba(255, 255, 255, 0.01)
+  );
+}
+
+.red-btn:is(:hover, :focus, :focus-visible) {
+  background-color: #a10f0f;
+}
+
+.red-btn:active {
+  background-color: #c80000;
+  box-shadow: 0 0 0 6px rgba(200, 0, 0, 0.2), 0 0 0 2px #fff;
+}
