@@ -11,11 +11,13 @@ import { selectUserProfile } from '../../redux/user/selectors';
 import AuthenticateModal from '../AuthenticateModal/AuthenticateModal';
 import { ERROR_MESSAGES } from '../../constants';
 import ErrorToastMessage from '../ErrorToastMessage/ErrorToastMessage';
+import { selectRecipesOperationIsLoading } from '../../redux/recipes/selectors';
+import FullScreenLoader from '../FullScreenLoader/FullScreenLoader';
 
 export default function RecipeDetails({ recipe }) {
   const isMobile = useMediaQuery({ maxWidth: 767 });
   const isTabletOrDesktop = useMediaQuery({ minWidth: 768 });
-
+  const isLoading = useSelector(selectRecipesOperationIsLoading);
   const [errorMessage, setErrorMessage] = useState(null);
 
   const dispatch = useDispatch();
@@ -181,6 +183,7 @@ export default function RecipeDetails({ recipe }) {
         title="Error while saving"
         content="To save this recipe, you need to authorize first"
       />
+      {isLoading && <FullScreenLoader text={'Just a moment...'} />}
       {errorMessage && <ErrorToastMessage>{errorMessage}</ErrorToastMessage>}
     </>
   );

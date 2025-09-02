@@ -14,12 +14,8 @@ import {
   selectAllRecipesItems,
   selectOwnRecipesItems,
   selectFavoriteRecipesItems,
-  selectAllRecipesIsLoading,
-  selectOwnRecipesIsLoading,
-  selectFavoriteRecipesIsLoading,
-  selectOwnRecipesError,
-  selectAllRecipesError,
-  selectFavoriteRecipesError,
+  selectRecipesListIsLoading,
+  selectRecipesListError,
   selectOwnRecipesTotalPages,
   selectFavoriteRecipesTotalPages,
   selectAllRecipesTotalPages,
@@ -66,31 +62,9 @@ export default function RecipesList({ recipeType }) {
     }
   });
 
-  const isLoading = useSelector(state => {
-    switch (recipeType) {
-      case 'own':
-        return selectOwnRecipesIsLoading(state);
-      case 'favorites':
-        return selectFavoriteRecipesIsLoading(state);
-      case 'all':
-        return selectAllRecipesIsLoading(state);
-      default:
-        return 0;
-    }
-  });
+  const isLoading = useSelector(selectRecipesListIsLoading);
 
-  const error = useSelector(state => {
-    switch (recipeType) {
-      case 'own':
-        return selectOwnRecipesError(state);
-      case 'favorites':
-        return selectFavoriteRecipesError(state);
-      case 'all':
-        return selectAllRecipesError(state);
-      default:
-        return 0;
-    }
-  });
+  const error = useSelector(selectRecipesListError);
 
   const totalPages = useSelector(state => {
     switch (recipeType) {
