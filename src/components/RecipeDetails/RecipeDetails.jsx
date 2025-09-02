@@ -135,6 +135,7 @@ export default function RecipeDetails({ recipe }) {
               </div>
               <button
                 type="button"
+                disabled={isLoading}
                 className={`${css.button} brown-btn`}
                 onClick={() => {
                   !isLoggedIn ? openAuthModal() : handleBookmark();
