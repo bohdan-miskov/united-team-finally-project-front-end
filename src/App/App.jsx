@@ -1,4 +1,4 @@
-import { lazy, Suspense } from 'react';
+import { lazy, Suspense, useEffect } from 'react';
 import Layout from '../components/Layout/Layout';
 import { Toaster } from 'react-hot-toast';
 import { Navigate, Route, Routes } from 'react-router-dom';
@@ -6,6 +6,8 @@ import PrivateRoute from '../components/PrivateRoute';
 import RestrictedRoute from '../components/RestrictedRoute';
 import ConfirmUser from '../components/ConfirmUser/ConfirmUser';
 import GoogleRedirect from '../components/GoogleRedirect/GoogleRedirect';
+import { useDispatch } from 'react-redux';
+import { refreshUser } from '../redux/auth/operations';
 
 const MainPage = lazy(() => import('../pages/MainPage/MainPage'));
 const RecipeViewPage = lazy(() =>
@@ -32,6 +34,10 @@ const EditRecipePage = lazy(() =>
 );
 
 function App() {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(refreshUser());
+  }, [dispatch]);
   return (
     <Layout>
       <Suspense fallback={null}>
