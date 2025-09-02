@@ -2,7 +2,10 @@ import { useState, useEffect, useCallback } from 'react';
 import { useNavigate, Link, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { selectIsLoggedIn } from '../../redux/auth/selectors';
+import {
+  selectIsInitialized,
+  selectIsLoggedIn,
+} from '../../redux/auth/selectors';
 import { logOutUser } from '../../redux/auth/operations';
 
 import Logo from '../../assets/img/logo.svg';
@@ -26,6 +29,7 @@ export default function Header() {
   const error = useSelector(selectUserError);
 
   const isLoggedIn = useSelector(selectIsLoggedIn);
+  const isInitialized = useSelector(selectIsInitialized);
 
   const errorMessages = {
     ...ERROR_MESSAGES,
@@ -33,8 +37,12 @@ export default function Header() {
   };
 
   useEffect(() => {
-    isLoggedIn && dispatch(getUserInfo());
-  }, [dispatch, isLoggedIn]);
+    if (!isLoggedIn || !isInitialized) {
+      return;
+    }
+
+    dispatch(getUserInfo());
+  }, [dispatch, isLoggedIn, isInitialized]);
 
   const userName = useSelector(selectUserProfile)?.name ?? 'Guest';
 

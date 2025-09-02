@@ -15,6 +15,7 @@ import { setPending, setRejected } from '../helpers/statusHandlers';
 const initialState = {
   isLoggedIn: false,
   isRefreshing: false,
+  isInitialized: false,
   isLoading: false,
   error: null,
   oauthUrl: null,
@@ -40,11 +41,13 @@ const authSlice = createSlice({
       })
       .addCase(logInUser.fulfilled, state => {
         state.isLoggedIn = true;
+        state.isInitialized = true;
         state.isLoading = false;
       })
       .addCase(logInUser.rejected, (state, action) => {
         setRejected(state, action);
         state.isLoggedIn = false;
+        state.isInitialized = false;
       })
       .addCase(logOutUser.pending, state => {
         setPending(state);
@@ -52,6 +55,7 @@ const authSlice = createSlice({
       .addCase(logOutUser.fulfilled, state => {
         state.isLoggedIn = false;
         state.isLoading = false;
+        state.isInitialized = false;
       })
       .addCase(logOutUser.rejected, (state, action) => {
         setRejected(state, action);
@@ -63,10 +67,12 @@ const authSlice = createSlice({
       .addCase(refreshUser.fulfilled, state => {
         state.isLoggedIn = true;
         state.isRefreshing = false;
+        state.isInitialized = true;
       })
       .addCase(refreshUser.rejected, state => {
         state.isRefreshing = false;
         state.isLoggedIn = false;
+        state.isInitialized = false;
       })
       .addCase(requestPasswordReset.pending, state => {
         setPending(state);
@@ -115,10 +121,12 @@ const authSlice = createSlice({
       .addCase(logInWithGoogle.fulfilled, state => {
         state.isLoggedIn = true;
         state.isLoading = false;
+        state.isInitialized = true;
       })
       .addCase(logInWithGoogle.rejected, (state, action) => {
         setRejected(state, action);
         state.isLoggedIn = false;
+        state.isInitialized = false;
       });
   },
 });
