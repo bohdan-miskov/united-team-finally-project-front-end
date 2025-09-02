@@ -24,6 +24,8 @@ import { createRecipe, updateRecipe } from '../../redux/recipes/operations';
 import { getRecipeDetails } from '../../redux/recipeDetails/operations';
 import ErrorToastMessage from '../ErrorToastMessage/ErrorToastMessage';
 import { ERROR_MESSAGES } from '../../constants';
+import FullScreenLoader from '../FullScreenLoader/FullScreenLoader';
+import { selectRecipesOperationIsLoading } from '../../redux/recipes/selectors';
 
 const validationSchema = Yup.object({
   title: Yup.string().max(64).required('Required'),
@@ -47,6 +49,7 @@ export default function AddEditRecipeForm({ id }) {
 
   const categoriesLoading = useSelector(selectCategoriesIsLoading);
   const ingredientsLoading = useSelector(selectIngredientsIsLoading);
+  const isLoading = useSelector(selectRecipesOperationIsLoading);
   const [errorMessage, setErrorMessage] = useState(null);
 
   const navigate = useNavigate();
@@ -506,6 +509,7 @@ export default function AddEditRecipeForm({ id }) {
           </Form>
         )}
       </Formik>
+      {isLoading && <FullScreenLoader text={'Just a moment...'} />}
       {errorMessage && <ErrorToastMessage>{errorMessage}</ErrorToastMessage>}
     </>
   );
