@@ -63,8 +63,9 @@ export const refreshUser = wrapAsyncThunk(
   async (_, thunkApi) => {
     const reqData = createUserLocationData({}, await getUserLocation());
     const isLoggedIn = selectIsLoggedIn(thunkApi.getState());
-    if (!isLoggedIn) return thunkApi.rejectWithValue('Is not authenticated');
-
+    if (!isLoggedIn) {
+      thunkApi.rejectWithValue('Is not authenticated');
+    }
     const response = await api.post('/auth/refresh', reqData, {
       skipRefresh: true,
     });

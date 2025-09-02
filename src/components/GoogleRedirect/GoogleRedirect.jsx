@@ -29,7 +29,7 @@ export default function GoogleRedirect() {
         //const decodedCode = decodeURIComponent(code);
         await dispatch(logInWithGoogle(code)).unwrap();
       } finally {
-        navigate('/');
+        navigate('/', { replace: true });
       }
     };
     login();
