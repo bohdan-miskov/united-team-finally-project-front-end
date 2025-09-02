@@ -1,4 +1,4 @@
-import BaseModal from '../../BaseModal/BaseModal';
+import BaseModal from '../BaseModal/BaseModal';
 import css from './ConfirmDeleteModal.module.css';
 
 export default function ConfirmDeleteModal({ isOpen, onClose, onConfirm }) {

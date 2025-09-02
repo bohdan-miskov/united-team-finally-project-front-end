@@ -1,7 +1,8 @@
-.authPageSection:has([data-register]) {
+.authPageSection {
   padding: 56px 0 56px 0;
+  align-self: center;
 }
-
+/* 
 .authPageSection:has([data-login]) {
   padding: 91px 0 91px 0;
 }
@@ -44,4 +45,17 @@
   .authPageSection:has([data-reset-password]) {
     padding: 152px 0 152px 0;
   }
+} */
+/* authPage.module.css */
+
+.container {
+  display: flex;
+  justify-content: center;
+
+  align-items: center;
+  min-height: 100%;
+}
+
+.container > * {
+  width: 100%;
 }

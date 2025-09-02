@@ -60,6 +60,8 @@ export default function RecipeDetails({ recipe }) {
                   className={css.img}
                   src={recipe.thumb}
                   alt={recipe.title}
+                  loading="lazy"
+                  decoding="async"
                   width={361}
                   height={276}
                 />
@@ -76,6 +78,8 @@ export default function RecipeDetails({ recipe }) {
                   className={css.img}
                   src={recipe.thumb}
                   alt={recipe.title}
+                  loading="lazy"
+                  decoding="async"
                   width={704}
                   height={624}
                 />
@@ -99,6 +103,14 @@ export default function RecipeDetails({ recipe }) {
                       {recipe.category}
                     </p>
                   </li>
+                  {recipe.area && (
+                    <li>
+                      <p>
+                        <strong>Area: </strong>
+                        {recipe.area}
+                      </p>
+                    </li>
+                  )}
                   <li>
                     <p>
                       <strong>Cooking time: </strong>
@@ -111,6 +123,14 @@ export default function RecipeDetails({ recipe }) {
                       {recipe.cals} kcal per serving
                     </p>
                   </li>
+                  {recipe.popularity && (
+                    <li>
+                      <p>
+                        <strong>Popularity: </strong>
+                        {recipe.popularity}
+                      </p>
+                    </li>
+                  )}
                 </ul>
               </div>
               <button

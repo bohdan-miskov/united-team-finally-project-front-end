@@ -10,7 +10,7 @@ import { selectUserProfile } from '../../redux/user/selectors';
 import { selectIsLoggedIn } from '../../redux/auth/selectors';
 import { useMediaQuery } from 'react-responsive';
 import { useState } from 'react';
-import ConfirmDeleteModal from './ConfirmDeleteModal/ConfirmDeleteModal';
+import ConfirmDeleteModal from '../ConfirmDeleteModal/ConfirmDeleteModal';
 
 export default function RecipeCard({ recipe, recipeType, openModal }) {
   const dispatch = useDispatch();
@@ -19,7 +19,6 @@ export default function RecipeCard({ recipe, recipeType, openModal }) {
   const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 1439 });
   const navigate = useNavigate();
   const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
-  const [deleteTarget, setDeleteTarget] = useState(null);
 
   const favItems = useSelector(selectUserProfile)?.favourites;
 
@@ -36,7 +35,6 @@ export default function RecipeCard({ recipe, recipeType, openModal }) {
   const handleBookmark = e => {
     if (!_id) return;
     if (isSaved) {
-      setDeleteTarget('favourite');
       setDeleteModalOpen(true);
     } else {
       dispatch(addRecipeToFavorite(_id));
@@ -73,6 +71,8 @@ export default function RecipeCard({ recipe, recipeType, openModal }) {
             className={styles.image}
             width={isMobile ? 337 : isTablet ? 315 : 264}
             height={isMobile ? 230 : isTablet ? 230 : 178}
+            loading="lazy"
+            decoding="async"
           />
         ) : (
           <svg className={styles.iconPhoto} width={48} height={48}>
@@ -135,7 +135,6 @@ export default function RecipeCard({ recipe, recipeType, openModal }) {
             <button
               type="button"
               onClick={() => {
-                setDeleteTarget('recipe');
                 setDeleteModalOpen(true);
               }}
               aria-label={'Remove recipe'}
@@ -153,9 +152,9 @@ export default function RecipeCard({ recipe, recipeType, openModal }) {
         isOpen={isDeleteModalOpen}
         onClose={() => setDeleteModalOpen(false)}
         onConfirm={() => {
-          if (deleteTarget === 'recipe') {
+          if (type === 'own') {
             handleDeleteRecipe();
-          } else if (deleteTarget === 'favourite') {
+          } else {
             handleRemoveFromFavourites();
           }
         }}

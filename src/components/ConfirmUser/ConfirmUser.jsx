@@ -26,7 +26,7 @@ export default function ConfirmUser() {
       try {
         await dispatch(confirmUser(token)).unwrap();
       } finally {
-        navigate('/');
+        navigate('/', { replace: true });
       }
     };
     confirm();

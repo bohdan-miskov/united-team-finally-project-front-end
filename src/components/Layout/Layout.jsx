@@ -4,8 +4,10 @@ import Header from '../Header/Header';
 import { useSelector } from 'react-redux';
 import { selectIsRefreshing } from '../../redux/auth/selectors';
 import Refreshing from '../Refreshing/Refreshing';
+
 export default function Layout({ children }) {
   const isRefreshing = useSelector(selectIsRefreshing);
+
   return (
     <div className={css.container}>
       <Header />
