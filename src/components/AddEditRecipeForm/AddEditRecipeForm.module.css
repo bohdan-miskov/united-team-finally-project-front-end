@@ -235,6 +235,7 @@
   grid-template-columns: 1fr 1fr auto;
   align-items: center;
   border-bottom: 1px solid var(--light-gray-3);
+  padding: 16px 0;
 }
 
 @media only screen and (max-width: 390px) {
@@ -403,7 +404,8 @@
     display: grid;
     grid-template-columns: 2fr 2fr 1fr;
     width: 431px;
-    height: 36px;
+    min-height: 36px;
+    padding: 8px 0;
   }
 
   .sectionsItems {
@@ -483,7 +485,7 @@
 
   .selectedIngredientsHeader.hideHeaderOnMobile {
     width: 332px;
-    height: 20px;
+    min-height: 20px;
   }
 
   /* .ingredientsSection {
@@ -492,7 +494,8 @@
 
   .selectedIngredients li {
     width: 332px;
-    height: 28px;
+    min-height: 28px;
+    padding: 4px 0;
   }
 
   .spanName,
