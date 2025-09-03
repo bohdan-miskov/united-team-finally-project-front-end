@@ -6,7 +6,7 @@ export default function IngredientsListModal({ recipe }) {
   const [servings, setServings] = useState(1);
 
   const scaledIngredients = useMemo(() => {
-    return recipe.ingredients.map((ing) => {
+    return recipe.ingredients.map(ing => {
       if (ing.unit === undefined || ing.unit === null) {
         const [q, ...rest] = (ing.measure || '').split(' ');
         return {
@@ -44,11 +44,14 @@ export default function IngredientsListModal({ recipe }) {
 
   const copyToClipboard = () => {
     const text = scaledIngredients
-      .map((ing) => `${ing.name} — ${ing.quantity} ${ing.unit}`)
+      .map(ing => `${ing.name} — ${ing.quantity} ${ing.unit}`)
       .join('\n');
 
-    navigator.clipboard.writeText(text)
-      .then(() => toast.success('Ingredients copied to clipboard!', toastOptions))
+    navigator.clipboard
+      .writeText(text)
+      .then(() =>
+        toast.success('Ingredients copied to clipboard!', toastOptions)
+      )
       .catch(() => toast.error('Failed to copy to clipboard', toastOptions));
   };
 
@@ -56,7 +59,7 @@ export default function IngredientsListModal({ recipe }) {
     const csvContent =
       'data:text/csv;charset=utf-8,' +
       scaledIngredients
-        .map((ing) => `${ing.name},${ing.quantity},${ing.unit}`)
+        .map(ing => `${ing.name},${ing.quantity},${ing.unit}`)
         .join('\n');
 
     const encodedUri = encodeURI(csvContent);
@@ -78,30 +81,31 @@ export default function IngredientsListModal({ recipe }) {
         <label>Servings: </label>
         <input
           type="number"
-          min={1}
+          min="1"
           value={servings}
-          onChange={(e) => setServings(Number(e.target.value))}
+          onChange={e => setServings(Number(e.target.value))}
         />
       </div>
-
-      <table className={css.ingredientsTable}>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Quantity</th>
-            <th>Unit</th>
-          </tr>
-        </thead>
-        <tbody>
-          {scaledIngredients.map((ing, idx) => (
-            <tr key={idx}>
-              <td>{ing.name}</td>
-              <td>{ing.quantity}</td>
-              <td>{ing.unit}</td>
+      <div className={css.tableWrapper}>
+        <table className={css.ingredientsTable}>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Quantity</th>
+              <th>Unit</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {scaledIngredients.map((ing, idx) => (
+              <tr key={idx}>
+                <td>{ing.name}</td>
+                <td>{ing.quantity}</td>
+                <td>{ing.unit}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
 
       <div className={css.actions}>
         <button onClick={copyToClipboard}>Copy to clipboard</button>
