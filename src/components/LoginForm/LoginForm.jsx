@@ -15,10 +15,12 @@ const LoginSchema = Yup.object().shape({
   email: Yup.string()
     .email('Invalid email address')
     .max(128, 'Email must be at most 128 characters')
+    .trim()
     .required('Email is required'),
   password: Yup.string()
     .min(8, 'Password must be at least 8 characters')
     .max(128, 'Password must be at most 128 characters')
+    .trim()
     .required('Password is required'),
 });
 export default function LoginForm() {

@@ -29,15 +29,32 @@ import { selectRecipesOperationIsLoading } from '../../redux/recipes/selectors';
 import { selectUnits, selectUnitsIsLoading } from '../../redux/units/selectors';
 import { getUnits } from '../../redux/units/operations';
 
+const FILE_SIZE = 2 * 1024 * 1024;
+
 const validationSchema = Yup.object({
-  title: Yup.string().max(64).required('Required'),
-  description: Yup.string().max(200).required('Required'),
+  title: Yup.string().max(64).trim().required('Required'),
+  description: Yup.string().max(200).trim().required('Required'),
   time: Yup.number().min(1).max(360).required('Required'),
   calories: Yup.number().min(1).max(1000).required('Required'),
-  category: Yup.string().required('Required'),
-  instructions: Yup.string().max(1200).required('Required'),
-
-  //image: Yup.mixed(),
+  category: Yup.string().trim().required('Required'),
+  instructions: Yup.string().max(1200).trim().required('Required'),
+  image: Yup.mixed()
+    .nullable()
+    .test('fileSize', 'Image must be less than 2MB', value => {
+      return !value || (value && value.size <= FILE_SIZE);
+    })
+    .test(
+      'fileType',
+      'Unsupported file format',
+      value =>
+        !(
+          !value ||
+          (value &&
+            ['image/jpeg', 'image/png', 'image/webp', 'image/gif'].includes(
+              value.type
+            ))
+        )
+    ),
 });
 
 export default function AddEditRecipeForm({ id }) {
@@ -96,7 +113,7 @@ export default function AddEditRecipeForm({ id }) {
               id: i._id,
               name: i.name,
               amount: i.measure,
-              unit: i.unit || 'g'
+              unit: i.unit || 'g',
             })),
           });
           setSelectedIngredients(
@@ -108,7 +125,7 @@ export default function AddEditRecipeForm({ id }) {
             }))
           );
           if (recipe.thumb) setPreview(recipe.thumb);
-        })
+        });
     }
   }, [dispatch, id]);
 
@@ -123,9 +140,9 @@ export default function AddEditRecipeForm({ id }) {
   }));
 
   const unitsOptions = units.map(o => ({
-  value: o.abbr,
-  label: o.name
-}))
+    value: o.abbr,
+    label: o.name,
+  }));
 
   const handleAddIngredient = (values, setFieldValue) => {
     const { ingredient, amount } = values;
@@ -173,7 +190,7 @@ export default function AddEditRecipeForm({ id }) {
   };
 
   const handleImageChange = (e, setFieldValue) => {
-    const file = e.target.files[0];
+    const file = e.currentTarget.files[0];
     if (file) {
       setFieldValue('image', file);
       setPreview(URL.createObjectURL(file));
