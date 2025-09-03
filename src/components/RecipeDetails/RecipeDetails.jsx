@@ -1,18 +1,20 @@
+import { useCallback, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useMediaQuery } from 'react-responsive';
-import css from './RecipeDetails.module.css';
+import { ERROR_MESSAGES } from '../../constants';
+import { selectIsLoggedIn } from '../../redux/auth/selectors';
 import {
   addRecipeToFavorite,
   deleteRecipeFromFavorite,
 } from '../../redux/recipes/operations';
-import { useDispatch, useSelector } from 'react-redux';
-import { useState, useCallback } from 'react';
-import { selectIsLoggedIn } from '../../redux/auth/selectors';
+import { selectRecipesOperationIsLoading } from '../../redux/recipes/selectors';
 import { selectUserProfile } from '../../redux/user/selectors';
 import AuthenticateModal from '../AuthenticateModal/AuthenticateModal';
-import { ERROR_MESSAGES } from '../../constants';
+import BaseModal from '../BaseModal/BaseModal';
 import ErrorToastMessage from '../ErrorToastMessage/ErrorToastMessage';
-import { selectRecipesOperationIsLoading } from '../../redux/recipes/selectors';
 import FullScreenLoader from '../FullScreenLoader/FullScreenLoader';
+import IngredientsListModal from '../IngredientsListModal/IngredientsListModal';
+import css from './RecipeDetails.module.css';
 
 export default function RecipeDetails({ recipe }) {
   const isMobile = useMediaQuery({ maxWidth: 767 });
@@ -32,6 +34,16 @@ export default function RecipeDetails({ recipe }) {
   const openAuthModal = useCallback(() => setAuthModalOpen(true), []);
   const closeAuthModal = useCallback(() => setAuthModalOpen(false), []);
 
+  const [ingreientsListModalOpen, setIngreientsListModalOpen] = useState(false);
+  const openIngreientsListModal = useCallback(
+    () => setIngreientsListModalOpen(true),
+    []
+  );
+  const closeIngreientsListModal = useCallback(
+    () => setIngreientsListModalOpen(false),
+    []
+  );
+
   const handleBookmark = async () => {
     if (!recipe._id) return;
     setErrorMessage(null);
@@ -49,7 +61,7 @@ export default function RecipeDetails({ recipe }) {
       );
     }
   };
-
+  
   return (
     <>
       <section>
@@ -162,11 +174,23 @@ export default function RecipeDetails({ recipe }) {
                   {recipe.ingredients.map((ingredient, idx) => {
                     return (
                       <li key={ingredient._id || idx}>
-                        • {ingredient.name} — {ingredient.measure}
+                        • {ingredient.name} — {ingredient.measure} {ingredient.unit}
                       </li>
                     );
                   })}
                 </ul>
+                <div className={css.btnContainer}>
+                  <button
+                    type="button"
+                    className={`brown-btn ${css.button} ${css.btn}`}
+                    onClick={e => {
+                      openIngreientsListModal();
+                      e.currentTarget.blur();
+                    }}
+                  >
+                    Get list of ingredients
+                  </button>
+                </div>
               </li>
               <li>
                 <h2 className={css.prepHeader}>Preparation Steps:</h2>
@@ -182,6 +206,12 @@ export default function RecipeDetails({ recipe }) {
         title="Error while saving"
         content="To save this recipe, you need to authorize first"
       />
+      <BaseModal
+        isOpen={ingreientsListModalOpen}
+        onClose={() => closeIngreientsListModal()}
+      >
+        <IngredientsListModal recipe={recipe} onClose={() => closeIngreientsListModal()}/>
+      </BaseModal>
       {isLoading && <FullScreenLoader text={'Just a moment...'} />}
       {errorMessage && <ErrorToastMessage>{errorMessage}</ErrorToastMessage>}
     </>

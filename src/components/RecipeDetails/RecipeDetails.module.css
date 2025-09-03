@@ -58,6 +58,22 @@
   gap: 15px;
 }
 
+.btnContainer {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.btn {
+  width: 100%;
+  height: 44px;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
 .h2 {
   margin-bottom: 8px;
 }
@@ -100,6 +116,18 @@
     padding: 17px 0;
   }
 
+  .btn {
+    border: 1px solid var(--light-brown);
+    padding: 4px 8px;
+    width: 258px;
+    height: 23px;
+    font-family: var(--font-family);
+    font-weight: 600;
+    font-size: 12px;
+    text-align: center;
+    color: var(--white);
+  }
+
   .imgContainer {
     max-height: 624px;
   }
@@ -125,5 +153,15 @@
 
   .button {
     width: 393px;
+  }
+
+  .btn {
+    display: block;
+    margin-left: auto;
+    border: 1px solid var(--light-brown);
+    border-radius: 8px;
+    padding: 4px 8px;
+    width: 249px;
+    height: 36px;
   }
 }

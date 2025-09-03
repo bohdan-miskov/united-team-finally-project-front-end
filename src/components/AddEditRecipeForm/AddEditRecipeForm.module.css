@@ -163,6 +163,17 @@
   margin-bottom: 16px;
 }
 
+.ingredientAmountSelect {
+  display: flex;
+  flex-direction: row;
+  gap: 24px;
+  justify-content: space-between;
+}
+
+.amountInput {
+  width: 45%;
+}
+
 .span {
   font-family: var(--font-family);
   font-weight: 600;
@@ -375,6 +386,16 @@
 
   .ingredientAmount {
     width: 249px;
+  }
+
+  .ingredientAmountSelect {
+    display: flex;
+    flex-direction: row;
+    gap: 24px;
+  }
+
+  .amountInput {
+    width: 45%;
   }
 
   .selectedIngredientsHeader.hideHeaderOnMobile,
