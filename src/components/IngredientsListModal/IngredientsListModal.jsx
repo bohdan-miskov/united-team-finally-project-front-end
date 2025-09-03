@@ -81,8 +81,9 @@ export default function IngredientsListModal({ recipe }) {
         <label>Servings: </label>
         <input
           type="number"
-          min="1"
-          value={servings}
+          min={1}
+          // value={servings}
+          defaultValue={1}
           onChange={e => setServings(Number(e.target.value))}
         />
       </div>
