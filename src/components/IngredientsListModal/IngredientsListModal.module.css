@@ -1,0 +1,80 @@
+.modalContent {
+  background-color: var(--light-beige-2);
+  padding: 20px;
+  border-radius: 12px;
+  max-width: 600px;
+  margin: 0 auto;
+  position: relative;
+  font-family: var(--font-family);
+  color: var(--black-2);
+}
+
+.closeButton {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: var(--dark-brown);
+}
+
+.servingsSelector {
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 500;
+}
+
+.servingsSelector label {
+  font-size: 16px;
+}
+
+.ingredientsTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 16px;
+}
+
+.ingredientsTable th,
+.ingredientsTable td {
+  border: 1px solid var(--light-gray-3);
+  padding: 8px 12px;
+  text-align: left;
+}
+
+.ingredientsTable th {
+  background-color: var(--light-beige-3);
+  font-weight: 600;
+  color: var(--dark-brown);
+}
+
+.ingredientsTable tr:nth-child(even) {
+  background-color: var(--white-80);
+}
+
+.ingredientsTable tr:hover {
+  background-color: var(--white-55);
+}
+
+.actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+.actions button {
+  padding: 8px 16px;
+  background-color: var(--brown);
+  color: var(--white);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.actions button:hover {
+  background-color: var(--dark-brown);
+}
