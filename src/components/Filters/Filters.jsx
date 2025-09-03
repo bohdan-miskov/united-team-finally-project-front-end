@@ -30,13 +30,16 @@ import {
   selectAllRecipesTotalItems,
   selectFavoriteRecipesTotalItems,
   selectOwnRecipesTotalItems,
+  selectPrevRecipeType,
 } from '../../redux/recipes/selectors';
+import { changePrevRecipeType } from '../../redux/recipes/slice';
 
 export default function Filters({ recipeType = 'all' }) {
   const dispatch = useDispatch();
   const [isOpen, setIsOpen] = useState(false);
   const sortBy = useSelector(selectSortBy);
   const sortOrder = useSelector(selectSortOrder);
+  const prevRecipeType = useSelector(selectPrevRecipeType);
   const modalRef = useRef(null);
 
   const categories = useSelector(selectCategories);
@@ -139,10 +142,16 @@ export default function Filters({ recipeType = 'all' }) {
   }, [isOpen, setIsOpen]);
 
   useEffect(() => {
-    dispatch(resetAllSearchParams());
     dispatch(getCategories());
     dispatch(getIngredients());
   }, [dispatch]);
+
+  useEffect(() => {
+    if (prevRecipeType !== recipeType) {
+      dispatch(resetAllSearchParams());
+      dispatch(changePrevRecipeType(recipeType));
+    }
+  });
 
   useEffect(() => {
     const handleClickOutside = e => {
