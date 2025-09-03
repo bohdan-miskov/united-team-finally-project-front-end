@@ -1,12 +1,14 @@
 .modalContent {
-  background-color: var(--light-beige-2);
-  padding: 20px;
   border-radius: 12px;
-  max-width: 600px;
+  max-width: 100%;
   margin: 0 auto;
   position: relative;
   font-family: var(--font-family);
   color: var(--black-2);
+}
+
+.modalContent h2 {
+  font-size: 24px;
 }
 
 .closeButton {
@@ -23,25 +25,30 @@
 .servingsSelector {
   margin-bottom: 16px;
   display: flex;
+  flex-direction: column;
   align-items: center;
   gap: 8px;
   font-weight: 500;
+  margin-top: 12px;
 }
 
 .servingsSelector label {
   font-size: 16px;
 }
-
+.tableWrapper {
+  overflow-y: scroll;
+  max-height: 400px;
+  margin-bottom: 16px;
+}
 .ingredientsTable {
   width: 100%;
   border-collapse: collapse;
-  margin-bottom: 16px;
 }
 
 .ingredientsTable th,
 .ingredientsTable td {
   border: 1px solid var(--light-gray-3);
-  padding: 8px 12px;
+  padding: 8px;
   text-align: left;
 }
 
@@ -77,4 +84,22 @@
 
 .actions button:hover {
   background-color: var(--dark-brown);
+}
+
+@media only screen and (min-width: 768px) {
+  .ingredientsTable th,
+  .ingredientsTable td {
+    padding: 8px 12px;
+  }
+  .servingsSelector {
+    flex-direction: row;
+  }
+
+  .modalContent h2 {
+    font-size: 32px;
+  }
+
+  .tableWrapper {
+    max-height: 300px;
+  }
 }
