@@ -13,6 +13,7 @@ const RequestResetSchema = Yup.object().shape({
   email: Yup.string()
     .email('Invalid email address')
     .max(128, 'Email must be at most 128 characters')
+    .trim()
     .required('Email is required'),
 });
 
