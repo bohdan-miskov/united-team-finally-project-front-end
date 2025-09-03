@@ -48,12 +48,17 @@ const initialState = {
   operationError: null,
   listLoading: false,
   listError: null,
+  prevRecipeType: '',
 };
 
 const recipesSlice = createSlice({
   name: 'recipes',
   initialState,
-  reducers: {},
+  reducers: {
+    changePrevRecipeType(state, action) {
+      state.prevRecipeType = action.payload;
+    },
+  },
   extraReducers: builder => {
     builder
       .addCase(getAllRecipes.pending, state => {
@@ -170,5 +175,7 @@ const recipesSlice = createSlice({
       });
   },
 });
+
+export const { changePrevRecipeType } = recipesSlice.actions;
 
 export default recipesSlice.reducer;

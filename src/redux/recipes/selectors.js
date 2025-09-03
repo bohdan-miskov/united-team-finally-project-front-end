@@ -4,6 +4,7 @@ export const selectRecipesOperationIsLoading = state =>
   state.recipes.operationLoading;
 export const selectRecipesOperationError = state =>
   state.recipes.operationError;
+export const selectPrevRecipeType = state => state.recipes.prevRecipeType;
 
 export const selectAllRecipesItems = state => state.recipes.all.items;
 export const selectAllRecipesHasPreviousPage = state =>

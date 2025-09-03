@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect } from 'react';
+import { lazy, Suspense, useEffect, useState } from 'react';
 import Layout from '../components/Layout/Layout';
 import { Toaster } from 'react-hot-toast';
 import { Navigate, Route, Routes } from 'react-router-dom';
@@ -8,6 +8,7 @@ import ConfirmUser from '../components/ConfirmUser/ConfirmUser';
 import GoogleRedirect from '../components/GoogleRedirect/GoogleRedirect';
 import { useDispatch } from 'react-redux';
 import { refreshUser } from '../redux/auth/operations';
+import Refreshing from '../components/Refreshing/Refreshing';
 
 const MainPage = lazy(() => import('../pages/MainPage/MainPage'));
 const RecipeViewPage = lazy(() =>
@@ -35,10 +36,23 @@ const EditRecipePage = lazy(() =>
 
 function App() {
   const dispatch = useDispatch();
+  const [isRefreshing, setIsRefreshing] = useState(false);
   useEffect(() => {
-    dispatch(refreshUser());
+    async function refresh() {
+      try {
+        setIsRefreshing(true);
+        await dispatch(refreshUser()).unwrap();
+      } catch (error) {
+        console.error('Failed to refresh user:', error);
+      } finally {
+        setIsRefreshing(false);
+      }
+    }
+    refresh();
   }, [dispatch]);
-  return (
+  return isRefreshing ? (
+    <Refreshing />
+  ) : (
     <Layout>
       <Suspense fallback={null}>
         <Routes>
