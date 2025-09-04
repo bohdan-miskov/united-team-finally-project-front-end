@@ -42,19 +42,7 @@ const validationSchema = Yup.object({
     .nullable()
     .test('fileSize', 'Image must be less than 2MB', value => {
       return !value || (value && value.size <= FILE_SIZE);
-    })
-    .test(
-      'fileType',
-      'Unsupported file format',
-      value =>
-        !(
-          !value ||
-          (value &&
-            ['image/jpeg', 'image/png', 'image/webp', 'image/gif'].includes(
-              value.type
-            ))
-        )
-    ),
+    }),
 });
 
 export default function AddEditRecipeForm({ id }) {
