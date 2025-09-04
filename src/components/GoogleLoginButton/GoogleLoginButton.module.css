@@ -52,3 +52,9 @@
   white-space: nowrap;
   letter-spacing: 0.3px;
 }
+
+.loaderContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
