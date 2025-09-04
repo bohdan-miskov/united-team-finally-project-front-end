@@ -38,11 +38,6 @@ const validationSchema = Yup.object({
   calories: Yup.number().min(1).max(1000).required('Required'),
   category: Yup.string().trim().required('Required'),
   instructions: Yup.string().max(1200).trim().required('Required'),
-  image: Yup.mixed()
-    .nullable()
-    .test('fileSize', 'Image must be less than 2MB', value => {
-      return !value || (value && value.size <= FILE_SIZE);
-    }),
 });
 
 export default function AddEditRecipeForm({ id }) {
