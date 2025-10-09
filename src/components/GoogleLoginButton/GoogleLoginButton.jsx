@@ -3,7 +3,7 @@ import { getOauthGoogleUrl } from '../../redux/auth/operations';
 import { useEffect } from 'react';
 import { selectOauthUrl } from '../../redux/auth/selectors';
 import styles from './GoogleLoginButton.module.css';
-import Loader from '../Loader/Loader';
+import SmallLoader from '../SmallLoader/SmallLoader';
 export default function GoogleLoginButton() {
   const dispatch = useDispatch();
 
@@ -23,6 +23,8 @@ export default function GoogleLoginButton() {
       </a>
     </div>
   ) : (
-    <Loader />
+    <div className={styles.loaderContainer}>
+      <SmallLoader />
+    </div>
   );
 }

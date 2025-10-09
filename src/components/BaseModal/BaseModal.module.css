@@ -38,6 +38,12 @@
   transition: all 250ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+@media only screen and (max-width: 393px) {
+  .modal {
+    max-width: 90%;
+  }
+}
+
 .modal--after-open {
   transform: translateY(0);
   opacity: 1;

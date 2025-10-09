@@ -6,6 +6,8 @@ import ingredientsReducer from './ingredients/slice';
 import recipeDetailsReducer from './recipeDetails/slice';
 import recipesReducer from './recipes/slice';
 import userReducer from './user/slice';
+import unitsReducer from './units/slice';
+
 import {
   FLUSH,
   REHYDRATE,
@@ -33,6 +35,7 @@ export const store = configureStore({
     categories: categoriesReducer,
     filters: filtersReducer,
     ingredients: ingredientsReducer,
+    units: unitsReducer,
     recipeDetails: recipeDetailsReducer,
     recipes: recipesReducer,
     user: userReducer,

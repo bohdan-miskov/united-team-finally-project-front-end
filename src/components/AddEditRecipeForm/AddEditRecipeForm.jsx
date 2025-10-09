@@ -26,15 +26,35 @@ import ErrorToastMessage from '../ErrorToastMessage/ErrorToastMessage';
 import { ERROR_MESSAGES } from '../../constants';
 import FullScreenLoader from '../FullScreenLoader/FullScreenLoader';
 import { selectRecipesOperationIsLoading } from '../../redux/recipes/selectors';
+import { selectUnits, selectUnitsIsLoading } from '../../redux/units/selectors';
+import { getUnits } from '../../redux/units/operations';
+
+const FILE_SIZE = 2 * 1024 * 1024;
 
 const validationSchema = Yup.object({
-  title: Yup.string().max(64).required('Required'),
-  description: Yup.string().max(200).required('Required'),
+  title: Yup.string().max(64).trim().required('Required'),
+  description: Yup.string().max(200).trim().required('Required'),
   time: Yup.number().min(1).max(360).required('Required'),
   calories: Yup.number().min(1).max(1000).required('Required'),
-  category: Yup.string().required('Required'),
-  instructions: Yup.string().max(1200).required('Required'),
-  //image: Yup.mixed(),
+  category: Yup.string().trim().required('Required'),
+  instructions: Yup.string().max(1200).trim().required('Required'),
+  image: Yup.mixed()
+    .nullable()
+    .test('fileSize', 'Image must be less than 2MB', value => {
+      return !value || (value && value.size <= FILE_SIZE);
+    })
+    .test(
+      'fileType',
+      'Unsupported file format',
+      value =>
+        !(
+          !value ||
+          (value &&
+            ['image/jpeg', 'image/png', 'image/webp', 'image/gif'].includes(
+              value.type
+            ))
+        )
+    ),
 });
 
 export default function AddEditRecipeForm({ id }) {
@@ -46,7 +66,9 @@ export default function AddEditRecipeForm({ id }) {
   const dispatch = useDispatch();
   const categories = useSelector(selectCategories);
   const ingredients = useSelector(selectIngredients);
+  const units = useSelector(selectUnits);
 
+  const unitsLoading = useSelector(selectUnitsIsLoading);
   const categoriesLoading = useSelector(selectCategoriesIsLoading);
   const ingredientsLoading = useSelector(selectIngredientsIsLoading);
   const isLoading = useSelector(selectRecipesOperationIsLoading);
@@ -62,6 +84,7 @@ export default function AddEditRecipeForm({ id }) {
     category: '',
     instructions: '',
     ingredient: null,
+    units: 'g',
     amount: '',
     image: null,
     ingredients: [],
@@ -70,6 +93,7 @@ export default function AddEditRecipeForm({ id }) {
   useEffect(() => {
     dispatch(getCategories());
     dispatch(getIngredients());
+    dispatch(getUnits());
     if (id) {
       dispatch(getRecipeDetails(id))
         .unwrap()
@@ -82,19 +106,22 @@ export default function AddEditRecipeForm({ id }) {
             category: recipe.category,
             instructions: recipe.instructions,
             ingredient: null,
+            units: '',
             amount: '',
             image: null,
             ingredients: recipe.ingredients.map(i => ({
               id: i._id,
               name: i.name,
               amount: i.measure,
+              unit: i.unit || 'g',
             })),
           });
           setSelectedIngredients(
             recipe.ingredients.map(i => ({
-              id: i.id,
+              id: i._id,
               name: i.name,
               amount: i.measure,
+              unit: i.unit || 'g',
             }))
           );
           if (recipe.thumb) setPreview(recipe.thumb);
@@ -110,6 +137,11 @@ export default function AddEditRecipeForm({ id }) {
   const ingredientOptions = ingredients.map(i => ({
     value: i._id,
     label: i.name,
+  }));
+
+  const unitsOptions = units.map(o => ({
+    value: o.abbr,
+    label: o.name,
   }));
 
   const handleAddIngredient = (values, setFieldValue) => {
@@ -137,13 +169,14 @@ export default function AddEditRecipeForm({ id }) {
     const newIngredient = {
       id: ingredient.value,
       name: ingredient.label,
-      amount: amount,
+      amount: Number(amount),
+      unit: values.units || 'g',
     };
 
     setSelectedIngredients(p => [...p, newIngredient]);
     setFieldValue('ingredients', [...values.ingredients, newIngredient]);
 
-    setFieldValue('ingredient', '');
+    setFieldValue('ingredient', null);
     setFieldValue('amount', '');
   };
 
@@ -157,7 +190,7 @@ export default function AddEditRecipeForm({ id }) {
   };
 
   const handleImageChange = (e, setFieldValue) => {
-    const file = e.target.files[0];
+    const file = e.currentTarget.files[0];
     if (file) {
       setFieldValue('image', file);
       setPreview(URL.createObjectURL(file));
@@ -187,7 +220,8 @@ export default function AddEditRecipeForm({ id }) {
 
     (values.ingredients || []).forEach((i, index) => {
       formData.append(`ingredients[${index}][id]`, i.id);
-      formData.append(`ingredients[${index}][measure]`, i.amount);
+      formData.append(`ingredients[${index}][measure]`, `${i.amount}`);
+      formData.append(`ingredients[${index}][unit]`, i.unit || 'g');
     });
 
     setErrorMessage(null);
@@ -392,16 +426,6 @@ export default function AddEditRecipeForm({ id }) {
                       styles={{
                         control: base => ({
                           ...base,
-                          border: '1px solid var(--light-gray)',
-                          borderRadius: '8px',
-                          padding: '0 12px',
-                          height: '48px',
-                          minHeight: '48px',
-                          maxHeight: '48px',
-                          boxShadow: 'none',
-                          '&:hover': {
-                            borderColor: 'var(--light-gray)',
-                          },
                         }),
                         valueContainer: base => ({
                           ...base,
@@ -424,15 +448,64 @@ export default function AddEditRecipeForm({ id }) {
                       }}
                     />
                   </div>
-                  <div className={css.ingredientAmount}>
+                  <div className={css.sectionsAmount}>
                     <label className={css.smallTitle}>Amount</label>
-                    <Field
-                      name="amount"
-                      type="text"
-                      className={css.input}
-                      placeholder="100g"
-                      onBlur={() => setIngredientError(null)}
-                    />
+                    <div className={css.ingredientAmountSelect}>
+                      <Field
+                        name="amount"
+                        type="number"
+                        min={0}
+                        className={`${css.input}, ${css.amountInput}`}
+                        placeholder="100"
+                        onBlur={() => setIngredientError(null)}
+                      />
+                      <Select
+                        options={unitsOptions}
+                        isLoading={unitsLoading}
+                        value={
+                          unitsOptions.find(
+                            option => option.value === values.units
+                          ) || null
+                        }
+                        onChange={option =>
+                          setFieldValue('units', option.value)
+                        }
+                        placeholder="gram"
+                        styles={{
+                          control: base => ({
+                            ...base,
+                            border: '1px solid var(--light-gray)',
+                            borderRadius: '8px',
+                            padding: '0 12px',
+                            height: '48px',
+                            minHeight: '48px',
+                            maxHeight: '48px',
+                            boxShadow: 'none',
+                            '&:hover': {
+                              borderColor: 'var(--light-gray)',
+                            },
+                          }),
+                          valueContainer: base => ({
+                            ...base,
+                            padding: 0,
+                          }),
+                          indicatorsContainer: base => ({
+                            ...base,
+                            height: '48px',
+                          }),
+                          dropdownIndicator: base => ({
+                            ...base,
+                            padding: '0 8px',
+                          }),
+                          indicatorSeparator: () => ({ display: 'none' }),
+                          menu: base => ({
+                            ...base,
+                            borderRadius: '8px',
+                            marginTop: '4px',
+                          }),
+                        }}
+                      />
+                    </div>
                   </div>
                 </div>
                 <div className={css.ingredientsBtnContainer}>
@@ -465,7 +538,9 @@ export default function AddEditRecipeForm({ id }) {
                   {selectedIngredients.map((item, i) => (
                     <li key={`${item.id}-${i}`}>
                       <span className={css.spanItemsName}>{item.name}</span>
-                      <span className={css.spanItemsAmount}>{item.amount}</span>
+                      <span className={css.spanItemsAmount}>
+                        {item.amount} {item.unit}
+                      </span>
                       <button
                         type="button"
                         onClick={() =>

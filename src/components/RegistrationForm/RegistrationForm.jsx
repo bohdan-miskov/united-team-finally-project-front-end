@@ -20,14 +20,17 @@ const RegisterSchema = Yup.object().shape({
   name: Yup.string()
     .max(16, 'Name must be at most 16 characters')
     .matches(/^[A-Za-z]+$/, 'Only English letters are allowed')
+    .trim()
     .required('Name is required'),
   email: Yup.string()
     .email('Invalid email address')
     .max(128, 'Email must be at most 128 characters')
+    .trim()
     .required('Email is required'),
   password: Yup.string()
     .min(8, 'Password must be at least 8 characters')
     .max(128, 'Password must be at most 128 characters')
+    .trim()
     .required('Password is required'),
   confirmPassword: Yup.string()
     .oneOf([Yup.ref('password'), null], 'Passwords must match')
