@@ -1,0 +1,303 @@
+.registerContainer {
+  max-width: 362px;
+  background-color: var(--light-beige);
+  border-radius: 32px;
+  padding: 48px 32px;
+  margin: 0 auto;
+}
+
+.title {
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.description {
+  text-align: center;
+
+  margin-bottom: 24px;
+}
+.fieldGroup {
+  margin-bottom: 16px;
+}
+
+.fieldGroupWithStrength {
+  margin-bottom: 8px;
+}
+.label {
+  display: block;
+  font-size: 12px;
+  color: var(--black);
+  margin-bottom: 4px;
+}
+
+.input {
+  width: 100%;
+  line-height: 1.55;
+  padding: 8px;
+  border: 1px solid var(--light-gray);
+  border-radius: 8px;
+  background-color: var(--white);
+}
+
+.error {
+  color: #c80000;
+  position: absolute;
+  font-size: 12px;
+  transform: translateX(5%) translateY(10%);
+}
+
+.filled {
+  background: var(--white);
+  border: 1px solid var(--light-gray);
+}
+.inlineError {
+  position: relative;
+  transform: none;
+  margin-left: 6px;
+}
+.errorInput {
+  border-color: var(--red);
+  background: var(--white);
+  color: var(--red);
+  box-shadow: none;
+}
+
+.input:focus,
+.input:focus-visible {
+  outline: none;
+  border-color: var(--brown);
+  box-shadow: 0 0 0 4px rgba(78, 70, 180, 0.2);
+  border: 1.5px solid var(--light-brown);
+}
+
+.passwordWrapper {
+  position: relative;
+}
+
+.eyeButton {
+  position: absolute;
+  right: 0px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.eyeButton svg {
+  width: 24px;
+  height: 24px;
+  fill: none;
+  stroke: var(--black);
+  transition: fill 0.2s ease;
+}
+
+/* #region PASSWORD SCALE METER */
+
+.passwordStrengthContainer {
+  margin-top: 8px;
+
+  animation: fadeIn 0.2s ease-in-out;
+}
+
+.passwordStrengthMeter {
+  height: 8px;
+  background-color: #e0e0e0;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.strengthBar {
+  height: 100%;
+  width: 0;
+  border-radius: 4px;
+  transition: width 0.3s ease, background-color 0.3s ease;
+}
+
+.strengthBar.very-weak {
+  background-color: #f44336;
+}
+
+.strengthBar.fair {
+  background-color: #ff9800;
+}
+
+.strengthBar.good {
+  background-color: #4caf50;
+}
+
+.strengthBar.strong {
+  background-color: #2196f3;
+}
+
+.passwordStrengthText {
+  font-size: 0.875rem;
+  margin-top: 4px;
+
+  color: #9e9e9e;
+  transition: color 0.3s ease;
+  animation: fadeIn 0.2s ease-in-out;
+  /* min-height: 1.2em; */
+}
+
+.passwordStrengthText.very-weak {
+  color: #f44336;
+}
+
+.passwordStrengthText.fair {
+  color: #ff9800;
+}
+
+.passwordStrengthText.good {
+  color: #4caf50;
+}
+
+.passwordStrengthText.strong {
+  color: #2196f3;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+/* #endregion */
+
+.checkBoxGroup {
+  margin-bottom: 27px;
+}
+.checkBoxLabel {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--gray);
+
+  cursor: pointer;
+  position: relative;
+}
+
+.checkbox {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 16px;
+  height: 16px;
+  border: 1.5px solid var(--gray);
+  border-radius: 4px;
+  cursor: pointer;
+  background-color: var(--white);
+  display: inline-block;
+  position: relative;
+}
+
+.checkBoxGroup .error {
+  transform: translateX(0%) translateY(10%);
+}
+
+.checkbox:focus {
+  box-shadow: none;
+}
+
+.checkbox:checked {
+  background-color: var(--light-brown);
+  border-color: var(--brown);
+}
+
+.checkIcon {
+  position: absolute;
+  left: 1px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 16px;
+  height: 16px;
+  stroke: var(--white);
+  stroke-width: 2;
+  fill: none;
+  pointer-events: none;
+  opacity: 0;
+}
+
+.checkbox:checked + .checkIcon {
+  opacity: 1;
+}
+
+.submitButton {
+  width: 100%;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  background-color: var(--light-brown);
+  color: var(--white);
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+
+  margin-bottom: 20px;
+}
+
+.submitButton:focus-visible {
+  box-shadow: 0 0 0 6px rgba(78, 70, 180, 0.12);
+}
+
+.submitButton:disabled,
+.submitButton[aria-disabled='true'] {
+  box-shadow: 0 0 0 6px rgba(78, 70, 180, 0.12), 0 0 0 2px #fff;
+  cursor: not-allowed;
+  opacity: 0.3;
+}
+
+.googleWrapper {
+  margin-bottom: 20px;
+}
+
+.redirectText {
+  text-align: center;
+  font-size: 14px;
+  color: var(--gray);
+}
+
+.link {
+  color: var(--black);
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+.filled {
+  background: var(--white);
+  border: 1px solid var(--light-gray);
+}
+
+.input:focus,
+.input:focus-visible {
+  outline: none;
+  border-color: var(--brown);
+  box-shadow: 0 0 0 4px rgba(78, 70, 180, 0.2);
+  border: 1.5px solid var(--light-brown);
+}
+
+.input::placeholder {
+  color: var(--light-gray);
+  opacity: 1;
+}
+
+@media only screen and (min-width: 768px) {
+  .registerContainer {
+    max-width: 522px;
+  }
+}
+
+@media only screen and (min-width: 1440px) {
+  .registerContainer {
+    max-width: 420px;
+  }
+}

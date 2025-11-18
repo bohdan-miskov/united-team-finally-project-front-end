@@ -1,0 +1,509 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin: 0 auto;
+  max-width: 100%;
+}
+
+/* Заголовки секцій */
+.sectionTitleUpload {
+  margin-bottom: 4px;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.sectionTitleGeneral {
+  margin-bottom: 16px;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.sectionTitleIngredient {
+  margin-bottom: 32px;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.sectionTitleInstructions {
+  margin-bottom: 16px;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+/* Маленькі лейбли */
+.smallTitle {
+  font-size: 18px;
+  margin-bottom: 8px;
+  display: block;
+}
+
+/* Upload Photo */
+
+.uploadSection {
+  width: 100%;
+  height: 416px;
+  padding: 0;
+}
+
+.uploadItem {
+  display: flex;
+  justify-content: center;
+}
+
+.imageUpload {
+  width: 100%;
+  height: 383px;
+  border-radius: 16px;
+  background: var(--gray-3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  position: relative;
+}
+
+.uploadIcon {
+  width: 82px;
+  height: 82px;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+}
+
+.imageUpload svg {
+  stroke: var(--black-2);
+  fill: none;
+  width: 52px;
+  height: 52px;
+}
+
+.imageUpload img {
+  width: 100%;
+  height: 100%;
+  border-radius: 12px;
+  object-fit: cover;
+}
+
+.generalSection {
+  width: 100%;
+  min-height: 497px;
+  padding: 0;
+}
+
+.leftGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.descriptionItem {
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+.textGeneral {
+  border: 1px solid var(--light-gray);
+  border-radius: 8px;
+  padding: 12px;
+  width: 100%;
+  height: 144px;
+  font-family: var(--font-family);
+  font-weight: 400;
+  font-size: 18px;
+  color: var(--gray);
+}
+@media only screen and (max-width: 390px) {
+  .textGeneral {
+    font-size: 14px;
+  }
+}
+.hiddenInput {
+  display: none;
+}
+
+/* Поля вводу */
+.input,
+.select {
+  border: 1px solid var(--light-gray);
+  border-radius: 8px;
+  padding: 12px;
+  width: 100%;
+  height: 46px;
+  max-height: 48px;
+  font-size: 18px;
+  color: var(--gray);
+}
+
+@media only screen and (max-width: 390px) {
+  .input,
+  .select {
+    font-size: 14px;
+  }
+}
+
+/* Грід для Calories + Category */
+.wrapp {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.ingredientsSection {
+  padding: 0;
+  /* min-height: 299px; */
+}
+
+/* Ingredients список */
+
+.sectionsItems {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin-bottom: 16px;
+}
+
+.ingredientAmountSelect {
+  display: flex;
+  flex-direction: row;
+  gap: 24px;
+  justify-content: space-between;
+}
+
+.amountInput {
+  width: 45%;
+}
+
+.span {
+  font-family: var(--font-family);
+  font-weight: 600;
+  font-size: 16px;
+  color: var(--black);
+}
+
+.selectedIngredients {
+  list-style: none;
+  padding: 0;
+  margin-top: 32px;
+  width: 100%;
+}
+
+/* Заголовок таблиці */
+.selectedIngredientsHeader {
+  grid-template-columns: 1fr 1fr auto;
+  font-weight: 600;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--light-gray-3);
+  margin-bottom: 8px;
+}
+
+/* .selectedIngredientsHeader.hideOnMobile {
+  display: none;
+} */
+
+.selectedIngredients.hideOnMobile {
+  display: none;
+}
+
+.spanName,
+.spanItemsName {
+  width: 175px;
+}
+
+.spanAmount,
+.spanItemsAmount {
+  width: 150px;
+}
+
+@media only screen and (max-width: 390px) {
+  .spanName,
+  .spanItemsName {
+    max-width: 175px;
+    width: 100%;
+  }
+  .spanAmount,
+  .spanItemsAmount {
+    max-width: 150px;
+    width: 100%;
+  }
+}
+
+/* Рядки таблиці */
+.selectedIngredients li {
+  display: grid;
+  gap: 4px;
+  grid-template-columns: 1fr 1fr auto;
+  align-items: center;
+  border-bottom: 1px solid var(--light-gray-3);
+  padding: 16px 0;
+}
+
+@media only screen and (max-width: 390px) {
+  .selectedIngredients li {
+    grid-template-columns: 2fr 2fr 1fr;
+  }
+}
+
+/* Кнопка видалення */
+.selectedIngredients li button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+}
+
+.selectedIngredients li button svg {
+  stroke: var(--black-2);
+  fill: none;
+}
+
+.spanItems {
+  font-family: var(--font-family);
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 155%;
+  color: var(--black);
+}
+
+/* Інструкція */
+
+.instructionsSection {
+  padding: 0;
+  /* height: 189px; */
+}
+
+.textInstructions {
+  margin-top: 16px;
+  width: 100%;
+  height: 144px;
+}
+
+.ingredientsBtnContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  /* justify-content: space-between; */
+}
+
+/* Кнопки */
+.button {
+  width: 100%;
+  height: 44px;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.instructionsSection button {
+  margin-top: 40px;
+}
+
+/* Помилки */
+.error {
+  font-size: 14px;
+  color: red;
+  /* margin-top: 4px; */
+}
+
+/*---------------- TABLET----------------*/
+
+@media (min-width: 768px) {
+  .form {
+    width: 100%;
+    gap: 16px;
+  }
+
+  .rightGoup {
+    margin-bottom: 24px;
+  }
+
+  .sectionTitleUpload,
+  .sectionTitleGeneral,
+  .sectionTitleIngredient,
+  .sectionTitleInstructions {
+    font-size: 32px;
+    font-weight: 600;
+  }
+
+  .sectionTitleUpload {
+    margin-bottom: 4px;
+  }
+
+  .sectionTitleGeneral {
+    margin-bottom: 32px;
+  }
+
+  .sectionTitleUpload {
+    height: 70px;
+    display: flex;
+    align-items: center;
+    font-size: 32px;
+  }
+
+  .generalSection {
+    min-height: 571px;
+    margin-top: 16px;
+  }
+
+  .descriptionItem {
+    margin-bottom: 32px;
+  }
+
+  .sectionsItems {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    align-items: end;
+  }
+
+  /* .ingredientsSection {
+    min-height: 269px;
+  } */
+  .ingredientsBtnContainer {
+    flex-direction: row;
+    /* justify-content: space-between; */
+  }
+
+  .ingredientsSection button {
+    display: block;
+    margin-left: auto;
+    border: 1px solid var(--light-brown);
+    border-radius: 8px;
+    padding: 4px 8px;
+    width: 249px;
+    height: 36px;
+  }
+
+  .wrapp {
+    gap: 24px;
+    /*margin-bottom: 40px;*/
+  }
+
+  .ingredientName {
+    width: 431px;
+  }
+
+  .ingredientAmount {
+    width: 249px;
+  }
+
+  .ingredientAmountSelect {
+    display: flex;
+    flex-direction: row;
+    gap: 24px;
+  }
+
+  .amountInput {
+    width: 45%;
+  }
+
+  .selectedIngredientsHeader.hideHeaderOnMobile,
+  .selectedIngredients li {
+    display: grid;
+    grid-template-columns: 2fr 2fr 1fr;
+    width: 431px;
+    min-height: 36px;
+    padding: 8px 0;
+  }
+
+  .sectionsItems {
+    gap: 0 24px;
+  }
+
+  /* .instructionsSection {
+    height: 199px;
+  } */
+}
+
+/*---------------- DESKTOP----------------*/
+
+@media (min-width: 1440px) {
+  .form {
+    min-width: 1226px;
+    display: flex;
+    justify-content: space-between;
+    gap: 24px;
+    flex-direction: row-reverse;
+  }
+
+  .rightGoup {
+    width: 391px;
+  }
+
+  .leftGroup {
+    gap: 72px;
+    width: 809px;
+  }
+
+  .sectionTitle {
+    font-size: 32px;
+  }
+
+  .smallTitle {
+    font-family: var(--font-family);
+    font-weight: 400;
+    font-size: 18px;
+    color: var(--black);
+  }
+
+  .imageUpload {
+    height: 374px;
+  }
+
+  .uploadIcon {
+    width: 163px;
+    height: 136px;
+  }
+
+  .imageUpload svg {
+    width: 99px;
+    height: 82px;
+  }
+
+  .ingredientsSection button {
+    border: 1px solid var(--light-brown);
+    border-radius: 8px;
+    padding: 4px 8px;
+    width: 258px;
+    height: 23px;
+    font-family: var(--font-family);
+    font-weight: 600;
+    font-size: 12px;
+    text-align: center;
+    color: var(--white);
+  }
+
+  .ingredientName {
+    width: 497px;
+  }
+
+  .ingredientAmount {
+    width: 288px;
+  }
+
+  .selectedIngredientsHeader.hideHeaderOnMobile {
+    width: 332px;
+    min-height: 20px;
+  }
+
+  /* .ingredientsSection {
+    min-height: 240px;
+  } */
+
+  .selectedIngredients li {
+    width: 332px;
+    min-height: 28px;
+    padding: 4px 0;
+  }
+
+  .spanName,
+  .spanItemsName {
+    width: 150px;
+  }
+
+  .selectedIngredients li button {
+    align-items: center;
+  }
+}

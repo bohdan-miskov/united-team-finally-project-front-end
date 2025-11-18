@@ -1,0 +1,72 @@
+.hero {
+  position: relative;
+  width: 100%;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.heroContainer {
+  padding: 0 32px;
+  padding-top: 128px;
+  padding-bottom: 98px;
+  background-image: linear-gradient(
+      to right,
+      rgba(0, 0, 0, 0.9),
+      rgba(0, 0, 0, 0.3)
+    ),
+    -webkit-image-set(url('../../assets/img//hero/main-mob.webp') 1x, url('../../assets/img//hero/main-mob@2x.webp')
+          21x);
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.content {
+  color: var(--white);
+  font-family: var(--font-family);
+  position: relative;
+  z-index: 1;
+}
+
+.content h1 {
+  line-height: 1.2;
+  margin-bottom: 24px;
+  word-wrap: break-word;
+}
+
+/* Tablet */
+@media (min-width: 768px) {
+  .hero {
+    justify-content: flex-start;
+  }
+  .heroContainer {
+    padding-bottom: 128px;
+    background-image: linear-gradient(
+        to right,
+        rgba(0, 0, 0, 0.9),
+        rgba(0, 0, 0, 0.3)
+      ),
+      -webkit-image-set(url('../../assets/img/hero/main-tab.webp') 1x, url('../../assets/img/hero/main-tab@2x.webp')
+            2x);
+  }
+  .content h1 {
+    font-size: 48px;
+    max-width: 493px;
+  }
+}
+
+/* Desktop */
+@media (min-width: 1440px) {
+  .heroContainer {
+    padding-left: 108px;
+    padding-right: 108px;
+    background-image: linear-gradient(
+        to right,
+        rgba(0, 0, 0, 0.9),
+        rgba(0, 0, 0, 0.3)
+      ),
+      -webkit-image-set(url('../../assets/img/hero/main-desk.webp') 1x, url('../../assets/img/hero/main-desk@2x.webp')
+            2x);
+  }
+}

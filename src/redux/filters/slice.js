@@ -1,27 +1,47 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  searchQuery: "",
-  category: [],
+  searchQuery: '',
+  categories: [],
   ingredients: [],
+  sortBy: '',
+  sortOrder: '',
 };
 
 const filtersSlice = createSlice({
-  name: "filters",
+  name: 'filters',
   initialState,
   reducers: {
     changeSearchQuery(state, action) {
-      state.searchQuery = action.payload?.trim().toLowerCase();
+      state.searchQuery = action.payload?.trim();
     },
-    changeSearchCategory(state, action) {
-      state.category = action.payload;
+    changeSearchCategories(state, action) {
+      state.categories = action.payload;
     },
     changeSearchIngredients(state, action) {
       state.ingredients = action.payload;
     },
+    changeSortParams(state, action) {
+      state.sortBy = action.payload?.sortBy;
+      state.sortOrder = action.payload?.sortOrder;
+    },
     clearFilters(state) {
-      state.category = [];
+      state.categories = [];
       state.ingredients = [];
+    },
+    clearSearchQuery(state) {
+      state.searchQuery = '';
+    },
+    clearSortParams(state) {
+      state.sortBy = '';
+      state.sortOrder = '';
+    },
+    resetAllSearchParams(state) {
+      state.categories = [];
+      state.ingredients = [];
+      state.searchQuery = '';
+      state.sortBy = '';
+      state.sortOrder = '';
     },
   },
 });
@@ -30,7 +50,11 @@ export default filtersSlice.reducer;
 
 export const {
   changeSearchQuery,
-  changeSearchCategory,
+  changeSearchCategories,
   changeSearchIngredients,
+  changeSortParams,
   clearFilters,
+  clearSearchQuery,
+  clearSortParams,
+  resetAllSearchParams,
 } = filtersSlice.actions;

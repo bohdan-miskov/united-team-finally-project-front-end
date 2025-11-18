@@ -1,62 +1,136 @@
-import { createAsyncThunk } from "@reduxjs/toolkit";
 import api, {
   clearAuthHeader,
   setAuthHeader,
-} from "../../services/axiosConfig";
-import { selectIsAuthenticated } from "./selectors";
+} from '../../services/axiosConfig';
+import { wrapAsyncThunk } from '../../services/wrapAsyncThunk';
+import { selectIsLoggedIn } from './selectors';
 
-export const registerAndLoginUser = createAsyncThunk(
-  "auth/registerAndLogin",
-  async (userData, thunkApi) => {
-    await thunkApi.dispatch(registerUser(userData)).unwrap();
-    const loginResponse = await thunkApi
-      .dispatch(
-        logInUser({
-          email: userData.email,
-          password: userData.password,
-        })
-      )
-      .unwrap();
-    return loginResponse;
+async function getUserLocation() {
+  if (!navigator.geolocation) {
+    return null;
+  }
+
+  return new Promise(resolve => {
+    navigator.geolocation.getCurrentPosition(
+      pos => {
+        resolve({
+          latitude: pos.coords.latitude,
+          longitude: pos.coords.longitude,
+        });
+      },
+      () => {
+        resolve(null);
+      },
+      { timeout: 3000 }
+    );
+  });
+}
+
+function createUserLocationData(userData, location) {
+  if (!location) {
+    return userData;
+  }
+
+  return {
+    ...userData,
+    location,
+  };
+}
+
+export const registerUser = wrapAsyncThunk('auth/register', async user => {
+  const response = await api.post('/auth/register', user, {
+    skipRefresh: true,
+  });
+  return response.data.data;
+});
+
+export const logInUser = wrapAsyncThunk('auth/logIn', async userData => {
+  const reqData = createUserLocationData(userData, await getUserLocation());
+  const response = await api.post('/auth/login', reqData, {
+    skipRefresh: true,
+  });
+  setAuthHeader(response.data.data.accessToken);
+  return response.data.data;
+});
+
+export const logOutUser = wrapAsyncThunk('auth/logOut', async () => {
+  await api.post('/auth/logout', {}, { skipRefresh: true });
+  clearAuthHeader();
+});
+
+export const refreshUser = wrapAsyncThunk(
+  'auth/refresh',
+  async (_, thunkApi) => {
+    const reqData = createUserLocationData({}, await getUserLocation());
+    const isLoggedIn = selectIsLoggedIn(thunkApi.getState());
+    if (!isLoggedIn) {
+      thunkApi.rejectWithValue('Is not authenticated');
+    }
+    const response = await api.post('/auth/refresh', reqData, {
+      skipRefresh: true,
+    });
+    setAuthHeader(response.data.data.accessToken);
+    return response.data.data;
+  }
+);
+export const requestPasswordReset = wrapAsyncThunk(
+  'auth/requestPasswordReset',
+  async email => {
+    const response = await api.post(
+      '/auth/request-password-reset',
+      { email },
+      { skipRefresh: true }
+    );
+    return response.data.data;
   }
 );
 
-export const registerUser = createAsyncThunk("auth/register", async (user) => {
-  // const response = await api.post("/auth/", user);
-  // return response.data.data;
-  console.log(api.e);
-  await new Promise((resolve) => setTimeout(resolve, 2000));
-  return user;
+export const resetPassword = wrapAsyncThunk(
+  'auth/resetPassword',
+  async ({ token, password }) => {
+    const response = await api.post(
+      '/auth/reset-password',
+      {
+        token,
+        password,
+      },
+      { skipRefresh: true }
+    );
+    return response.data;
+  }
+);
+
+export const confirmUser = wrapAsyncThunk('auth/confirmUser', async token => {
+  const reqData = createUserLocationData({ token }, await getUserLocation());
+
+  const response = await api.post('/auth/confirm-email', reqData, {
+    skipRefresh: true,
+  });
+
+  setAuthHeader(response.data.data.accessToken);
+
+  return response.data.data;
 });
 
-export const logInUser = createAsyncThunk("auth/logIn", async (userData) => {
-  // const response = await api.post("/auth/", userData);
-  // setAuthHeader(response.data.data.accessToken);
-  // return response.data.data;
-  console.log(userData);
-  setAuthHeader("1234");
-  await new Promise((resolve) => setTimeout(resolve, 2000));
-  return { accessToken: "1234" };
-});
+export const getOauthGoogleUrl = wrapAsyncThunk(
+  'auth/get-oauth-google-url',
+  async () => {
+    const response = await api.get('auth/get-oauth-url', { skipRefresh: true });
 
-export const logOutUser = createAsyncThunk("auth/logOut", async () => {
-  // await api.post("/auth/");
-  clearAuthHeader();
-  await new Promise((resolve) => setTimeout(resolve, 2000));
-});
+    return response.data.data.oauth_url;
+  }
+);
 
-export const refreshUser = createAsyncThunk(
-  "auth/refresh",
-  async (_, thunkApi) => {
-    const isAuthenticated = selectIsAuthenticated(thunkApi.getState());
-    if (!isAuthenticated) {
-      return thunkApi.rejectWithValue("Is not Authenticated user");
-    }
-    // const response = await api.post("/auth/");
-    // setAuthHeader(response.data.data.accessToken);
-    // return response.data.data;
-    setAuthHeader("1234");
-    await new Promise((resolve) => setTimeout(resolve, 2000));
-    return { accessToken: "1234" };
+export const logInWithGoogle = wrapAsyncThunk(
+  'auth/google-log-iIn',
+  async code => {
+    const reqData = createUserLocationData({ code }, await getUserLocation());
+    const response = await api.post('/auth/confirm-oauth', reqData, {
+      skipRefresh: true,
+    });
+
+    setAuthHeader(response.data.data.accessToken);
+
+    return response.data.data;
   }
 );

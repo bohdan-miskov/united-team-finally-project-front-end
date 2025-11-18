@@ -1,3 +1,5 @@
+import FullScreenLoader from '../FullScreenLoader/FullScreenLoader';
+
 export default function Refreshing() {
-  return <p>Refreshing user...</p>;
+  return <FullScreenLoader text="Refreshing user..." />;
 }

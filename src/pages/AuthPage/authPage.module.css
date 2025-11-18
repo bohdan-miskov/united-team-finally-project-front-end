@@ -1,0 +1,61 @@
+.authPageSection {
+  padding: 56px 0 56px 0;
+  align-self: center;
+}
+/* 
+.authPageSection:has([data-login]) {
+  padding: 91px 0 91px 0;
+}
+
+.authPageSection:has([data-reset-request]) {
+  padding: 82px 0 82px 0;
+}
+
+.authPageSection:has([data-reset-password]) {
+  padding: 82px 0 82px 0;
+}
+
+@media only screen and (min-width: 768px) {
+  .authPageSection:has([data-register]) {
+    padding: 152px 0 152px 0;
+  }
+  .authPageSection:has([data-login]) {
+    padding: 262px 0 262px 0;
+  }
+  .authPageSection:has([data-reset-request]) {
+    padding: 222px 0 222px 0;
+  }
+
+  .authPageSection:has([data-reset-password]) {
+    padding: 222px 0 222px 0;
+  }
+}
+
+@media only screen and (min-width: 1440px) {
+  .authPageSection:has([data-register]) {
+    padding: 52px 0 34px 0;
+  }
+  .authPageSection:has([data-login]) {
+    padding: 176px 0 156px 0;
+  }
+  .authPageSection:has([data-reset-request]) {
+    padding: 152px 0 152px 0;
+  }
+
+  .authPageSection:has([data-reset-password]) {
+    padding: 152px 0 152px 0;
+  }
+} */
+/* authPage.module.css */
+
+.container {
+  display: flex;
+  justify-content: center;
+
+  align-items: center;
+  min-height: 100%;
+}
+
+.container > * {
+  width: 100%;
+}

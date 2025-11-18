@@ -1,0 +1,12 @@
+.title {
+  color: var(--black);
+  margin-bottom: 16px;
+}
+
+
+@media (min-width: 1440px){
+.title{
+  margin-bottom: 40px;
+}
+
+}

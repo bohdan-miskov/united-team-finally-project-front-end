@@ -1,39 +1,57 @@
-import { lazy, Suspense, useEffect } from "react";
-import Layout from "../components/Layout/Layout";
-import { Toaster } from "react-hot-toast";
-import { Navigate, Route, Routes } from "react-router-dom";
-import PrivateRoute from "../components/PrivateRoute";
-import RestrictedRoute from "../components/RestrictedRoute";
-import Refreshing from "../components/Refreshing/Refreshing";
-import ProfileOwn from "../components/ProfileOwn/ProfileOwn";
-import ProfileFavorites from "../components/ProfileFavorites/ProfileFavorites";
-import { useDispatch, useSelector } from "react-redux";
-import { selectIsRefreshing } from "../redux/auth/selectors";
-import { refreshUser } from "../redux/auth/operations";
-import Loader from "../components/Loader/Loader";
+import { lazy, Suspense, useEffect, useState } from 'react';
+import Layout from '../components/Layout/Layout';
+import { Toaster } from 'react-hot-toast';
+import { Navigate, Route, Routes } from 'react-router-dom';
+import PrivateRoute from '../components/PrivateRoute';
+import RestrictedRoute from '../components/RestrictedRoute';
+import ConfirmUser from '../components/ConfirmUser/ConfirmUser';
+import GoogleRedirect from '../components/GoogleRedirect/GoogleRedirect';
+import { useDispatch } from 'react-redux';
+import { refreshUser } from '../redux/auth/operations';
+import Refreshing from '../components/Refreshing/Refreshing';
 
-const MainPage = lazy(() => import("../pages/MainPage/MainPage"));
+const MainPage = lazy(() => import('../pages/MainPage/MainPage'));
 const RecipeViewPage = lazy(() =>
-  import("../pages/RecipeViewPage/RecipeViewPage")
+  import('../pages/RecipeViewPage/RecipeViewPage')
 );
 const AddRecipePage = lazy(() =>
-  import("../pages/AddRecipePage/AddRecipePage")
+  import('../pages/AddRecipePage/AddRecipePage')
 );
-const ProfilePage = lazy(() => import("../pages/ProfilePage/ProfilePage"));
-const AuthPage = lazy(() => import("../pages/AuthPage/AuthPage"));
+const ProfilePage = lazy(() => import('../pages/ProfilePage/ProfilePage'));
+const AuthPage = lazy(() => import('../pages/AuthPage/AuthPage'));
+
+const LoginForm = lazy(() => import('../components/LoginForm/LoginForm'));
+const RegistrationForm = lazy(() =>
+  import('../components/RegistrationForm/RegistrationForm')
+);
+const RequestResetForm = lazy(() =>
+  import('../components/RequestResetForm/RequestResetForm')
+);
+const ResetPasswordForm = lazy(() =>
+  import('../components/ResetPasswordForm/ResetPasswordForm')
+);
+const EditRecipePage = lazy(() =>
+  import('../pages/EditRecipePage/EditRecipePage')
+);
 
 function App() {
   const dispatch = useDispatch();
-
+  const [isRefreshing, setIsRefreshing] = useState(false);
   useEffect(() => {
-    dispatch(refreshUser());
+    async function refresh() {
+      try {
+        setIsRefreshing(true);
+        await dispatch(refreshUser()).unwrap();
+      } catch (error) {
+        console.error('Failed to refresh user:', error);
+      } finally {
+        setIsRefreshing(false);
+      }
+    }
+    refresh();
   }, [dispatch]);
-  const isRefreshing = useSelector(selectIsRefreshing);
   return isRefreshing ? (
-    <>
-      <Refreshing />
-      <Loader />
-    </>
+    <Refreshing />
   ) : (
     <Layout>
       <Suspense fallback={null}>
@@ -45,17 +63,36 @@ function App() {
             element={<PrivateRoute component={<AddRecipePage />} />}
           />
           <Route
+            path="/edit-recipe/:id"
+            element={<PrivateRoute component={<EditRecipePage />} />}
+          />
+          <Route
+            path="/profile"
+            element={
+              <PrivateRoute
+                component={<Navigate to="/profile/own" replace />}
+              />
+            }
+          />
+          <Route
             path="/profile/:recipeType"
             element={<PrivateRoute component={<ProfilePage />} />}
-          >
-            <Route path="own" element={<ProfileOwn />} />
-            <Route path="favorites" element={<ProfileFavorites />} />
-          </Route>
-          <Route
-            path="/auth/:authType"
-            element={<RestrictedRoute component={<AuthPage />} />}
           />
-          <Route path="*" element={<Navigate to="/" />} />
+          <Route
+            path="/auth"
+            element={<RestrictedRoute component={<AuthPage />} />}
+          >
+            <Route path="register" element={<RegistrationForm />} />
+            <Route path="login" element={<LoginForm />} />
+            <Route path="request-reset" element={<RequestResetForm />} />
+            <Route
+              path="reset-password/:token"
+              element={<ResetPasswordForm />}
+            />
+            <Route path="confirm-email/:token" element={<ConfirmUser />} />
+            <Route path="google-redirect" element={<GoogleRedirect />} />
+          </Route>
+          <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </Suspense>
       <Toaster position="top-center" reverseOrder={false} />

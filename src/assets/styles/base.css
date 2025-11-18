@@ -25,6 +25,10 @@ body {
   background-color: var(--white);
 }
 
+body.ReactModal__Body--open {
+  overflow: hidden;
+}
+
 section {
   padding: 48px 0;
 }
@@ -52,81 +56,20 @@ textarea {
   border-radius: 8px;
   background: var(--white);
   padding: 8px;
-  transition: 300ms ease-in;
-  transition-property: border, box-shadow;
 }
 
-:is(input, textarea)::placeholder {
-  color: var(--gray-3);
-}
-
-:is(input, textarea):focus {
-  border: 1.5px solid var(--light-brown);
-  box-shadow: 0 0 0 4px rgba(78, 70, 180, 0.2);
+input {
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  text-overflow: ellipsis;
 }
 
 button {
   border-radius: 8px;
   padding: 4px 8px;
-  transition: 300ms ease-in;
 }
 
-.brown-btn {
-  background-color: var(--light-brown);
-  transition-property: background-color, box-shadow, opacity;
-}
-
-.brown-btn:is(:hover, :focus) {
-  background-color: var(--brown);
-}
-
-.brown-btn:active {
-  box-shadow: 0 0 0 6px rgba(78, 70, 180, 0.12), 0 0 0 2px var(--white);
-}
-
-.brown-btn:disabled {
-  box-shadow: 0 0 0 6px rgba(78, 70, 180, 0.12), 0 0 0 2px var(--white);
-  opacity: 0.3;
-}
-
-.outline-btn {
-  border: 1px solid var(--light-gray);
-  background-color: transparent;
-  transition-property: background-color, box-shadow, opacity, color;
-}
-
-.outline-btn:is(:hover, :focus) {
-  background-color: var(--light-gray);
-  color: var(--black);
-}
-
-.outline-btn:active {
-  box-shadow: 0 0 0 6px rgba(78, 70, 180, 0.12), 0 0 0 2px var(--white);
-  background-color: var(--light-gray);
-}
-
-.outline-btn:disabled {
-  box-shadow: 0 0 0 6px rgba(78, 70, 180, 0.12), 0 0 0 2px var(--white);
-  background-color: var(--light-gray);
-  opacity: 0.3;
-}
-
-.transparent-btn {
-  padding: 0px 0px 4px 0px;
-  background-color: transparent;
-  border-bottom: 1px solid transparent;
-  border-radius: 0;
-  transition-property: border-color, opacity;
-}
-
-.transparent-btn:is(:hover, :focus) {
-  opacity: 0.5;
-}
-
-.transparent-btn:active {
-  border-color: var(--white);
-}
-
-.transparent-btn:disabled {
-  opacity: 0.2;
+textarea {
+  resize: none;
 }

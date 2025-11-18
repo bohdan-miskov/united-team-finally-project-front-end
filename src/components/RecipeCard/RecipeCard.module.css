@@ -1,0 +1,149 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  gap: 16px;
+  padding: 12px;
+  background-color: var(--light-beige);
+  border-radius: 16px;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card:is(:hover) {
+  transform: scale(1.03);
+  box-shadow: 0 0 12px rgba(136, 14, 14, 0.6);
+}
+
+@media (min-width: 768px) {
+  .card {
+    max-width: 339px;
+    flex: calc((100% - 24) / 2);
+  }
+}
+
+@media (min-width: 1440px) {
+  .card {
+    max-width: 288px;
+    flex: calc((100% - 3 * 24) / 4);
+  }
+}
+
+.image {
+  object-fit: cover;
+}
+
+.defaultImg {
+  width: 100%;
+  height: 230px;
+  border-radius: 12px;
+  background-color: var(--gray-3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+@media (min-width: 1440px) {
+  .defaultImg {
+    height: 178px;
+  }
+}
+
+.iconPhoto {
+  stroke-width: 1px;
+  stroke: var(--black-2);
+  fill: transparent;
+}
+.header {
+  display: flex;
+  gap: 8px;
+  justify-content: space-between;
+}
+
+.title {
+  height: 58px;
+  overflow: hidden;
+  line-height: 1.2;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  text-overflow: ellipsis;
+}
+
+.timeBadge {
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+  background-color: var(--white);
+  width: 53px;
+  height: 28px;
+  border-radius: 10px;
+  padding: 2px 8px;
+}
+
+.timeBadge span {
+  font-size: 12px;
+  font-weight: 600;
+  font-family: var(--font-family);
+}
+
+.iconClock {
+  width: 24px;
+  height: 24px;
+}
+
+.descriptionContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.descriptionText {
+  height: 50px;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  text-overflow: ellipsis;
+}
+
+.btnContainer {
+  display: flex;
+  gap: 8px;
+  margin-top: auto;
+}
+
+.learnMoreBtn {
+  width: 100%;
+  border-radius: 8px;
+  padding: 10px;
+  text-align: center;
+}
+
+.bookmarkBtn {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  cursor: pointer;
+}
+
+.iconClock {
+  fill: none;
+  stroke: currentColor;
+}
+
+.iconBtn {
+  fill: transparent;
+  width: 24px;
+  height: 24px;
+  stroke: currentColor;
+}

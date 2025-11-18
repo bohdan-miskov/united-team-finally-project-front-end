@@ -1,0 +1,105 @@
+.modalContent {
+  border-radius: 12px;
+  max-width: 100%;
+  margin: 0 auto;
+  position: relative;
+  font-family: var(--font-family);
+  color: var(--black-2);
+}
+
+.modalContent h2 {
+  font-size: 24px;
+}
+
+.closeButton {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: var(--dark-brown);
+}
+
+.servingsSelector {
+  margin-bottom: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  font-weight: 500;
+  margin-top: 12px;
+}
+
+.servingsSelector label {
+  font-size: 16px;
+}
+.tableWrapper {
+  overflow-y: scroll;
+  max-height: 400px;
+  margin-bottom: 16px;
+}
+.ingredientsTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.ingredientsTable th,
+.ingredientsTable td {
+  border: 1px solid var(--light-gray-3);
+  padding: 8px;
+  text-align: left;
+}
+
+.ingredientsTable th {
+  background-color: var(--light-beige-3);
+  font-weight: 600;
+  color: var(--dark-brown);
+}
+
+.ingredientsTable tr:nth-child(even) {
+  background-color: var(--white-80);
+}
+
+.ingredientsTable tr:hover {
+  background-color: var(--white-55);
+}
+
+.actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+.actions button {
+  padding: 8px 16px;
+  background-color: var(--brown);
+  color: var(--white);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.actions button:hover {
+  background-color: var(--dark-brown);
+}
+
+@media only screen and (min-width: 768px) {
+  .ingredientsTable th,
+  .ingredientsTable td {
+    padding: 8px 12px;
+  }
+  .servingsSelector {
+    flex-direction: row;
+  }
+
+  .modalContent h2 {
+    font-size: 32px;
+  }
+
+  .tableWrapper {
+    max-height: 300px;
+  }
+}
